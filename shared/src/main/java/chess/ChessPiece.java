@@ -53,6 +53,25 @@ public class ChessPiece {
      * @return Collection of valid moves
      */
     public Collection<ChessMove> pieceMoves(ChessBoard board, ChessPosition myPosition) {
+        ChessPiece piece = board.getPiece(myPosition);
+
+        //Implement a LegalMove function, do so for each of the pieces
+        //Do this in a new class file (LegalMoves.java) or in ChessPiece.java?
+        //See Phase 0: Architectural Patterns for potential example
+
+        //Move rules:
+        //All: while index<8 && index>0
+        //King: [r+1][c],[r+1][c+1],[r][c+1],[r-1][c+1],[r-1][c],[r-1][c-1],[r][c-1],[r+1][c-1]
+        //Queen: [r+x][c],[r+x][c+x],[r][c+x],[r-x][c+x],[r-x][c],[r-x][c-x],[r][c-x],[r+x][c-x]
+        //Rook: [r+x][c],[r][c+x],[r-x][c],[r][c-x]
+        //Bishop: [r+x][c+x],[r-x][c+x],[r-x][c-x],[r+x][c-x]
+        //Knight: [r+2][c+1],[r+1][c+2],[r-1][c+2],[r-2][c+1],[r-2][c-1],[r-1][c-2],[r+1][c-2],[r+2][c-1]
+        //Pawn: [r+1][c]
+
+        //Questions
+        //Pawn: need rule for first turn jump? [r+2][c]
+        //Pawn: need rule for taking a piece? [r+1][c-1],[r+1][c+1]
+
         return List.of();
     }
 }
