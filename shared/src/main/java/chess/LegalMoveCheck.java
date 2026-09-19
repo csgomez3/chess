@@ -3,6 +3,7 @@ package chess;
 import java.util.Collection;
 import java.util.List;
 import java.util.ArrayList;
+import chess.ChessPiece.PieceType;
 
 /**
  * make sure you write important notes about what this interface is
@@ -10,51 +11,90 @@ import java.util.ArrayList;
  */
 public class LegalMoveCheck {
 
-    public Collection<ChessMove> legalMove(ChessPiece piece, ChessPosition position) {
+    /**
+     * @return list of all moves that a given piece can make
+     */
+    public static Collection<ChessMove> legalMove(ChessPiece piece, ChessPosition position) {
         int beginRow = position.getRow();
         int beginCol = position.getColumn();
         ChessPiece.PieceType type = piece.getPieceType();
 
         int moveDist = 1;
         ChessPosition endPos;
-        List<ChessMove> legalMoveList = new ArrayList<ChessMove>();
+        List<ChessMove> legalMoveList = new ArrayList<>();
 
         switch (type) {
             case KING:
                 if (beginRow < 8) {
                     endPos = forward(beginRow, beginCol, moveDist);
-                    legalMoveList.add();
+                    legalMoveList.add(new ChessMove(position, endPos, PieceType.KING));
                 }
                 if (beginRow > 1) {
-                    endPos = forward(beginRow, beginCol, moveDist);
-                    legalMoveList.add();
+                    endPos = backward(beginRow, beginCol, moveDist);
+                    legalMoveList.add(new ChessMove(position, endPos, PieceType.KING));
                 }
                 if (beginCol > 1) {
                     endPos = left(beginRow, beginCol, moveDist);
-                    legalMoveList.add();
+                    legalMoveList.add(new ChessMove(position, endPos, PieceType.KING));
                 }
                 if (beginCol < 8) {
                     endPos = right(beginRow, beginCol, moveDist);
-                    legalMoveList.add();
+                    legalMoveList.add(new ChessMove(position, endPos, PieceType.KING));
                 }
-                if (beginRow && beginCol) {
-                    endPos = diagonal(beginRow, beginCol, 1, 1);
-                    legalMoveList.add();
+                if (beginRow < 8 && beginCol < 8) {
+                    endPos = diagonal(beginRow, beginCol, moveDist, 1);
+                    legalMoveList.add(new ChessMove(position, endPos, PieceType.KING));
                 }
-                if (beginRow && beginCol) {
-                    endPos = diagonal(beginRow, beginCol, 1, 2);
-                    legalMoveList.add();
+                if (beginRow > 1 && beginCol < 8) {
+                    endPos = diagonal(beginRow, beginCol, moveDist, 2);
+                    legalMoveList.add(new ChessMove(position, endPos, PieceType.KING));
                 }
-                if (beginRow && beginCol) {
-                    endPos = diagonal(beginRow, beginCol, 1, 3);
-                    legalMoveList.add();
+                if (beginRow > 1 && beginCol > 1) {
+                    endPos = diagonal(beginRow, beginCol, moveDist, 3);
+                    legalMoveList.add(new ChessMove(position, endPos, PieceType.KING));
                 }
-                if (beginRow && beginCol) {
-                    endPos = diagonal(beginRow, beginCol, 1, 4);
-                    legalMoveList.add();
+                if (beginRow < 8 && beginCol > 1) {
+                    endPos = diagonal(beginRow, beginCol, moveDist, 4);
+                    legalMoveList.add(new ChessMove(position, endPos, PieceType.KING));
                 }
                 break;
+
             case QUEEN:
+                while (moveDist < 7) {
+                    if (beginRow < 8) {
+                        endPos = forward(beginRow, beginCol, moveDist);
+                        legalMoveList.add(new ChessMove(position, endPos, PieceType.KING));
+                    }
+                    if (beginRow > 1) {
+                        endPos = backward(beginRow, beginCol, moveDist);
+                        legalMoveList.add(new ChessMove(position, endPos, PieceType.KING));
+                    }
+                    if (beginCol > 1) {
+                        endPos = left(beginRow, beginCol, moveDist);
+                        legalMoveList.add(new ChessMove(position, endPos, PieceType.KING));
+                    }
+                    if (beginCol < 8) {
+                        endPos = right(beginRow, beginCol, moveDist);
+                        legalMoveList.add(new ChessMove(position, endPos, PieceType.KING));
+                    }
+                    if (beginRow < 8 && beginCol < 8) {
+                        endPos = diagonal(beginRow, beginCol, moveDist, 1);
+                        legalMoveList.add(new ChessMove(position, endPos, PieceType.KING));
+                    }
+                    if (beginRow > 1 && beginCol < 8) {
+                        endPos = diagonal(beginRow, beginCol, moveDist, 2);
+                        legalMoveList.add(new ChessMove(position, endPos, PieceType.KING));
+                    }
+                    if (beginRow > 1 && beginCol > 1) {
+                        endPos = diagonal(beginRow, beginCol, moveDist, 3);
+                        legalMoveList.add(new ChessMove(position, endPos, PieceType.KING));
+                    }
+                    if (beginRow < 8 && beginCol > 1) {
+                        endPos = diagonal(beginRow, beginCol, moveDist, 4);
+                        legalMoveList.add(new ChessMove(position, endPos, PieceType.KING));
+                    }
+                    moveDist++;
+                }
                 break;
             case BISHOP:
                 break;
@@ -68,28 +108,46 @@ public class LegalMoveCheck {
         return legalMoveList;
     }
 
+
+
     //Move types
-    public final ChessPosition forward(int beginRow, int beginCol, int moveDist) {
+
+    /**
+     * @return coordinates after forward move
+     */
+    public static ChessPosition forward(int beginRow, int beginCol, int moveDist) {
         int endRow = beginRow + moveDist;
         return new ChessPosition(endRow, beginCol);
     }
 
-    public ChessPosition backward(int beginRow, int beginCol, int moveDist) {
+    /**
+     * @return coordinates after backward move
+     */
+    public static ChessPosition backward(int beginRow, int beginCol, int moveDist) {
         int endRow = beginRow - moveDist;
         return new ChessPosition(endRow, beginCol);
     }
 
-    public ChessPosition left(int beginRow, int beginCol, int moveDist) {
+    /**
+     * @return coordinates after leftward move
+     */
+    public static ChessPosition left(int beginRow, int beginCol, int moveDist) {
         int endCol = beginCol - moveDist;
         return new ChessPosition(beginRow, endCol);
     }
 
-    public ChessPosition right(int beginRow, int beginCol, int moveDist) {
+    /**
+     * @return coordinates after rightward move
+     */
+    public static ChessPosition right(int beginRow, int beginCol, int moveDist) {
         int endCol = beginCol + moveDist;
         return new ChessPosition(beginRow, endCol);
     }
 
-    public ChessPosition diagonal(int beginRow, int beginCol, int moveDist, int quad) {
+    /**
+     * @return coordinates after diagonal move
+     */
+    public static ChessPosition diagonal(int beginRow, int beginCol, int moveDist, int quad) {
         int endRow;
         int endCol;
 
@@ -113,7 +171,10 @@ public class LegalMoveCheck {
         return new ChessPosition(endRow, endCol);
     }
 
-    public ChessPosition LShape(int beginRow, int beginCol) {
+    /**
+     * @return coordinates after L Shaped move by Knight
+     */
+    public static ChessPosition LShape(int beginRow, int beginCol) {
         return new ChessPosition();
     }
 }

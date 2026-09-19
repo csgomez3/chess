@@ -1,7 +1,6 @@
 package chess;
 
 import java.util.Collection;
-import java.util.List;
 
 /**
  * Represents a single chess piece
@@ -54,7 +53,6 @@ public class ChessPiece {
      */
     public Collection<ChessMove> pieceMoves(ChessBoard board, ChessPosition myPosition) {
         ChessPiece piece = board.getPiece(myPosition);
-
-        return List.of();
+        return LegalMoveCheck.legalMove(piece, myPosition);
     }
 }
