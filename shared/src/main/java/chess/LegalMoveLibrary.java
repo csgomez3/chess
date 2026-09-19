@@ -1,4 +1,4 @@
-package chess.legal_move_check;
+package chess;
 
 /**
  * write important notes about this implementation
