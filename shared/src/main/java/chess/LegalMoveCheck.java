@@ -3,7 +3,6 @@ package chess;
 import java.util.Collection;
 import java.util.List;
 import java.util.ArrayList;
-import chess.ChessPiece.PieceType;
 
 /**
  * make sure you write important notes about what this interface is
@@ -27,82 +26,127 @@ public class LegalMoveCheck {
             case KING:
                 if (beginRow < 8) {
                     endPos = forward(beginRow, beginCol, moveDist);
-                    legalMoveList.add(new ChessMove(position, endPos, PieceType.KING));
+                    legalMoveList.add(new ChessMove(position, endPos, type));
                 }
                 if (beginRow > 1) {
                     endPos = backward(beginRow, beginCol, moveDist);
-                    legalMoveList.add(new ChessMove(position, endPos, PieceType.KING));
+                    legalMoveList.add(new ChessMove(position, endPos, type));
                 }
                 if (beginCol > 1) {
                     endPos = left(beginRow, beginCol, moveDist);
-                    legalMoveList.add(new ChessMove(position, endPos, PieceType.KING));
+                    legalMoveList.add(new ChessMove(position, endPos, type));
                 }
                 if (beginCol < 8) {
                     endPos = right(beginRow, beginCol, moveDist);
-                    legalMoveList.add(new ChessMove(position, endPos, PieceType.KING));
+                    legalMoveList.add(new ChessMove(position, endPos, type));
                 }
                 if (beginRow < 8 && beginCol < 8) {
                     endPos = diagonal(beginRow, beginCol, moveDist, 1);
-                    legalMoveList.add(new ChessMove(position, endPos, PieceType.KING));
+                    legalMoveList.add(new ChessMove(position, endPos, type));
                 }
                 if (beginRow > 1 && beginCol < 8) {
                     endPos = diagonal(beginRow, beginCol, moveDist, 2);
-                    legalMoveList.add(new ChessMove(position, endPos, PieceType.KING));
+                    legalMoveList.add(new ChessMove(position, endPos, type));
                 }
                 if (beginRow > 1 && beginCol > 1) {
                     endPos = diagonal(beginRow, beginCol, moveDist, 3);
-                    legalMoveList.add(new ChessMove(position, endPos, PieceType.KING));
+                    legalMoveList.add(new ChessMove(position, endPos, type));
                 }
                 if (beginRow < 8 && beginCol > 1) {
                     endPos = diagonal(beginRow, beginCol, moveDist, 4);
-                    legalMoveList.add(new ChessMove(position, endPos, PieceType.KING));
+                    legalMoveList.add(new ChessMove(position, endPos, type));
                 }
                 break;
 
             case QUEEN:
-                while (moveDist < 7) {
-                    if (beginRow < 8) {
+                while (moveDist < 8) {
+                    if (beginRow <= 8 - moveDist) {
                         endPos = forward(beginRow, beginCol, moveDist);
-                        legalMoveList.add(new ChessMove(position, endPos, PieceType.KING));
+                        legalMoveList.add(new ChessMove(position, endPos, type));
                     }
-                    if (beginRow > 1) {
+                    if (beginRow > moveDist) {
                         endPos = backward(beginRow, beginCol, moveDist);
-                        legalMoveList.add(new ChessMove(position, endPos, PieceType.KING));
+                        legalMoveList.add(new ChessMove(position, endPos, type));
                     }
-                    if (beginCol > 1) {
+                    if (beginCol > moveDist) {
                         endPos = left(beginRow, beginCol, moveDist);
-                        legalMoveList.add(new ChessMove(position, endPos, PieceType.KING));
+                        legalMoveList.add(new ChessMove(position, endPos, type));
                     }
-                    if (beginCol < 8) {
+                    if (beginCol <= 8 - moveDist) {
                         endPos = right(beginRow, beginCol, moveDist);
-                        legalMoveList.add(new ChessMove(position, endPos, PieceType.KING));
+                        legalMoveList.add(new ChessMove(position, endPos, type));
                     }
-                    if (beginRow < 8 && beginCol < 8) {
+                    if (beginRow <= 8 - moveDist && beginCol <= 8 - moveDist) {
                         endPos = diagonal(beginRow, beginCol, moveDist, 1);
-                        legalMoveList.add(new ChessMove(position, endPos, PieceType.KING));
+                        legalMoveList.add(new ChessMove(position, endPos, type));
                     }
-                    if (beginRow > 1 && beginCol < 8) {
+                    if (beginRow > moveDist && beginCol <= 8 - moveDist) {
                         endPos = diagonal(beginRow, beginCol, moveDist, 2);
-                        legalMoveList.add(new ChessMove(position, endPos, PieceType.KING));
+                        legalMoveList.add(new ChessMove(position, endPos, type));
                     }
-                    if (beginRow > 1 && beginCol > 1) {
+                    if (beginRow > moveDist && beginCol > moveDist) {
                         endPos = diagonal(beginRow, beginCol, moveDist, 3);
-                        legalMoveList.add(new ChessMove(position, endPos, PieceType.KING));
+                        legalMoveList.add(new ChessMove(position, endPos, type));
                     }
-                    if (beginRow < 8 && beginCol > 1) {
+                    if (beginRow <= 8 - moveDist && beginCol > moveDist) {
                         endPos = diagonal(beginRow, beginCol, moveDist, 4);
-                        legalMoveList.add(new ChessMove(position, endPos, PieceType.KING));
+                        legalMoveList.add(new ChessMove(position, endPos, type));
                     }
                     moveDist++;
                 }
                 break;
+
             case BISHOP:
+                while (moveDist < 8) {
+                    //ERROR HERE
+                    if (beginRow <= 8 - moveDist && beginCol <= 8 - moveDist) {
+                        endPos = diagonal(beginRow, beginCol, moveDist, 1);
+                        legalMoveList.add(new ChessMove(position, endPos, type));
+                    }
+                    if (beginRow > moveDist && beginCol <= 8 - moveDist) {
+                        endPos = diagonal(beginRow, beginCol, moveDist, 2);
+                        legalMoveList.add(new ChessMove(position, endPos, type));
+                    }
+                    //ERROR HERE
+                    if (beginRow > moveDist && beginCol > moveDist) {
+                        endPos = diagonal(beginRow, beginCol, moveDist, 3);
+                        legalMoveList.add(new ChessMove(position, endPos, type));
+                    }
+                    if (beginRow <= 8 - moveDist && beginCol > moveDist) {
+                        endPos = diagonal(beginRow, beginCol, moveDist, 4);
+                        legalMoveList.add(new ChessMove(position, endPos, type));
+                    }
+                    moveDist++;
+                }
                 break;
             case KNIGHT:
                 break;
             case ROOK:
+                while (moveDist < 8) {
+                    if (beginRow <= 8 - moveDist) {
+                        endPos = forward(beginRow, beginCol, moveDist);
+                        legalMoveList.add(new ChessMove(position, endPos, type));
+                    }
+                    if (beginRow > moveDist) {
+                        endPos = backward(beginRow, beginCol, moveDist);
+                        legalMoveList.add(new ChessMove(position, endPos, type));
+                    }
+                    if (beginCol > moveDist) {
+                        endPos = left(beginRow, beginCol, moveDist);
+                        legalMoveList.add(new ChessMove(position, endPos, type));
+                    }
+                    if (beginCol <= 8 - moveDist) {
+                        endPos = right(beginRow, beginCol, moveDist);
+                        legalMoveList.add(new ChessMove(position, endPos, type));
+                    }
+                    moveDist++;
+                }
                 break;
             case PAWN:
+                if (beginRow < 8) {
+                    endPos = forward(beginRow, beginCol, moveDist);
+                    legalMoveList.add(new ChessMove(position, endPos, type));
+                }
                 break;
         }
         return legalMoveList;
@@ -174,7 +218,50 @@ public class LegalMoveCheck {
     /**
      * @return coordinates after L Shaped move by Knight
      */
-    public static ChessPosition LShape(int beginRow, int beginCol) {
-        return new ChessPosition();
+    public static ChessPosition LShape(int beginRow, int beginCol, int rowDist, int quad) {
+        int endRow;
+        int endCol;
+
+        if (quad == 1) {
+            if (rowDist == 2) {
+                endRow = beginRow + 2;
+                endCol = beginCol + 1;
+            }
+            else {
+                endRow = beginRow + 1;
+                endCol = beginCol + 2;
+            }
+        }
+        else if (quad == 2) {
+            if (rowDist == 2) {
+                endRow = beginRow + 2;
+                endCol = beginCol - 1;
+            }
+            else {
+                endRow = beginRow + 1;
+                endCol = beginCol - 2;
+            }
+        }
+        else if (quad == 3) {
+            if (rowDist == 2) {
+                endRow = beginRow - 2;
+                endCol = beginCol - 1;
+            }
+            else {
+                endRow = beginRow - 1;
+                endCol = beginCol - 2;
+            }
+        }
+        else {
+            if (rowDist == 2) {
+                endRow = beginRow - 2;
+                endCol = beginCol + 1;
+            }
+            else {
+                endRow = beginRow - 1;
+                endCol = beginCol + 2;
+            }
+        }
+        return new ChessPosition(endRow, endCol);
     }
 }
