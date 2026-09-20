@@ -98,21 +98,19 @@ public class LegalMoveCheck {
 
             case BISHOP:
                 while (moveDist < 8) {
-                    //ERROR HERE
                     if (beginRow <= 8 - moveDist && beginCol <= 8 - moveDist) {
                         endPos = diagonal(beginRow, beginCol, moveDist, 1);
                         legalMoveList.add(new ChessMove(position, endPos, null));
                     }
-                    if (beginRow > moveDist && beginCol <= 8 - moveDist) {
+                    if (beginRow > moveDist && beginCol < 8 - moveDist) {
                         endPos = diagonal(beginRow, beginCol, moveDist, 2);
                         legalMoveList.add(new ChessMove(position, endPos, null));
                     }
-                    //ERROR HERE
                     if (beginRow > moveDist && beginCol > moveDist) {
                         endPos = diagonal(beginRow, beginCol, moveDist, 3);
                         legalMoveList.add(new ChessMove(position, endPos, null));
                     }
-                    if (beginRow <= 8 - moveDist && beginCol > moveDist) {
+                    if (beginRow <= 9 - moveDist && beginCol >= moveDist) {
                         endPos = diagonal(beginRow, beginCol, moveDist, 4);
                         legalMoveList.add(new ChessMove(position, endPos, null));
                     }
