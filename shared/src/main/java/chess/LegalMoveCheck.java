@@ -34,35 +34,59 @@ public class LegalMoveCheck {
             case KING:
                 if (beginRow < 8) {
                     endPos = forward(beginRow, beginCol, moveDist);
-                    legalMoveList.add(new ChessMove(position, endPos, null));
+                    if (board.getPiece(endPos) == null ||
+                            board.getPiece(endPos).getTeamColor() != piece.getTeamColor()) {
+                        legalMoveList.add(new ChessMove(position, endPos, null));
+                    }
                 }
                 if (beginRow > 1) {
                     endPos = backward(beginRow, beginCol, moveDist);
-                    legalMoveList.add(new ChessMove(position, endPos, null));
+                    if (board.getPiece(endPos) == null ||
+                            board.getPiece(endPos).getTeamColor() != piece.getTeamColor()) {
+                        legalMoveList.add(new ChessMove(position, endPos, null));
+                    }
                 }
                 if (beginCol > 1) {
                     endPos = left(beginRow, beginCol, moveDist);
-                    legalMoveList.add(new ChessMove(position, endPos, null));
+                    if (board.getPiece(endPos) == null ||
+                            board.getPiece(endPos).getTeamColor() != piece.getTeamColor()) {
+                        legalMoveList.add(new ChessMove(position, endPos, null));
+                    }
                 }
                 if (beginCol < 8) {
                     endPos = right(beginRow, beginCol, moveDist);
-                    legalMoveList.add(new ChessMove(position, endPos, null));
+                    if (board.getPiece(endPos) == null ||
+                            board.getPiece(endPos).getTeamColor() != piece.getTeamColor()) {
+                        legalMoveList.add(new ChessMove(position, endPos, null));
+                    }
                 }
                 if (beginRow < 8 && beginCol < 8) {
                     endPos = diagonal(beginRow, beginCol, moveDist, 1);
-                    legalMoveList.add(new ChessMove(position, endPos, null));
+                    if (board.getPiece(endPos) == null ||
+                            board.getPiece(endPos).getTeamColor() != piece.getTeamColor()) {
+                        legalMoveList.add(new ChessMove(position, endPos, null));
+                    }
                 }
                 if (beginRow > 1 && beginCol < 8) {
                     endPos = diagonal(beginRow, beginCol, moveDist, 2);
-                    legalMoveList.add(new ChessMove(position, endPos, null));
+                    if (board.getPiece(endPos) == null ||
+                            board.getPiece(endPos).getTeamColor() != piece.getTeamColor()) {
+                        legalMoveList.add(new ChessMove(position, endPos, null));
+                    }
                 }
                 if (beginRow > 1 && beginCol > 1) {
                     endPos = diagonal(beginRow, beginCol, moveDist, 3);
-                    legalMoveList.add(new ChessMove(position, endPos, null));
+                    if (board.getPiece(endPos) == null ||
+                            board.getPiece(endPos).getTeamColor() != piece.getTeamColor()) {
+                        legalMoveList.add(new ChessMove(position, endPos, null));
+                    }
                 }
                 if (beginRow < 8 && beginCol > 1) {
                     endPos = diagonal(beginRow, beginCol, moveDist, 4);
-                    legalMoveList.add(new ChessMove(position, endPos, null));
+                    if (board.getPiece(endPos) == null ||
+                            board.getPiece(endPos).getTeamColor() != piece.getTeamColor()) {
+                        legalMoveList.add(new ChessMove(position, endPos, null));
+                    }
                 }
                 break;
             case QUEEN:
