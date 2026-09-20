@@ -72,8 +72,7 @@ public class LegalMoveCheck {
                         if (board.getPiece(endPos) != null &&
                                 board.getPiece(endPos).getTeamColor() == piece.getTeamColor()) {
                             pathClearForward = false;
-                        }
-                        else {
+                        } else {
                             if (board.getPiece(endPos) != null) {
                                 pathClearForward = false;
                             }
@@ -85,8 +84,7 @@ public class LegalMoveCheck {
                         if (board.getPiece(endPos) != null &&
                                 board.getPiece(endPos).getTeamColor() == piece.getTeamColor()) {
                             pathClearBackward = false;
-                        }
-                        else {
+                        } else {
                             if (board.getPiece(endPos) != null) {
                                 pathClearBackward = false;
                             }
@@ -98,8 +96,7 @@ public class LegalMoveCheck {
                         if (board.getPiece(endPos) != null &&
                                 board.getPiece(endPos).getTeamColor() == piece.getTeamColor()) {
                             pathClearLeft = false;
-                        }
-                        else {
+                        } else {
                             if (board.getPiece(endPos) != null) {
                                 pathClearLeft = false;
                             }
@@ -111,8 +108,7 @@ public class LegalMoveCheck {
                         if (board.getPiece(endPos) != null &&
                                 board.getPiece(endPos).getTeamColor() == piece.getTeamColor()) {
                             pathClearRight = false;
-                        }
-                        else {
+                        } else {
                             if (board.getPiece(endPos) != null) {
                                 pathClearRight = false;
                             }
@@ -124,8 +120,7 @@ public class LegalMoveCheck {
                         if (board.getPiece(endPos) != null &&
                                 board.getPiece(endPos).getTeamColor() == piece.getTeamColor()) {
                             pathClearDiag1 = false;
-                        }
-                        else {
+                        } else {
                             if (board.getPiece(endPos) != null) {
                                 pathClearDiag1 = false;
                             }
@@ -137,8 +132,7 @@ public class LegalMoveCheck {
                         if (board.getPiece(endPos) != null &&
                                 board.getPiece(endPos).getTeamColor() == piece.getTeamColor()) {
                             pathClearDiag2 = false;
-                        }
-                        else {
+                        } else {
                             if (board.getPiece(endPos) != null) {
                                 pathClearDiag2 = false;
                             }
@@ -150,8 +144,7 @@ public class LegalMoveCheck {
                         if (board.getPiece(endPos) != null &&
                                 board.getPiece(endPos).getTeamColor() == piece.getTeamColor()) {
                             pathClearDiag3 = false;
-                        }
-                        else {
+                        } else {
                             if (board.getPiece(endPos) != null) {
                                 pathClearDiag3 = false;
                             }
@@ -163,8 +156,7 @@ public class LegalMoveCheck {
                         if (board.getPiece(endPos) != null &&
                                 board.getPiece(endPos).getTeamColor() == piece.getTeamColor()) {
                             pathClearDiag4 = false;
-                        }
-                        else {
+                        } else {
                             if (board.getPiece(endPos) != null) {
                                 pathClearDiag4 = false;
                             }
@@ -181,8 +173,7 @@ public class LegalMoveCheck {
                         if (board.getPiece(endPos) != null &&
                                 board.getPiece(endPos).getTeamColor() == piece.getTeamColor()) {
                             pathClearDiag1 = false;
-                        }
-                        else {
+                        } else {
                             if (board.getPiece(endPos) != null) {
                                 pathClearDiag1 = false;
                             }
@@ -194,8 +185,7 @@ public class LegalMoveCheck {
                         if (board.getPiece(endPos) != null &&
                                 board.getPiece(endPos).getTeamColor() == piece.getTeamColor()) {
                             pathClearDiag2 = false;
-                        }
-                        else {
+                        } else {
                             if (board.getPiece(endPos) != null) {
                                 pathClearDiag2 = false;
                             }
@@ -207,8 +197,7 @@ public class LegalMoveCheck {
                         if (board.getPiece(endPos) != null &&
                                 board.getPiece(endPos).getTeamColor() == piece.getTeamColor()) {
                             pathClearDiag3 = false;
-                        }
-                        else {
+                        } else {
                             if (board.getPiece(endPos) != null) {
                                 pathClearDiag3 = false;
                             }
@@ -220,8 +209,7 @@ public class LegalMoveCheck {
                         if (board.getPiece(endPos) != null &&
                                 board.getPiece(endPos).getTeamColor() == piece.getTeamColor()) {
                             pathClearDiag4 = false;
-                        }
-                        else {
+                        } else {
                             if (board.getPiece(endPos) != null) {
                                 pathClearDiag4 = false;
                             }
@@ -231,39 +219,62 @@ public class LegalMoveCheck {
                     moveDist++;
                 }
                 break;
-            //FIX LOGIC
             case KNIGHT:
                 if (beginRow <= 8 - 2 && beginCol <= 8 - 1) {
                     endPos = LShape(beginRow, beginCol, 2, 1);
-                    legalMoveList.add(new ChessMove(position, endPos, null));
+                    if (board.getPiece(endPos) == null ||
+                            board.getPiece(endPos).getTeamColor() != piece.getTeamColor()) {
+                        legalMoveList.add(new ChessMove(position, endPos, null));
+                    }
                 }
                 if (beginRow <= 8 - 1 && beginCol <= 8 - 2) {
                     endPos = LShape(beginRow, beginCol, 1, 1);
-                    legalMoveList.add(new ChessMove(position, endPos, null));
+                    if (board.getPiece(endPos) == null ||
+                            board.getPiece(endPos).getTeamColor() != piece.getTeamColor()) {
+                        legalMoveList.add(new ChessMove(position, endPos, null));
+                    }
                 }
                 if (beginRow <= 8 - 1 && beginCol > 2) {
                     endPos = LShape(beginRow, beginCol, 1, 2);
-                    legalMoveList.add(new ChessMove(position, endPos, null));
+                    if (board.getPiece(endPos) == null ||
+                            board.getPiece(endPos).getTeamColor() != piece.getTeamColor()) {
+                        legalMoveList.add(new ChessMove(position, endPos, null));
+                    }
                 }
                 if (beginRow <= 8 - 2 && beginCol > 1) {
                     endPos = LShape(beginRow, beginCol, 2, 2);
-                    legalMoveList.add(new ChessMove(position, endPos, null));
+                    if (board.getPiece(endPos) == null ||
+                            board.getPiece(endPos).getTeamColor() != piece.getTeamColor()) {
+                        legalMoveList.add(new ChessMove(position, endPos, null));
+                    }
                 }
                 if (beginRow > 2 && beginCol > 1) {
                     endPos = LShape(beginRow, beginCol, 2, 3);
-                    legalMoveList.add(new ChessMove(position, endPos, null));
+                    if (board.getPiece(endPos) == null ||
+                            board.getPiece(endPos).getTeamColor() != piece.getTeamColor()) {
+                        legalMoveList.add(new ChessMove(position, endPos, null));
+                    }
                 }
                 if (beginRow > 1 && beginCol > 2) {
                     endPos = LShape(beginRow, beginCol, 1, 3);
-                    legalMoveList.add(new ChessMove(position, endPos, null));
+                    if (board.getPiece(endPos) == null ||
+                            board.getPiece(endPos).getTeamColor() != piece.getTeamColor()) {
+                        legalMoveList.add(new ChessMove(position, endPos, null));
+                    }
                 }
                 if (beginRow > 1 && beginCol <= 8 - 2) {
                     endPos = LShape(beginRow, beginCol, 1, 4);
-                    legalMoveList.add(new ChessMove(position, endPos, null));
+                    if (board.getPiece(endPos) == null ||
+                            board.getPiece(endPos).getTeamColor() != piece.getTeamColor()) {
+                        legalMoveList.add(new ChessMove(position, endPos, null));
+                    }
                 }
                 if (beginRow > 2 && beginCol <= 8 - 1) {
                     endPos = LShape(beginRow, beginCol, 2, 4);
-                    legalMoveList.add(new ChessMove(position, endPos, null));
+                    if (board.getPiece(endPos) == null ||
+                            board.getPiece(endPos).getTeamColor() != piece.getTeamColor()) {
+                        legalMoveList.add(new ChessMove(position, endPos, null));
+                    }
                 }
                 break;
             case ROOK:
@@ -273,8 +284,7 @@ public class LegalMoveCheck {
                         if (board.getPiece(endPos) != null &&
                                 board.getPiece(endPos).getTeamColor() == piece.getTeamColor()) {
                             pathClearForward = false;
-                        }
-                        else {
+                        } else {
                             if (board.getPiece(endPos) != null) {
                                 pathClearForward = false;
                             }
@@ -286,8 +296,7 @@ public class LegalMoveCheck {
                         if (board.getPiece(endPos) != null &&
                                 board.getPiece(endPos).getTeamColor() == piece.getTeamColor()) {
                             pathClearBackward = false;
-                        }
-                        else {
+                        } else {
                             if (board.getPiece(endPos) != null) {
                                 pathClearBackward = false;
                             }
@@ -299,8 +308,7 @@ public class LegalMoveCheck {
                         if (board.getPiece(endPos) != null &&
                                 board.getPiece(endPos).getTeamColor() == piece.getTeamColor()) {
                             pathClearLeft = false;
-                        }
-                        else {
+                        } else {
                             if (board.getPiece(endPos) != null) {
                                 pathClearLeft = false;
                             }
@@ -312,8 +320,7 @@ public class LegalMoveCheck {
                         if (board.getPiece(endPos) != null &&
                                 board.getPiece(endPos).getTeamColor() == piece.getTeamColor()) {
                             pathClearRight = false;
-                        }
-                        else {
+                        } else {
                             if (board.getPiece(endPos) != null) {
                                 pathClearRight = false;
                             }
@@ -324,21 +331,65 @@ public class LegalMoveCheck {
                 }
                 break;
             case PAWN:
-                if (beginRow < 8 && piece.getTeamColor() == ChessGame.TeamColor.WHITE) {
-                    endPos = forward(beginRow, beginCol, moveDist);
-                    legalMoveList.add(new ChessMove(position, endPos, null));
+                //WHITE PAWN
+                if (piece.getTeamColor() == ChessGame.TeamColor.WHITE) {
+                    if (beginRow < 8) {
+                        endPos = forward(beginRow, beginCol, moveDist);
+                        if (board.getPiece(endPos) == null) {
+                            legalMoveList.add(new ChessMove(position, endPos, null));
+                        }
+                    }
+                    if (beginRow < 8 && beginCol < 8) {
+                        endPos = diagonal(beginRow, beginCol, moveDist, 1);
+                        if (board.getPiece(endPos) != null &&
+                                board.getPiece(endPos).getTeamColor() == ChessGame.TeamColor.BLACK) {
+                            legalMoveList.add(new ChessMove(position, endPos, null));
+                        }
+                    }
+                    if (beginRow < 8 && beginCol > 1) {
+                        endPos = diagonal(beginRow, beginCol, moveDist, 2);
+                        if (board.getPiece(endPos) != null &&
+                                board.getPiece(endPos).getTeamColor() == ChessGame.TeamColor.BLACK) {
+                            legalMoveList.add(new ChessMove(position, endPos, null));
+                        }
+                    }
+                    if (beginRow == 2) {
+                        endPos = forward(beginRow, beginCol, 2);
+                        if (board.getPiece(endPos) == null &&
+                                board.getPiece(forward(beginRow, beginCol, 1)) == null) {
+                            legalMoveList.add(new ChessMove(position, endPos, null));
+                        }
+                    }
                 }
-                if (beginRow == 2 && piece.getTeamColor() == ChessGame.TeamColor.WHITE) {
-                    endPos = forward(beginRow, beginCol, 2);
-                    legalMoveList.add(new ChessMove(position, endPos, null));
-                }
-                if (beginRow >= 1 && piece.getTeamColor() == ChessGame.TeamColor.BLACK) {
-                    endPos = backward(beginRow, beginCol, moveDist);
-                    legalMoveList.add(new ChessMove(position, endPos, null));
-                }
-                if (beginRow == 7 && piece.getTeamColor() == ChessGame.TeamColor.BLACK) {
-                    endPos = backward(beginRow, beginCol, 2);
-                    legalMoveList.add(new ChessMove(position, endPos, null));
+                //BLACK PAWN
+                if (piece.getTeamColor() == ChessGame.TeamColor.BLACK) {
+                    if (beginRow >= 1) {
+                        endPos = backward(beginRow, beginCol, moveDist);
+                        if (board.getPiece(endPos) == null) {
+                            legalMoveList.add(new ChessMove(position, endPos, null));
+                        }
+                    }
+                    if (beginRow >= 1 && beginCol > 1) {
+                        endPos = diagonal(beginRow, beginCol, moveDist, 3);
+                        if (board.getPiece(endPos) != null &&
+                                board.getPiece(endPos).getTeamColor() == ChessGame.TeamColor.WHITE) {
+                            legalMoveList.add(new ChessMove(position, endPos, null));
+                        }
+                    }
+                    if (beginRow >= 1 && beginCol < 8) {
+                        endPos = diagonal(beginRow, beginCol, moveDist, 4);
+                        if (board.getPiece(endPos) != null &&
+                                board.getPiece(endPos).getTeamColor() == ChessGame.TeamColor.WHITE) {
+                            legalMoveList.add(new ChessMove(position, endPos, null));
+                        }
+                    }
+                    if (beginRow == 7) {
+                        endPos = backward(beginRow, beginCol, 2);
+                        if (board.getPiece(endPos) == null &&
+                                board.getPiece(backward(beginRow, beginCol, 1)) == null) {
+                            legalMoveList.add(new ChessMove(position, endPos, null));
+                        }
+                    }
                 }
                 break;
         }
