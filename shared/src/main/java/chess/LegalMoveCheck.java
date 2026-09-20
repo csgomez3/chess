@@ -57,7 +57,6 @@ public class LegalMoveCheck {
                     legalMoveList.add(new ChessMove(position, endPos, null));
                 }
                 break;
-
             case QUEEN:
                 while (moveDist < 8) {
                     if (beginRow <= 8 - moveDist) {
@@ -95,7 +94,6 @@ public class LegalMoveCheck {
                     moveDist++;
                 }
                 break;
-
             case BISHOP:
                 while (moveDist < 8) {
                     if (beginRow <= 8 - moveDist && beginCol <= 8 - moveDist) {
@@ -117,6 +115,7 @@ public class LegalMoveCheck {
                     moveDist++;
                 }
                 break;
+            //FIX LOGIC
             case KNIGHT:
                 if (beginRow <= 8 - 2 && beginCol <= 8 - 1) {
                     endPos = LShape(beginRow, beginCol, 2, 1);
@@ -173,8 +172,20 @@ public class LegalMoveCheck {
                 }
                 break;
             case PAWN:
-                if (beginRow < 8) {
+                if (beginRow < 8 && piece.getTeamColor() == ChessGame.TeamColor.WHITE) {
                     endPos = forward(beginRow, beginCol, moveDist);
+                    legalMoveList.add(new ChessMove(position, endPos, null));
+                }
+                if (beginRow == 2 && piece.getTeamColor() == ChessGame.TeamColor.WHITE) {
+                    endPos = forward(beginRow, beginCol, 2);
+                    legalMoveList.add(new ChessMove(position, endPos, null));
+                }
+                if (beginRow >= 1 && piece.getTeamColor() == ChessGame.TeamColor.BLACK) {
+                    endPos = backward(beginRow, beginCol, moveDist);
+                    legalMoveList.add(new ChessMove(position, endPos, null));
+                }
+                if (beginRow == 7 && piece.getTeamColor() == ChessGame.TeamColor.BLACK) {
+                    endPos = backward(beginRow, beginCol, 2);
                     legalMoveList.add(new ChessMove(position, endPos, null));
                 }
                 break;
