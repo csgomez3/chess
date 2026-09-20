@@ -26,35 +26,35 @@ public class LegalMoveCheck {
             case KING:
                 if (beginRow < 8) {
                     endPos = forward(beginRow, beginCol, moveDist);
-                    legalMoveList.add(new ChessMove(position, endPos, type));
+                    legalMoveList.add(new ChessMove(position, endPos, null));
                 }
                 if (beginRow > 1) {
                     endPos = backward(beginRow, beginCol, moveDist);
-                    legalMoveList.add(new ChessMove(position, endPos, type));
+                    legalMoveList.add(new ChessMove(position, endPos, null));
                 }
                 if (beginCol > 1) {
                     endPos = left(beginRow, beginCol, moveDist);
-                    legalMoveList.add(new ChessMove(position, endPos, type));
+                    legalMoveList.add(new ChessMove(position, endPos, null));
                 }
                 if (beginCol < 8) {
                     endPos = right(beginRow, beginCol, moveDist);
-                    legalMoveList.add(new ChessMove(position, endPos, type));
+                    legalMoveList.add(new ChessMove(position, endPos, null));
                 }
                 if (beginRow < 8 && beginCol < 8) {
                     endPos = diagonal(beginRow, beginCol, moveDist, 1);
-                    legalMoveList.add(new ChessMove(position, endPos, type));
+                    legalMoveList.add(new ChessMove(position, endPos, null));
                 }
                 if (beginRow > 1 && beginCol < 8) {
                     endPos = diagonal(beginRow, beginCol, moveDist, 2);
-                    legalMoveList.add(new ChessMove(position, endPos, type));
+                    legalMoveList.add(new ChessMove(position, endPos, null));
                 }
                 if (beginRow > 1 && beginCol > 1) {
                     endPos = diagonal(beginRow, beginCol, moveDist, 3);
-                    legalMoveList.add(new ChessMove(position, endPos, type));
+                    legalMoveList.add(new ChessMove(position, endPos, null));
                 }
                 if (beginRow < 8 && beginCol > 1) {
                     endPos = diagonal(beginRow, beginCol, moveDist, 4);
-                    legalMoveList.add(new ChessMove(position, endPos, type));
+                    legalMoveList.add(new ChessMove(position, endPos, null));
                 }
                 break;
 
@@ -62,35 +62,35 @@ public class LegalMoveCheck {
                 while (moveDist < 8) {
                     if (beginRow <= 8 - moveDist) {
                         endPos = forward(beginRow, beginCol, moveDist);
-                        legalMoveList.add(new ChessMove(position, endPos, type));
+                        legalMoveList.add(new ChessMove(position, endPos, null));
                     }
                     if (beginRow > moveDist) {
                         endPos = backward(beginRow, beginCol, moveDist);
-                        legalMoveList.add(new ChessMove(position, endPos, type));
+                        legalMoveList.add(new ChessMove(position, endPos, null));
                     }
                     if (beginCol > moveDist) {
                         endPos = left(beginRow, beginCol, moveDist);
-                        legalMoveList.add(new ChessMove(position, endPos, type));
+                        legalMoveList.add(new ChessMove(position, endPos, null));
                     }
                     if (beginCol <= 8 - moveDist) {
                         endPos = right(beginRow, beginCol, moveDist);
-                        legalMoveList.add(new ChessMove(position, endPos, type));
+                        legalMoveList.add(new ChessMove(position, endPos, null));
                     }
                     if (beginRow <= 8 - moveDist && beginCol <= 8 - moveDist) {
                         endPos = diagonal(beginRow, beginCol, moveDist, 1);
-                        legalMoveList.add(new ChessMove(position, endPos, type));
+                        legalMoveList.add(new ChessMove(position, endPos, null));
                     }
                     if (beginRow > moveDist && beginCol <= 8 - moveDist) {
                         endPos = diagonal(beginRow, beginCol, moveDist, 2);
-                        legalMoveList.add(new ChessMove(position, endPos, type));
+                        legalMoveList.add(new ChessMove(position, endPos, null));
                     }
                     if (beginRow > moveDist && beginCol > moveDist) {
                         endPos = diagonal(beginRow, beginCol, moveDist, 3);
-                        legalMoveList.add(new ChessMove(position, endPos, type));
+                        legalMoveList.add(new ChessMove(position, endPos, null));
                     }
                     if (beginRow <= 8 - moveDist && beginCol > moveDist) {
                         endPos = diagonal(beginRow, beginCol, moveDist, 4);
-                        legalMoveList.add(new ChessMove(position, endPos, type));
+                        legalMoveList.add(new ChessMove(position, endPos, null));
                     }
                     moveDist++;
                 }
@@ -101,20 +101,20 @@ public class LegalMoveCheck {
                     //ERROR HERE
                     if (beginRow <= 8 - moveDist && beginCol <= 8 - moveDist) {
                         endPos = diagonal(beginRow, beginCol, moveDist, 1);
-                        legalMoveList.add(new ChessMove(position, endPos, type));
+                        legalMoveList.add(new ChessMove(position, endPos, null));
                     }
                     if (beginRow > moveDist && beginCol <= 8 - moveDist) {
                         endPos = diagonal(beginRow, beginCol, moveDist, 2);
-                        legalMoveList.add(new ChessMove(position, endPos, type));
+                        legalMoveList.add(new ChessMove(position, endPos, null));
                     }
                     //ERROR HERE
                     if (beginRow > moveDist && beginCol > moveDist) {
                         endPos = diagonal(beginRow, beginCol, moveDist, 3);
-                        legalMoveList.add(new ChessMove(position, endPos, type));
+                        legalMoveList.add(new ChessMove(position, endPos, null));
                     }
                     if (beginRow <= 8 - moveDist && beginCol > moveDist) {
                         endPos = diagonal(beginRow, beginCol, moveDist, 4);
-                        legalMoveList.add(new ChessMove(position, endPos, type));
+                        legalMoveList.add(new ChessMove(position, endPos, null));
                     }
                     moveDist++;
                 }
@@ -122,54 +122,54 @@ public class LegalMoveCheck {
             case KNIGHT:
                 if (beginRow <= 8 - 2 && beginCol <= 8 - 1) {
                     endPos = LShape(beginRow, beginCol, 2, 1);
-                    legalMoveList.add(new ChessMove(position, endPos, type));
+                    legalMoveList.add(new ChessMove(position, endPos, null));
                 }
                 if (beginRow <= 8 - 1 && beginCol <= 8 - 2) {
                     endPos = LShape(beginRow, beginCol, 1, 1);
-                    legalMoveList.add(new ChessMove(position, endPos, type));
+                    legalMoveList.add(new ChessMove(position, endPos, null));
                 }
                 if (beginRow > 1 && beginCol <= 8 - 2) {
                     endPos = LShape(beginRow, beginCol, 1, 2);
-                    legalMoveList.add(new ChessMove(position, endPos, type));
+                    legalMoveList.add(new ChessMove(position, endPos, null));
                 }
                 if (beginRow > 2 && beginCol <= 8 - 1) {
                     endPos = LShape(beginRow, beginCol, 2, 2);
-                    legalMoveList.add(new ChessMove(position, endPos, type));
+                    legalMoveList.add(new ChessMove(position, endPos, null));
                 }
                 if (beginRow > 2 && beginCol > 1) {
                     endPos = LShape(beginRow, beginCol, 2, 3);
-                    legalMoveList.add(new ChessMove(position, endPos, type));
+                    legalMoveList.add(new ChessMove(position, endPos, null));
                 }
                 if (beginRow > 1 && beginCol > 2) {
                     endPos = LShape(beginRow, beginCol, 1, 3);
-                    legalMoveList.add(new ChessMove(position, endPos, type));
+                    legalMoveList.add(new ChessMove(position, endPos, null));
                 }
                 if (beginRow <= 8 - 1 && beginCol > 2) {
                     endPos = LShape(beginRow, beginCol, 1, 4);
-                    legalMoveList.add(new ChessMove(position, endPos, type));
+                    legalMoveList.add(new ChessMove(position, endPos, null));
                 }
                 if (beginRow <= 8 - 2 && beginCol > 1) {
                     endPos = LShape(beginRow, beginCol, 2, 4);
-                    legalMoveList.add(new ChessMove(position, endPos, type));
+                    legalMoveList.add(new ChessMove(position, endPos, null));
                 }
                 break;
             case ROOK:
                 while (moveDist < 8) {
                     if (beginRow <= 8 - moveDist) {
                         endPos = forward(beginRow, beginCol, moveDist);
-                        legalMoveList.add(new ChessMove(position, endPos, type));
+                        legalMoveList.add(new ChessMove(position, endPos, null));
                     }
                     if (beginRow > moveDist) {
                         endPos = backward(beginRow, beginCol, moveDist);
-                        legalMoveList.add(new ChessMove(position, endPos, type));
+                        legalMoveList.add(new ChessMove(position, endPos, null));
                     }
                     if (beginCol > moveDist) {
                         endPos = left(beginRow, beginCol, moveDist);
-                        legalMoveList.add(new ChessMove(position, endPos, type));
+                        legalMoveList.add(new ChessMove(position, endPos, null));
                     }
                     if (beginCol <= 8 - moveDist) {
                         endPos = right(beginRow, beginCol, moveDist);
-                        legalMoveList.add(new ChessMove(position, endPos, type));
+                        legalMoveList.add(new ChessMove(position, endPos, null));
                     }
                     moveDist++;
                 }
@@ -177,7 +177,7 @@ public class LegalMoveCheck {
             case PAWN:
                 if (beginRow < 8) {
                     endPos = forward(beginRow, beginCol, moveDist);
-                    legalMoveList.add(new ChessMove(position, endPos, type));
+                    legalMoveList.add(new ChessMove(position, endPos, null));
                 }
                 break;
         }
