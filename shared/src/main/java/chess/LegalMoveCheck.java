@@ -13,12 +13,20 @@ public class LegalMoveCheck {
     /**
      * @return list of all moves that a given piece can make
      */
-    public static Collection<ChessMove> legalMove(ChessPiece piece, ChessPosition position) {
+    public static Collection<ChessMove> legalMove(ChessPiece piece, ChessPosition position, ChessBoard board) {
         int beginRow = position.getRow();
         int beginCol = position.getColumn();
         ChessPiece.PieceType type = piece.getPieceType();
 
         int moveDist = 1;
+        boolean pathClearForward = true;
+        boolean pathClearBackward = true;
+        boolean pathClearLeft = true;
+        boolean pathClearRight = true;
+        boolean pathClearDiag1 = true;
+        boolean pathClearDiag2 = true;
+        boolean pathClearDiag3 = true;
+        boolean pathClearDiag4 = true;
         ChessPosition endPos;
         List<ChessMove> legalMoveList = new ArrayList<>();
 
@@ -59,58 +67,166 @@ public class LegalMoveCheck {
                 break;
             case QUEEN:
                 while (moveDist < 8) {
-                    if (beginRow <= 8 - moveDist) {
+                    if (beginRow <= 8 - moveDist && pathClearForward) {
                         endPos = forward(beginRow, beginCol, moveDist);
-                        legalMoveList.add(new ChessMove(position, endPos, null));
+                        if (board.getPiece(endPos) != null &&
+                                board.getPiece(endPos).getTeamColor() == piece.getTeamColor()) {
+                            pathClearForward = false;
+                        }
+                        else {
+                            if (board.getPiece(endPos) != null) {
+                                pathClearForward = false;
+                            }
+                            legalMoveList.add(new ChessMove(position, endPos, null));
+                        }
                     }
-                    if (beginRow > moveDist) {
+                    if (beginRow > moveDist && pathClearBackward) {
                         endPos = backward(beginRow, beginCol, moveDist);
-                        legalMoveList.add(new ChessMove(position, endPos, null));
+                        if (board.getPiece(endPos) != null &&
+                                board.getPiece(endPos).getTeamColor() == piece.getTeamColor()) {
+                            pathClearBackward = false;
+                        }
+                        else {
+                            if (board.getPiece(endPos) != null) {
+                                pathClearBackward = false;
+                            }
+                            legalMoveList.add(new ChessMove(position, endPos, null));
+                        }
                     }
-                    if (beginCol > moveDist) {
+                    if (beginCol > moveDist && pathClearLeft) {
                         endPos = left(beginRow, beginCol, moveDist);
-                        legalMoveList.add(new ChessMove(position, endPos, null));
+                        if (board.getPiece(endPos) != null &&
+                                board.getPiece(endPos).getTeamColor() == piece.getTeamColor()) {
+                            pathClearLeft = false;
+                        }
+                        else {
+                            if (board.getPiece(endPos) != null) {
+                                pathClearLeft = false;
+                            }
+                            legalMoveList.add(new ChessMove(position, endPos, null));
+                        }
                     }
-                    if (beginCol <= 8 - moveDist) {
+                    if (beginCol <= 8 - moveDist && pathClearRight) {
                         endPos = right(beginRow, beginCol, moveDist);
-                        legalMoveList.add(new ChessMove(position, endPos, null));
+                        if (board.getPiece(endPos) != null &&
+                                board.getPiece(endPos).getTeamColor() == piece.getTeamColor()) {
+                            pathClearRight = false;
+                        }
+                        else {
+                            if (board.getPiece(endPos) != null) {
+                                pathClearRight = false;
+                            }
+                            legalMoveList.add(new ChessMove(position, endPos, null));
+                        }
                     }
-                    if (beginRow <= 8 - moveDist && beginCol <= 8 - moveDist) {
+                    if (beginRow <= 8 - moveDist && beginCol <= 8 - moveDist && pathClearDiag1) {
                         endPos = diagonal(beginRow, beginCol, moveDist, 1);
-                        legalMoveList.add(new ChessMove(position, endPos, null));
+                        if (board.getPiece(endPos) != null &&
+                                board.getPiece(endPos).getTeamColor() == piece.getTeamColor()) {
+                            pathClearDiag1 = false;
+                        }
+                        else {
+                            if (board.getPiece(endPos) != null) {
+                                pathClearDiag1 = false;
+                            }
+                            legalMoveList.add(new ChessMove(position, endPos, null));
+                        }
                     }
-                    if (beginRow > moveDist && beginCol <= 8 - moveDist) {
+                    if (beginRow <= 8 - moveDist && beginCol > moveDist && pathClearDiag2) {
                         endPos = diagonal(beginRow, beginCol, moveDist, 2);
-                        legalMoveList.add(new ChessMove(position, endPos, null));
+                        if (board.getPiece(endPos) != null &&
+                                board.getPiece(endPos).getTeamColor() == piece.getTeamColor()) {
+                            pathClearDiag2 = false;
+                        }
+                        else {
+                            if (board.getPiece(endPos) != null) {
+                                pathClearDiag2 = false;
+                            }
+                            legalMoveList.add(new ChessMove(position, endPos, null));
+                        }
                     }
-                    if (beginRow > moveDist && beginCol > moveDist) {
+                    if (beginRow > moveDist && beginCol > moveDist && pathClearDiag3) {
                         endPos = diagonal(beginRow, beginCol, moveDist, 3);
-                        legalMoveList.add(new ChessMove(position, endPos, null));
+                        if (board.getPiece(endPos) != null &&
+                                board.getPiece(endPos).getTeamColor() == piece.getTeamColor()) {
+                            pathClearDiag3 = false;
+                        }
+                        else {
+                            if (board.getPiece(endPos) != null) {
+                                pathClearDiag3 = false;
+                            }
+                            legalMoveList.add(new ChessMove(position, endPos, null));
+                        }
                     }
-                    if (beginRow <= 8 - moveDist && beginCol > moveDist) {
+                    if (beginRow > moveDist && beginCol <= 8 - moveDist && pathClearDiag4) {
                         endPos = diagonal(beginRow, beginCol, moveDist, 4);
-                        legalMoveList.add(new ChessMove(position, endPos, null));
+                        if (board.getPiece(endPos) != null &&
+                                board.getPiece(endPos).getTeamColor() == piece.getTeamColor()) {
+                            pathClearDiag4 = false;
+                        }
+                        else {
+                            if (board.getPiece(endPos) != null) {
+                                pathClearDiag4 = false;
+                            }
+                            legalMoveList.add(new ChessMove(position, endPos, null));
+                        }
                     }
                     moveDist++;
                 }
                 break;
             case BISHOP:
                 while (moveDist < 8) {
-                    if (beginRow <= 8 - moveDist && beginCol <= 8 - moveDist) {
+                    if (beginRow <= 8 - moveDist && beginCol <= 8 - moveDist && pathClearDiag1) {
                         endPos = diagonal(beginRow, beginCol, moveDist, 1);
-                        legalMoveList.add(new ChessMove(position, endPos, null));
+                        if (board.getPiece(endPos) != null &&
+                                board.getPiece(endPos).getTeamColor() == piece.getTeamColor()) {
+                            pathClearDiag1 = false;
+                        }
+                        else {
+                            if (board.getPiece(endPos) != null) {
+                                pathClearDiag1 = false;
+                            }
+                            legalMoveList.add(new ChessMove(position, endPos, null));
+                        }
                     }
-                    if (beginRow > moveDist && beginCol < 8 - moveDist) {
+                    if (beginRow <= 8 - moveDist && beginCol > moveDist && pathClearDiag2) {
                         endPos = diagonal(beginRow, beginCol, moveDist, 2);
-                        legalMoveList.add(new ChessMove(position, endPos, null));
+                        if (board.getPiece(endPos) != null &&
+                                board.getPiece(endPos).getTeamColor() == piece.getTeamColor()) {
+                            pathClearDiag2 = false;
+                        }
+                        else {
+                            if (board.getPiece(endPos) != null) {
+                                pathClearDiag2 = false;
+                            }
+                            legalMoveList.add(new ChessMove(position, endPos, null));
+                        }
                     }
-                    if (beginRow > moveDist && beginCol > moveDist) {
+                    if (beginRow > moveDist && beginCol > moveDist && pathClearDiag3) {
                         endPos = diagonal(beginRow, beginCol, moveDist, 3);
-                        legalMoveList.add(new ChessMove(position, endPos, null));
+                        if (board.getPiece(endPos) != null &&
+                                board.getPiece(endPos).getTeamColor() == piece.getTeamColor()) {
+                            pathClearDiag3 = false;
+                        }
+                        else {
+                            if (board.getPiece(endPos) != null) {
+                                pathClearDiag3 = false;
+                            }
+                            legalMoveList.add(new ChessMove(position, endPos, null));
+                        }
                     }
-                    if (beginRow <= 9 - moveDist && beginCol >= moveDist) {
+                    if (beginRow > moveDist && beginCol <= 8 - moveDist && pathClearDiag4) {
                         endPos = diagonal(beginRow, beginCol, moveDist, 4);
-                        legalMoveList.add(new ChessMove(position, endPos, null));
+                        if (board.getPiece(endPos) != null &&
+                                board.getPiece(endPos).getTeamColor() == piece.getTeamColor()) {
+                            pathClearDiag4 = false;
+                        }
+                        else {
+                            if (board.getPiece(endPos) != null) {
+                                pathClearDiag4 = false;
+                            }
+                            legalMoveList.add(new ChessMove(position, endPos, null));
+                        }
                     }
                     moveDist++;
                 }
@@ -125,11 +241,11 @@ public class LegalMoveCheck {
                     endPos = LShape(beginRow, beginCol, 1, 1);
                     legalMoveList.add(new ChessMove(position, endPos, null));
                 }
-                if (beginRow > 1 && beginCol <= 8 - 2) {
+                if (beginRow <= 8 - 1 && beginCol > 2) {
                     endPos = LShape(beginRow, beginCol, 1, 2);
                     legalMoveList.add(new ChessMove(position, endPos, null));
                 }
-                if (beginRow > 2 && beginCol <= 8 - 1) {
+                if (beginRow <= 8 - 2 && beginCol > 1) {
                     endPos = LShape(beginRow, beginCol, 2, 2);
                     legalMoveList.add(new ChessMove(position, endPos, null));
                 }
@@ -141,32 +257,68 @@ public class LegalMoveCheck {
                     endPos = LShape(beginRow, beginCol, 1, 3);
                     legalMoveList.add(new ChessMove(position, endPos, null));
                 }
-                if (beginRow <= 8 - 1 && beginCol > 2) {
+                if (beginRow > 1 && beginCol <= 8 - 2) {
                     endPos = LShape(beginRow, beginCol, 1, 4);
                     legalMoveList.add(new ChessMove(position, endPos, null));
                 }
-                if (beginRow <= 8 - 2 && beginCol > 1) {
+                if (beginRow > 2 && beginCol <= 8 - 1) {
                     endPos = LShape(beginRow, beginCol, 2, 4);
                     legalMoveList.add(new ChessMove(position, endPos, null));
                 }
                 break;
             case ROOK:
                 while (moveDist < 8) {
-                    if (beginRow <= 8 - moveDist) {
+                    if (beginRow <= 8 - moveDist && pathClearForward) {
                         endPos = forward(beginRow, beginCol, moveDist);
-                        legalMoveList.add(new ChessMove(position, endPos, null));
+                        if (board.getPiece(endPos) != null &&
+                                board.getPiece(endPos).getTeamColor() == piece.getTeamColor()) {
+                            pathClearForward = false;
+                        }
+                        else {
+                            if (board.getPiece(endPos) != null) {
+                                pathClearForward = false;
+                            }
+                            legalMoveList.add(new ChessMove(position, endPos, null));
+                        }
                     }
-                    if (beginRow > moveDist) {
+                    if (beginRow > moveDist && pathClearBackward) {
                         endPos = backward(beginRow, beginCol, moveDist);
-                        legalMoveList.add(new ChessMove(position, endPos, null));
+                        if (board.getPiece(endPos) != null &&
+                                board.getPiece(endPos).getTeamColor() == piece.getTeamColor()) {
+                            pathClearBackward = false;
+                        }
+                        else {
+                            if (board.getPiece(endPos) != null) {
+                                pathClearBackward = false;
+                            }
+                            legalMoveList.add(new ChessMove(position, endPos, null));
+                        }
                     }
-                    if (beginCol > moveDist) {
+                    if (beginCol > moveDist && pathClearLeft) {
                         endPos = left(beginRow, beginCol, moveDist);
-                        legalMoveList.add(new ChessMove(position, endPos, null));
+                        if (board.getPiece(endPos) != null &&
+                                board.getPiece(endPos).getTeamColor() == piece.getTeamColor()) {
+                            pathClearLeft = false;
+                        }
+                        else {
+                            if (board.getPiece(endPos) != null) {
+                                pathClearLeft = false;
+                            }
+                            legalMoveList.add(new ChessMove(position, endPos, null));
+                        }
                     }
-                    if (beginCol <= 8 - moveDist) {
+                    if (beginCol <= 8 - moveDist && pathClearRight) {
                         endPos = right(beginRow, beginCol, moveDist);
-                        legalMoveList.add(new ChessMove(position, endPos, null));
+                        if (board.getPiece(endPos) != null &&
+                                board.getPiece(endPos).getTeamColor() == piece.getTeamColor()) {
+                            pathClearRight = false;
+                        }
+                        else {
+                            if (board.getPiece(endPos) != null) {
+                                pathClearRight = false;
+                            }
+                            legalMoveList.add(new ChessMove(position, endPos, null));
+                        }
                     }
                     moveDist++;
                 }
