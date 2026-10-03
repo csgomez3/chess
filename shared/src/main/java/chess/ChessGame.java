@@ -51,7 +51,13 @@ public class ChessGame {
      * startPosition
      */
     public Collection<ChessMove> validMoves(ChessPosition startPosition) {
-        throw new RuntimeException("Not implemented");
+        if (gameBoard.getPiece(startPosition) == null) {
+            return null;
+        }
+        ChessPiece toMove = gameBoard.getPiece(startPosition);
+        Collection<ChessMove> validMoves = toMove.pieceMoves(gameBoard, startPosition);
+
+        return validMoves;
     }
 
     /**
@@ -61,7 +67,11 @@ public class ChessGame {
      * @throws InvalidMoveException if move is invalid
      */
     public void makeMove(ChessMove move) throws InvalidMoveException {
-        throw new RuntimeException("Not implemented");
+        Collection<ChessMove> validMoves = validMoves(move.getStartPosition());
+        //Scan all moves
+
+
+        throw new InvalidMoveException("Illegal move, please make a different move");
     }
 
     /**
