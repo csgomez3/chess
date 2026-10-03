@@ -11,18 +11,19 @@ import java.util.Objects;
  */
 public class ChessGame {
     ChessBoard gameBoard;
+    TeamColor turn;
 
-    public ChessGame(ChessBoard gameBoard) {
-        this.gameBoard = gameBoard;
-        gameBoard.resetBoard();
+    public ChessGame() {
+        this.gameBoard = new ChessBoard();
+        setBoard(gameBoard);
+        this.turn = TeamColor.WHITE;
     }
 
     /**
      * @return Which team's turn it is
      */
     public TeamColor getTeamTurn() {
-        throw new RuntimeException("Not implemented");
-
+        return this.turn;
     }
 
     /**
@@ -31,7 +32,7 @@ public class ChessGame {
      * @param team the team whose turn it is
      */
     public void setTeamTurn(TeamColor team) {
-        throw new RuntimeException("Not implemented");
+        this.turn = team;
     }
 
     /**
@@ -100,7 +101,7 @@ public class ChessGame {
      * @param board the new board to use
      */
     public void setBoard(ChessBoard board) {
-        throw new RuntimeException("Not implemented");
+        gameBoard.resetBoard();
     }
 
     /**
@@ -109,7 +110,7 @@ public class ChessGame {
      * @return the chessboard
      */
     public ChessBoard getBoard() {
-        throw new RuntimeException("Not implemented");
+        return this.gameBoard;
     }
 
     @Override
@@ -124,11 +125,12 @@ public class ChessGame {
             return false;
         }
         ChessGame toComp = (ChessGame)obj;
-        return toComp.gameBoard == this.gameBoard;
+        return toComp.gameBoard == this.gameBoard
+                && toComp.turn == this.turn;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(this.gameBoard);
+        return Objects.hash(this.gameBoard, this.turn);
     }
 }
