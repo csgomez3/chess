@@ -72,7 +72,7 @@ public class ChessGame {
      */
     public void makeMove(ChessMove move) throws InvalidMoveException {
         Collection<ChessMove> validMoveList = validMoves(move.getStartPosition());
-        if (validMoves(move.getStartPosition()) == null) {
+        if (validMoveList == null) {
             throw new InvalidMoveException("Illegal move, please make a different move");
         }
         if (validMoveList.contains(move)) {
@@ -94,6 +94,12 @@ public class ChessGame {
                     else {
                         setBlackKingPos(move.getEndPosition());
                     }
+                }
+                if (color == TeamColor.WHITE) {
+                    setTeamTurn(TeamColor.BLACK);
+                }
+                else {
+                    setTeamTurn(TeamColor.WHITE);
                 }
             }
         }
@@ -138,7 +144,10 @@ public class ChessGame {
      * @return True if the specified team is in checkmate
      */
     public boolean isInCheckmate(TeamColor teamColor) {
-        throw new RuntimeException("Redo this function dude");
+        if (!isInCheck(teamColor)) {
+            return false;
+        }
+        return true;
     }
 
     /**
@@ -149,7 +158,16 @@ public class ChessGame {
      * @return True if the specified team is in stalemate, otherwise false
      */
     public boolean isInStalemate(TeamColor teamColor) {
-        throw new RuntimeException("Not implemented");
+        if (isInCheck(teamColor)) {
+            return false;
+        }
+        if (teamColor == TeamColor.WHITE && validMoves(whiteKingPos) == null) {
+            return true;
+        }
+        if (validMoves(blackKingPos) == null) {
+            return true;
+        }
+        return false;
     }
 
     /**
