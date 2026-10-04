@@ -108,13 +108,27 @@ public class ChessGame {
      */
     public boolean isInCheck(TeamColor teamColor) {
         ChessPosition kingPos;
+        int row;
+        int col;
         if (teamColor == TeamColor.WHITE) {
             kingPos = whiteKingPos;
         }
         else {
             kingPos = blackKingPos;
         }
-        throw new RuntimeException("Redo this function dude");
+        for (row = 1; row <= 8; row++) {
+            for (col = 1; col <= 8; col++) {
+                if (gameBoard.getPiece(new ChessPosition(row,col)) != null
+                        && gameBoard.getPiece(new ChessPosition(row,col)).getTeamColor() != teamColor) {
+                    for ( ChessMove moves : validMoves(new ChessPosition(row,col)) ) {
+                        if (moves.getEndPosition() == kingPos) {
+                            return true;
+                        }
+                    }
+                }
+            }
+        }
+        return false;
     }
 
     /**
@@ -144,7 +158,7 @@ public class ChessGame {
      * @param board the new board to use
      */
     public void setBoard(ChessBoard board) {
-        gameBoard.resetBoard();
+        board.resetBoard();
     }
 
     /**
