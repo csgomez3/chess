@@ -12,11 +12,15 @@ import java.util.Objects;
 public class ChessGame {
     ChessBoard gameBoard;
     TeamColor turn;
+    ChessPosition whiteKingPos;
+    ChessPosition blackKingPos;
 
     public ChessGame() {
         this.gameBoard = new ChessBoard();
         setBoard(gameBoard);
         this.turn = TeamColor.WHITE;
+        this.whiteKingPos = new ChessPosition(1,5);
+        this.blackKingPos = new ChessPosition(8,5);
     }
 
     /**
@@ -117,6 +121,14 @@ public class ChessGame {
      */
     public ChessBoard getBoard() {
         return this.gameBoard;
+    }
+
+    public void setWhiteKingPos(ChessPosition newKingPos) {
+        whiteKingPos = newKingPos;
+    }
+
+    public void setBlackKingPos(ChessPosition newKingPos) {
+        blackKingPos = newKingPos;
     }
 
     @Override
