@@ -68,10 +68,28 @@ public class ChessGame {
      */
     public void makeMove(ChessMove move) throws InvalidMoveException {
         Collection<ChessMove> validMoves = validMoves(move.getStartPosition());
+        TeamColor pieceColor = gameBoard.getPiece(move.getStartPosition()).getTeamColor();
         //Scan all moves
-
-
-        throw new InvalidMoveException("Illegal move, please make a different move");
+        if (validMoves != null && validMoves.contains(move) &&
+                !isInCheck(pieceColor)) {
+            if (move.getPromotionPiece() != null) {
+                gameBoard.addPiece(move.getEndPosition(), new ChessPiece(pieceColor,move.getPromotionPiece()));
+            }
+            else {
+                ChessPiece.PieceType type = gameBoard.getPiece(move.getStartPosition()).getPieceType();
+                gameBoard.addPiece(move.getEndPosition(), new ChessPiece(pieceColor,type));
+            }
+            gameBoard.addPiece(move.getStartPosition(), null);
+            if (getTeamTurn() == TeamColor.WHITE) {
+                setTeamTurn(TeamColor.BLACK);
+            }
+            else {
+                setTeamTurn(TeamColor.WHITE);
+            }
+        }
+        else {
+            throw new InvalidMoveException("Illegal move, please make a different move");
+        }
     }
 
     /**
@@ -91,7 +109,10 @@ public class ChessGame {
      * @return True if the specified team is in checkmate
      */
     public boolean isInCheckmate(TeamColor teamColor) {
-        throw new RuntimeException("Not implemented");
+        if (!isInCheck(teamColor)) {
+            return false;
+        }
+        return false;
     }
 
     /**
