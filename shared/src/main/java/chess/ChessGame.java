@@ -67,28 +67,7 @@ public class ChessGame {
      * @throws InvalidMoveException if move is invalid
      */
     public void makeMove(ChessMove move) throws InvalidMoveException {
-        Collection<ChessMove> validMoves = validMoves(move.getStartPosition());
-        TeamColor pieceColor = gameBoard.getPiece(move.getStartPosition()).getTeamColor();
-        if (validMoves != null && validMoves.contains(move) &&
-                !isInCheck(pieceColor)) {
-            if (move.getPromotionPiece() != null) {
-                gameBoard.addPiece(move.getEndPosition(), new ChessPiece(pieceColor,move.getPromotionPiece()));
-            }
-            else {
-                ChessPiece.PieceType type = gameBoard.getPiece(move.getStartPosition()).getPieceType();
-                gameBoard.addPiece(move.getEndPosition(), new ChessPiece(pieceColor,type));
-            }
-            gameBoard.addPiece(move.getStartPosition(), null);
-            if (getTeamTurn() == TeamColor.WHITE) {
-                setTeamTurn(TeamColor.BLACK);
-            }
-            else {
-                setTeamTurn(TeamColor.WHITE);
-            }
-        }
-        else {
-            throw new InvalidMoveException("Illegal move, please make a different move");
-        }
+        throw new InvalidMoveException("Illegal move, please make a different move");
     }
 
     /**
@@ -98,37 +77,7 @@ public class ChessGame {
      * @return True if the specified team is in check
      */
     public boolean isInCheck(TeamColor teamColor) {
-        int rows;
-        int cols;
-        ChessPosition checkHere;
-        ChessPosition theKing = new ChessPosition(1,1);
-        for (rows = 1; rows <= 8; rows++) {
-            for (cols = 1; cols <= 8; cols++) {
-                checkHere = new ChessPosition(rows,cols);
-                if (gameBoard.getPiece(checkHere) != null &&
-                        gameBoard.getPiece(checkHere).getPieceType() == ChessPiece.PieceType.KING &&
-                        gameBoard.getPiece(checkHere).getTeamColor() == teamColor) {
-                    theKing = new ChessPosition(rows,cols);
-                    break;
-                }
-            }
-        }
-        for (rows = 1; rows <= 8; rows++) {
-            for (cols = 1; cols <= 8; cols++) {
-                checkHere = new ChessPosition(rows,cols);
-                if (gameBoard.getPiece(checkHere) != null &&
-                        gameBoard.getPiece(checkHere).getTeamColor() != teamColor) {
-                    Collection<ChessMove> hypotheticalMoves = validMoves(checkHere);
-                    for (ChessMove move : hypotheticalMoves) {
-                        ChessPosition endPos = move.getEndPosition();
-                        if (endPos == theKing) {
-                            return true;
-                        }
-                    }
-                }
-            }
-        }
-        return false;
+        throw new RuntimeException("Redo this function dude");
     }
 
     /**
@@ -138,10 +87,7 @@ public class ChessGame {
      * @return True if the specified team is in checkmate
      */
     public boolean isInCheckmate(TeamColor teamColor) {
-        if (!isInCheck(teamColor)) {
-            return false;
-        }
-        return false;
+        throw new RuntimeException("Redo this function dude");
     }
 
     /**
