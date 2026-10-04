@@ -147,7 +147,6 @@ public class ChessGame {
         if (!isInCheck(teamColor)) {
             return false;
         }
-        int row;
         ChessPosition kingPos;
         if (teamColor == TeamColor.WHITE) {
             kingPos = whiteKingPos;
@@ -155,10 +154,7 @@ public class ChessGame {
         else {
             kingPos = blackKingPos;
         }
-        if (validMoves(kingPos) == null) {
-            return true;
-        }
-        return false;
+        return validMoves(kingPos) == null;
     }
 
     /**
