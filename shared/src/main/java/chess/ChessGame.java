@@ -89,10 +89,10 @@ public class ChessGame {
                 gameBoard.addPiece(move.getStartPosition(), null);
                 if (type == ChessPiece.PieceType.KING) {
                     if (color == TeamColor.WHITE) {
-                        whiteKingPos = move.getEndPosition();
+                        setWhiteKingPos(move.getEndPosition());
                     }
                     else {
-                        blackKingPos = move.getEndPosition();
+                        setBlackKingPos(move.getEndPosition());
                     }
                 }
             }
