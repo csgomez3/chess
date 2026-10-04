@@ -147,7 +147,18 @@ public class ChessGame {
         if (!isInCheck(teamColor)) {
             return false;
         }
-        return true;
+        int row;
+        ChessPosition kingPos;
+        if (teamColor == TeamColor.WHITE) {
+            kingPos = whiteKingPos;
+        }
+        else {
+            kingPos = blackKingPos;
+        }
+        if (validMoves(kingPos) == null) {
+            return true;
+        }
+        return false;
     }
 
     /**
