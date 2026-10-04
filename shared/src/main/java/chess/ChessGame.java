@@ -102,6 +102,7 @@ public class ChessGame {
                     setTeamTurn(TeamColor.WHITE);
                 }
             }
+            return;
         }
         throw new InvalidMoveException("Illegal move, please make a different move");
     }
