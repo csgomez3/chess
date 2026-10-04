@@ -164,10 +164,7 @@ public class ChessGame {
         if (teamColor == TeamColor.WHITE && validMoves(whiteKingPos) == null) {
             return true;
         }
-        if (validMoves(blackKingPos) == null) {
-            return true;
-        }
-        return false;
+        return teamColor == TeamColor.BLACK && validMoves(blackKingPos) == null;
     }
 
     /**
