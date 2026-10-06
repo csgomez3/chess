@@ -95,12 +95,9 @@ public class ChessGame {
 
         hypothetical = getBoard();
 
-        System.out.println(validMoveList);
         for ( ChessMove invalidMove : toRemove ) {
             validMoveList.remove(invalidMove);
-            System.out.println(invalidMove);
         }
-        System.out.println(validMoveList);
 
         return validMoveList;
     }
@@ -112,7 +109,8 @@ public class ChessGame {
      * @throws InvalidMoveException if move is invalid
      */
     public void makeMove(ChessMove move) throws InvalidMoveException {
-        if (gameBoard.getPiece(move.getStartPosition()) == null) {
+        ChessPiece moveCandidate = gameBoard.getPiece(move.getStartPosition());
+        if (moveCandidate == null) {
             throw new InvalidMoveException("No piece exists here");
         }
         Collection<ChessMove> validMoveList = validMoves(move.getStartPosition());
@@ -120,15 +118,14 @@ public class ChessGame {
             throw new InvalidMoveException("No valid moves for this piece");
         }
         if (validMoveList.contains(move)) {
-            System.out.println(gameBoard.getPiece(move.getStartPosition()));
-            TeamColor color = gameBoard.getPiece(move.getStartPosition()).getTeamColor();
+            TeamColor color = moveCandidate.getTeamColor();
             if (color == getTeamTurn()) {
                 ChessPiece.PieceType type;
                 if (move.getPromotionPiece() != null) {
                     type = move.getPromotionPiece();
                 }
                 else {
-                    type = gameBoard.getPiece(move.getStartPosition()).getPieceType();
+                    type = moveCandidate.getPieceType();
                 }
                 gameBoard.addPiece(move.getEndPosition(), new ChessPiece(color, type));
                 gameBoard.addPiece(move.getStartPosition(), null);
@@ -182,7 +179,10 @@ public class ChessGame {
         if (!isInCheck(teamColor)) {
             return false;
         }
-        return validMoves(getKingPos(teamColor)).isEmpty();
+        ChessPosition kingPos = getKingPos(teamColor);
+
+        //Can any future moves save the king?
+        return true;
     }
 
     /**
