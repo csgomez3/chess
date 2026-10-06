@@ -66,21 +66,42 @@ public class ChessGame {
         ChessPiece toMove = gameBoard.getPiece(startPosition);
         Collection<ChessMove> validMoveList = toMove.pieceMoves(gameBoard, startPosition);
         Collection<ChessMove> toRemove = new ArrayList<>();
+        ChessGame.TeamColor color = toMove.getTeamColor();
+        ChessPosition kingPos;
+        if (color == TeamColor.WHITE) {
+            kingPos = whiteKingPos;
+        }
+        else {
+            kingPos = blackKingPos;
+        }
 
         for ( ChessMove move : validMoveList ) {
             hypotheticalBoardReset(gameBoard);
             ChessPiece.PieceType type;
-            ChessGame.TeamColor color = toMove.getTeamColor();
             if (move.getPromotionPiece() != null) {
                 type = move.getPromotionPiece();
             }
             else {
                 type = toMove.getPieceType();
             }
+            if (type == ChessPiece.PieceType.KING) {
+                kingPos = move.getEndPosition();
+            }
             hypothetical.addPiece(move.getEndPosition(), new ChessPiece(color, type));
             hypothetical.addPiece(move.getStartPosition(), null);
-            if (isInCheck(color)) {
-                toRemove.add(move);
+            for (int row = 1; row <= 8; row++) {
+                for (int col = 1; col <= 8; col++) {
+                    ChessPosition compare = new ChessPosition(row, col);
+                    if (hypothetical.getPiece(compare) != null
+                            && hypothetical.getPiece(compare).getTeamColor() != color) {
+                        Collection<ChessMove> enemyMoves = hypothetical.getPiece(compare).pieceMoves(hypothetical,compare);
+                        for ( ChessMove enemyMove : enemyMoves ) {
+                            if (enemyMove.getEndPosition() == kingPos) {
+                                toRemove.add(move);
+                            }
+                        }
+                    }
+                }
             }
         }
 
