@@ -13,16 +13,14 @@ import java.util.ArrayList;
 public class ChessGame {
     ChessBoard gameBoard;
     TeamColor turn;
-    ChessPosition whiteKingPos;
-    ChessPosition blackKingPos;
     ChessBoard hypothetical;
 
     public ChessGame() {
         this.gameBoard = new ChessBoard();
         this.turn = TeamColor.WHITE;
-        this.whiteKingPos = new ChessPosition(1,5);
-        this.blackKingPos = new ChessPosition(8,5);
         this.hypothetical = new ChessBoard();
+        gameBoard.resetBoard();
+        hypothetical.resetBoard();
     }
 
     /**
@@ -65,45 +63,6 @@ public class ChessGame {
         Collection<ChessMove> validMoveList = toMove.pieceMoves(gameBoard, startPosition);
         Collection<ChessMove> toRemove = new ArrayList<>();
         ChessGame.TeamColor color = toMove.getTeamColor();
-        ChessPosition kingPos;
-        if (color == TeamColor.WHITE) {
-            kingPos = whiteKingPos;
-        }
-        else {
-            kingPos = blackKingPos;
-        }
-
-        for ( ChessMove move : validMoveList ) {
-            hypotheticalBoardReset(gameBoard);
-            ChessPiece.PieceType type;
-            if (move.getPromotionPiece() != null) {
-                type = move.getPromotionPiece();
-            }
-            else {
-                type = toMove.getPieceType();
-            }
-            if (type == ChessPiece.PieceType.KING) {
-                kingPos = move.getEndPosition();
-            }
-            hypothetical.addPiece(move.getEndPosition(), new ChessPiece(color, type));
-            hypothetical.addPiece(move.getStartPosition(), null);
-            for (int row = 1; row <= 8; row++) {
-                for (int col = 1; col <= 8; col++) {
-                    ChessPosition compare = new ChessPosition(row, col);
-                    if (hypothetical.getPiece(compare) != null
-                            && hypothetical.getPiece(compare).getTeamColor() != color) {
-                        Collection<ChessMove> enemyMoves = hypothetical.getPiece(compare).pieceMoves(hypothetical,compare);
-                        for ( ChessMove enemyMove : enemyMoves ) {
-                            if (enemyMove.getEndPosition() == kingPos) {
-                                toRemove.add(move);
-                            }
-                        }
-                    }
-                }
-            }
-        }
-
-        hypotheticalBoardReset(gameBoard);
 
         for ( ChessMove invalidMove : toRemove ) {
             validMoveList.remove(invalidMove);
@@ -135,14 +94,6 @@ public class ChessGame {
                 }
                 gameBoard.addPiece(move.getEndPosition(), new ChessPiece(color, type));
                 gameBoard.addPiece(move.getStartPosition(), null);
-                if (type == ChessPiece.PieceType.KING) {
-                    if (color == TeamColor.WHITE) {
-                        storeWhiteKingPos(move.getEndPosition());
-                    }
-                    else {
-                        storeBlackKingPos(move.getEndPosition());
-                    }
-                }
                 if (color == TeamColor.WHITE) {
                     setTeamTurn(TeamColor.BLACK);
                 }
@@ -164,13 +115,7 @@ public class ChessGame {
      */
     //FIX THIS FUNCTION
     public boolean isInCheck(TeamColor teamColor) {
-        ChessPosition kingPos;
-        if (teamColor == TeamColor.WHITE) {
-            kingPos = whiteKingPos;
-        }
-        else {
-            kingPos = blackKingPos;
-        }
+        ChessPosition kingPos = getKingPos(teamColor);
         for (int row = 1; row <= 8; row++) {
             for (int col = 1; col <= 8; col++) {
                 ChessPosition checkHere = new ChessPosition(row,col);
@@ -199,14 +144,7 @@ public class ChessGame {
         if (!isInCheck(teamColor)) {
             return false;
         }
-        ChessPosition kingPos;
-        if (teamColor == TeamColor.WHITE) {
-            kingPos = whiteKingPos;
-        }
-        else {
-            kingPos = blackKingPos;
-        }
-        return validMoves(kingPos) == null;
+        return validMoves(getKingPos(teamColor)) == null;
     }
 
     /**
@@ -220,10 +158,7 @@ public class ChessGame {
         if (isInCheck(teamColor)) {
             return false;
         }
-        if (teamColor == TeamColor.WHITE && validMoves(whiteKingPos) == null) {
-            return true;
-        }
-        return teamColor == TeamColor.BLACK && validMoves(blackKingPos) == null;
+        return validMoves(getKingPos(teamColor)) == null;
     }
 
     /**
@@ -244,23 +179,19 @@ public class ChessGame {
         return this.gameBoard;
     }
 
-    public void hypotheticalBoardReset(ChessBoard board) {
+    public ChessPosition getKingPos(TeamColor color) {
         for (int row = 1; row <= 8; row++) {
             for (int col = 1; col <= 8; col++) {
-                ChessPosition pos = new ChessPosition(row,col);
-                this.hypothetical.addPiece(pos, null);
-                ChessPiece type = board.getPiece(pos);
-                this.hypothetical.addPiece(pos, type);
+                ChessPosition checkHere = new ChessPosition(row,col);
+                if(gameBoard.getPiece(checkHere) != null) {
+                    ChessPiece pieceToCheck = gameBoard.getPiece(checkHere);
+                    if (pieceToCheck.getPieceType() == ChessPiece.PieceType.KING && pieceToCheck.getTeamColor() == color) {
+                        return checkHere;
+                    }
+                }
             }
         }
-    }
-
-    public void storeWhiteKingPos(ChessPosition newKingPos) {
-        whiteKingPos = newKingPos;
-    }
-
-    public void storeBlackKingPos(ChessPosition newKingPos) {
-        blackKingPos = newKingPos;
+        return null;
     }
 
     @Override
@@ -277,13 +208,11 @@ public class ChessGame {
         ChessGame toComp = (ChessGame)obj;
         return toComp.gameBoard.equals(this.gameBoard)
                 && toComp.turn.equals(this.turn)
-                && toComp.whiteKingPos.equals(this.whiteKingPos)
-                && toComp.blackKingPos.equals(this.blackKingPos)
                 && toComp.hypothetical.equals(this.hypothetical);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(this.gameBoard, this.turn, this.whiteKingPos, this.blackKingPos, this.hypothetical);
+        return Objects.hash(this.gameBoard, this.turn, this.hypothetical);
     }
 }
