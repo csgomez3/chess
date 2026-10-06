@@ -19,12 +19,10 @@ public class ChessGame {
 
     public ChessGame() {
         this.gameBoard = new ChessBoard();
-        this.gameBoard.resetBoard();
+        this.turn = TeamColor.WHITE;
         this.whiteKingPos = new ChessPosition(1,5);
         this.blackKingPos = new ChessPosition(8,5);
-        this.turn = TeamColor.WHITE;
         this.hypothetical = new ChessBoard();
-        hypotheticalBoardReset(this.gameBoard);
     }
 
     /**
@@ -179,7 +177,9 @@ public class ChessGame {
                 if (gameBoard.getPiece(checkHere) != null
                         && gameBoard.getPiece(checkHere).getTeamColor() != teamColor) {
                     for ( ChessMove moves : gameBoard.getPiece(checkHere).pieceMoves(gameBoard, checkHere) ) {
-                        if (moves.getEndPosition() == kingPos) {
+                        System.out.println(String.format("King at %s", kingPos));
+                        System.out.println(moves);
+                        if (moves.getEndPosition().equals(kingPos)) {
                             return true;
                         }
                     }
@@ -232,7 +232,7 @@ public class ChessGame {
      * @param board the new board to use
      */
     public void setBoard(ChessBoard board) {
-        board.resetBoard();
+        this.gameBoard = board;
     }
 
     /**
