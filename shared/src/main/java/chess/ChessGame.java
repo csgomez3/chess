@@ -58,6 +58,7 @@ public class ChessGame {
      * @return Set of valid moves for requested piece, or null if no piece at
      * startPosition
      */
+    //FIX THIS FUNCTION
     public Collection<ChessMove> validMoves(ChessPosition startPosition) {
         if (gameBoard.getPiece(startPosition) == null) {
             return null;
@@ -67,9 +68,9 @@ public class ChessGame {
         Collection<ChessMove> toRemove = new ArrayList<>();
 
         for ( ChessMove move : validMoveList ) {
+            hypotheticalBoardReset(gameBoard);
             ChessPiece.PieceType type;
             ChessGame.TeamColor color = toMove.getTeamColor();
-            hypotheticalBoardReset(gameBoard);
             if (move.getPromotionPiece() != null) {
                 type = move.getPromotionPiece();
             }
@@ -83,11 +84,12 @@ public class ChessGame {
             }
         }
 
+        hypotheticalBoardReset(gameBoard);
+
         for ( ChessMove invalidMove : toRemove ) {
             validMoveList.remove(invalidMove);
         }
 
-        hypotheticalBoardReset(gameBoard);
         return validMoveList;
     }
 
@@ -99,9 +101,8 @@ public class ChessGame {
      */
     public void makeMove(ChessMove move) throws InvalidMoveException {
         Collection<ChessMove> validMoveList = validMoves(move.getStartPosition());
-        hypotheticalBoardReset(gameBoard);
         if (validMoveList == null) {
-            throw new InvalidMoveException("Illegal move, please make a different move");
+            throw new InvalidMoveException("No valid moves for this piece");
         }
         if (validMoveList.contains(move)) {
             TeamColor color = gameBoard.getPiece(move.getStartPosition()).getTeamColor();
@@ -117,10 +118,10 @@ public class ChessGame {
                 gameBoard.addPiece(move.getStartPosition(), null);
                 if (type == ChessPiece.PieceType.KING) {
                     if (color == TeamColor.WHITE) {
-                        setWhiteKingPos(move.getEndPosition());
+                        storeWhiteKingPos(move.getEndPosition());
                     }
                     else {
-                        setBlackKingPos(move.getEndPosition());
+                        storeBlackKingPos(move.getEndPosition());
                     }
                 }
                 if (color == TeamColor.WHITE) {
@@ -142,22 +143,21 @@ public class ChessGame {
      * @param teamColor which team to check for check
      * @return True if the specified team is in check
      */
+    //FIX THIS FUNCTION
     public boolean isInCheck(TeamColor teamColor) {
         ChessPosition kingPos;
-        int row;
-        int col;
         if (teamColor == TeamColor.WHITE) {
             kingPos = whiteKingPos;
         }
         else {
             kingPos = blackKingPos;
         }
-        for (row = 1; row <= 8; row++) {
-            for (col = 1; col <= 8; col++) {
+        for (int row = 1; row <= 8; row++) {
+            for (int col = 1; col <= 8; col++) {
                 ChessPosition checkHere = new ChessPosition(row,col);
-                if (hypothetical.getPiece(checkHere) != null
-                        && hypothetical.getPiece(checkHere).getTeamColor() != teamColor) {
-                    for ( ChessMove moves : hypothetical.getPiece(checkHere).pieceMoves(hypothetical, checkHere) ) {
+                if (gameBoard.getPiece(checkHere) != null
+                        && gameBoard.getPiece(checkHere).getTeamColor() != teamColor) {
+                    for ( ChessMove moves : gameBoard.getPiece(checkHere).pieceMoves(gameBoard, checkHere) ) {
                         if (moves.getEndPosition() == kingPos) {
                             return true;
                         }
@@ -227,17 +227,18 @@ public class ChessGame {
         for (int row = 1; row <= 8; row++) {
             for (int col = 1; col <= 8; col++) {
                 ChessPosition pos = new ChessPosition(row,col);
+                this.hypothetical.addPiece(pos, null);
                 ChessPiece type = board.getPiece(pos);
                 this.hypothetical.addPiece(pos, type);
             }
         }
     }
 
-    public void setWhiteKingPos(ChessPosition newKingPos) {
+    public void storeWhiteKingPos(ChessPosition newKingPos) {
         whiteKingPos = newKingPos;
     }
 
-    public void setBlackKingPos(ChessPosition newKingPos) {
+    public void storeBlackKingPos(ChessPosition newKingPos) {
         blackKingPos = newKingPos;
     }
 
