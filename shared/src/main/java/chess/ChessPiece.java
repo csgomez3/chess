@@ -58,6 +58,11 @@ public class ChessPiece {
     }
 
     @Override
+    public String toString() {
+        return String.format("%s %s", this.getTeamColor(), this.getPieceType());
+    }
+
+    @Override
     public boolean equals(Object obj) {
         if (obj == null) {
             return false;

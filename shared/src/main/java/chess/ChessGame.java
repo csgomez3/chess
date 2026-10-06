@@ -24,6 +24,7 @@ public class ChessGame {
         this.blackKingPos = new ChessPosition(8,5);
         this.turn = TeamColor.WHITE;
         this.hypothetical = new ChessBoard();
+        hypotheticalBoardReset(this.gameBoard);
     }
 
     /**
@@ -112,7 +113,6 @@ public class ChessGame {
                     type = gameBoard.getPiece(move.getStartPosition()).getPieceType();
                 }
                 gameBoard.addPiece(move.getEndPosition(), new ChessPiece(color, type));
-                gameBoard.addPiece(move.getStartPosition(), null);
                 if (type == ChessPiece.PieceType.KING) {
                     if (color == TeamColor.WHITE) {
                         setWhiteKingPos(move.getEndPosition());
