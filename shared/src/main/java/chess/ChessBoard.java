@@ -17,9 +17,6 @@ public class ChessBoard {
         this.squares = new ChessPiece[8][8];
     }
 
-    public ChessBoard(ChessBoard other) {
-        this.squares = Arrays.copyOf(other.squares, other.squares.length);
-    }
 
     /**
      * Adds a chess piece to the chessboard

@@ -2,6 +2,7 @@ package chess;
 
 import java.util.Collection;
 import java.util.Objects;
+import java.util.ArrayList;
 
 /**
  * A class that can manage a chess game, making moves on a board
@@ -14,6 +15,7 @@ public class ChessGame {
     TeamColor turn;
     ChessPosition whiteKingPos;
     ChessPosition blackKingPos;
+    ChessBoard hypothetical;
 
     public ChessGame() {
         this.gameBoard = new ChessBoard();
@@ -21,6 +23,7 @@ public class ChessGame {
         this.whiteKingPos = new ChessPosition(1,5);
         this.blackKingPos = new ChessPosition(8,5);
         this.turn = TeamColor.WHITE;
+        this.hypothetical = new ChessBoard();
     }
 
     /**
@@ -60,7 +63,30 @@ public class ChessGame {
         }
         ChessPiece toMove = gameBoard.getPiece(startPosition);
         Collection<ChessMove> validMoveList = toMove.pieceMoves(gameBoard, startPosition);
+        Collection<ChessMove> toRemove = new ArrayList<>();
 
+        for ( ChessMove move : validMoveList ) {
+            ChessPiece.PieceType type;
+            ChessGame.TeamColor color = toMove.getTeamColor();
+            hypotheticalBoardReset(gameBoard);
+            if (move.getPromotionPiece() != null) {
+                type = move.getPromotionPiece();
+            }
+            else {
+                type = toMove.getPieceType();
+            }
+            hypothetical.addPiece(move.getEndPosition(), new ChessPiece(color, type));
+            hypothetical.addPiece(move.getStartPosition(), null);
+            if (isInCheck(color)) {
+                toRemove.add(move);
+            }
+        }
+
+        for ( ChessMove invalidMove : toRemove ) {
+            validMoveList.remove(invalidMove);
+        }
+
+        hypotheticalBoardReset(gameBoard);
         return validMoveList;
     }
 
@@ -125,9 +151,10 @@ public class ChessGame {
         }
         for (row = 1; row <= 8; row++) {
             for (col = 1; col <= 8; col++) {
-                if (gameBoard.getPiece(new ChessPosition(row,col)) != null
-                        && gameBoard.getPiece(new ChessPosition(row,col)).getTeamColor() != teamColor) {
-                    for ( ChessMove moves : validMoves(new ChessPosition(row,col)) ) {
+                ChessPosition checkHere = new ChessPosition(row,col);
+                if (hypothetical.getPiece(checkHere) != null
+                        && hypothetical.getPiece(checkHere).getTeamColor() != teamColor) {
+                    for ( ChessMove moves : hypothetical.getPiece(checkHere).pieceMoves(hypothetical, checkHere) ) {
                         if (moves.getEndPosition() == kingPos) {
                             return true;
                         }
@@ -193,6 +220,16 @@ public class ChessGame {
         return this.gameBoard;
     }
 
+    public void hypotheticalBoardReset(ChessBoard board) {
+        for (int row = 1; row <= 8; row++) {
+            for (int col = 1; col <= 8; col++) {
+                ChessPosition pos = new ChessPosition(row,col);
+                ChessPiece type = board.getPiece(pos);
+                this.hypothetical.addPiece(pos, type);
+            }
+        }
+    }
+
     public void setWhiteKingPos(ChessPosition newKingPos) {
         whiteKingPos = newKingPos;
     }
@@ -214,13 +251,14 @@ public class ChessGame {
         }
         ChessGame toComp = (ChessGame)obj;
         return toComp.gameBoard.equals(this.gameBoard)
-                && toComp.turn == this.turn
+                && toComp.turn.equals(this.turn)
                 && toComp.whiteKingPos.equals(this.whiteKingPos)
-                && toComp.blackKingPos.equals(this.blackKingPos);
+                && toComp.blackKingPos.equals(this.blackKingPos)
+                && toComp.hypothetical.equals(this.hypothetical);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(this.gameBoard, this.turn, this.whiteKingPos, this.blackKingPos);
+        return Objects.hash(this.gameBoard, this.turn, this.whiteKingPos, this.blackKingPos, this.hypothetical);
     }
 }
