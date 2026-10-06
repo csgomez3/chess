@@ -19,7 +19,7 @@ public class ChessGame {
 
     public ChessGame() {
         this.gameBoard = new ChessBoard();
-        setBoard(gameBoard);
+        this.gameBoard.resetBoard();
         this.whiteKingPos = new ChessPosition(1,5);
         this.blackKingPos = new ChessPosition(8,5);
         this.turn = TeamColor.WHITE;
@@ -99,6 +99,7 @@ public class ChessGame {
      */
     public void makeMove(ChessMove move) throws InvalidMoveException {
         Collection<ChessMove> validMoveList = validMoves(move.getStartPosition());
+        hypotheticalBoardReset(gameBoard);
         if (validMoveList == null) {
             throw new InvalidMoveException("Illegal move, please make a different move");
         }
@@ -113,6 +114,7 @@ public class ChessGame {
                     type = gameBoard.getPiece(move.getStartPosition()).getPieceType();
                 }
                 gameBoard.addPiece(move.getEndPosition(), new ChessPiece(color, type));
+                gameBoard.addPiece(move.getStartPosition(), null);
                 if (type == ChessPiece.PieceType.KING) {
                     if (color == TeamColor.WHITE) {
                         setWhiteKingPos(move.getEndPosition());
@@ -128,9 +130,10 @@ public class ChessGame {
                     setTeamTurn(TeamColor.WHITE);
                 }
             }
-            return;
         }
-        throw new InvalidMoveException("Illegal move, please make a different move");
+        else {
+            throw new InvalidMoveException("Illegal move, please make a different move");
+        }
     }
 
     /**
