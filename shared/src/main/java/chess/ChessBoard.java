@@ -17,6 +17,22 @@ public class ChessBoard {
         this.squares = new ChessPiece[8][8];
     }
 
+    public ChessBoard(ChessBoard original) {
+        this.squares = new ChessPiece[8][8];
+
+        for (int row = 1; row <= 8; row++) {
+            for (int col = 1; col <= 8; col++) {
+                ChessPosition toScan = new ChessPosition(row,col);
+                if (original.getPiece(toScan) != null) {
+                    ChessPiece toClone = original.getPiece(toScan);
+                    ChessGame.TeamColor color = toClone.getTeamColor();
+                    ChessPiece.PieceType type = toClone.getPieceType();
+                    this.addPiece(toScan, new ChessPiece(color, type));
+                }
+            }
+        }
+    }
+
 
     /**
      * Adds a chess piece to the chessboard

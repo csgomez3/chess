@@ -20,7 +20,7 @@ public class ChessGame {
         this.turn = TeamColor.WHITE;
         this.hypothetical = new ChessBoard();
         gameBoard.resetBoard();
-        hypothetical.resetBoard();
+        hypotheticalBoardSetUp(getBoard());
     }
 
     /**
@@ -66,7 +66,7 @@ public class ChessGame {
         ChessPiece.PieceType type;
 
         for ( ChessMove move : validMoveList ) {
-            hypothetical = getBoard();
+            hypotheticalBoardSetUp(getBoard());
             if (move.getPromotionPiece() != null) {
                 type = move.getPromotionPiece();
             }
@@ -92,8 +92,7 @@ public class ChessGame {
                 }
             }
         }
-
-        hypothetical = getBoard();
+        hypotheticalBoardSetUp(getBoard());
 
         for ( ChessMove invalidMove : toRemove ) {
             validMoveList.remove(invalidMove);
@@ -226,6 +225,10 @@ public class ChessGame {
      */
     public ChessBoard getBoard() {
         return this.gameBoard;
+    }
+
+    public void hypotheticalBoardSetUp(ChessBoard board) {
+        hypothetical = new ChessBoard(board);
     }
 
     public ChessPosition getKingPos(TeamColor color) {
