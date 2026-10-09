@@ -62,16 +62,9 @@ public class ChessMove {
             return false;
         }
         ChessMove comp = (ChessMove)obj;
-        boolean promoPieceEqual;
-        if (this.promotionPiece == null) {
-            promoPieceEqual = this.promotionPiece == comp.promotionPiece;
-        }
-        else {
-            promoPieceEqual = this.promotionPiece.equals(comp.promotionPiece);
-        }
         return this.startPosition.equals(comp.startPosition) &&
                 this.endPosition.equals(comp.endPosition) &&
-                promoPieceEqual;
+                this.promotionPiece == comp.promotionPiece;
     }
 
     @Override
