@@ -3,6 +3,9 @@ package server;
 import io.javalin.*;
 import io.javalin.http.Context;
 import com.google.gson.*;
+import model.UserData;
+import model.GameData;
+import model.AuthData;
 
 public class Server {
 
@@ -12,17 +15,12 @@ public class Server {
         javalin = Javalin.create(config -> config.staticFiles.add("web"))
 
         // Register your endpoints and exception handlers here.
-                .post("/user", this::createUser)
-                .get("/user", this::getUser)
-                .delete("/user", this::clearUsers)
-                .post("/game", this::createGame)
-                .get("/game", this::getGame)
-                .get("/game", this::listGames)
-                .delete("/game", this::clearGames)
-                .post("/auth", this::createAuth)
-                .get("/auth", this::getAuth)
-                .delete("/auth", this::deleteAuth)
-                .delete("/auth", this::clearAuthTokens);
+                .post("/db", this::register)
+                .post("/db", this::login)
+                .get("/db", this::logout)
+                .post("/db", this::createGame)
+                .put("/db", this::joinGame)
+                .delete("/db", this::clearApp);
     }
 
     public int run(int desiredPort) {
@@ -34,15 +32,15 @@ public class Server {
         javalin.stop();
     }
 
-    private void createUser(Context ctx) {
+    private void register(Context ctx) {
 
     }
 
-    private void getUser(Context ctx) {
+    private void login(Context ctx) {
 
     }
 
-    private void clearUsers(Context ctx) {
+    private void logout(Context ctx) {
 
     }
 
@@ -50,31 +48,11 @@ public class Server {
 
     }
 
-    private void getGame(Context ctx) {
+    private void joinGame(Context ctx) {
 
     }
 
-    private void listGames(Context ctx) {
-
-    }
-
-    private void clearGames(Context ctx) {
-
-    }
-
-    private void createAuth(Context ctx) {
-
-    }
-
-    private void getAuth(Context ctx) {
-
-    }
-
-    private void deleteAuth(Context ctx) {
-
-    }
-
-    private void clearAuthTokens(Context ctx) {
+    private void clearApp(Context ctx) {
 
     }
 }
