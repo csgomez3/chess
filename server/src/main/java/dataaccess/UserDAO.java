@@ -1,7 +1,7 @@
 package dataaccess;
 
 public class UserDAO {
-    void clear() {
+    void clearUsers() {
 
     }
 

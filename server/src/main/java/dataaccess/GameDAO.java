@@ -3,7 +3,7 @@ package dataaccess;
 import java.util.Collection
 
 public class GameDAO {
-    void clear() {
+    void clearGames() {
 
     }
 

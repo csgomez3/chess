@@ -1,7 +1,7 @@
 package dataaccess;
 
 public class AuthDAO {
-    void clear() {
+    void clearAuthTokens() {
 
     }
 
