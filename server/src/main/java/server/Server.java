@@ -6,10 +6,14 @@ import com.google.gson.*;
 import model.UserData;
 import model.GameData;
 import model.AuthData;
+import service.UserService;
+import service.request.RegisterRequest;
+import service.result.RegisterResult;
 
 public class Server {
 
     private final Javalin javalin;
+    private final UserService userService;
 
     public Server() {
         javalin = Javalin.create(config -> config.staticFiles.add("web"))
@@ -21,6 +25,8 @@ public class Server {
                 .post("/db", this::createGame)
                 .put("/db", this::joinGame)
                 .delete("/db", this::clearApp);
+
+        userService = new UserService();
     }
 
     public int run(int desiredPort) {
@@ -33,7 +39,10 @@ public class Server {
     }
 
     private void register(Context ctx) {
-
+        UserData user = new Gson().fromJson(ctx.body(), UserData.class);
+        RegisterRequest request = new RegisterRequest(user.username(), user.password(), user.email());
+        RegisterResult result = userService.register(request);
+        ctx.json(result.toString());
     }
 
     private void login(Context ctx) {
