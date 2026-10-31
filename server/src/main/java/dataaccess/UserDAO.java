@@ -1,15 +1,33 @@
 package dataaccess;
 
+import model.UserData;
+import java.util.ArrayList;
+import service.request.RegisterRequest;
+
 public class UserDAO {
-    void clearUsers() {
+
+    ArrayList<UserData> users = new ArrayList<UserData>();
+
+    public void clearUsers() {
 
     }
 
-    boolean createUser() {
-
+    public UserData createUser(RegisterRequest request) {
+        UserData newUser = new UserData(request.username(), request.password(), request.email());
+        users.add(newUser);
+        return newUser;
     }
 
-    boolean getUser() {
+    public UserData getUser(String username) {
+        for (UserData user : users) {
+            if (user.username().equals(username)) {
+                return user;
+            }
+        }
+        return null;
+    }
+
+    public UserData getUser(String username, String password) {
 
     }
 }

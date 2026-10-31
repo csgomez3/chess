@@ -9,9 +9,17 @@ import service.result.LoginResult;
 import dataaccess.UserDAO;
 import dataaccess.AuthDAO;
 
+import model.UserData;
+
 public class UserService {
+
+    private final UserDAO userDao = new UserDAO();
+
     public RegisterResult register(RegisterRequest request) {
-        
+        if (userDao.getUser(request.username()) != null) {
+            //Throw an error
+        }
+        userDao.createUser(request);
     }
 
     public LoginResult login(LoginRequest request) {
