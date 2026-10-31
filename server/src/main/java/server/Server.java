@@ -19,11 +19,11 @@ public class Server {
         javalin = Javalin.create(config -> config.staticFiles.add("web"))
 
         // Register your endpoints and exception handlers here.
-                .post("/db", this::register)
-                .post("/db", this::login)
-                .get("/db", this::logout)
-                .post("/db", this::createGame)
-                .put("/db", this::joinGame)
+                .post("/user", this::register)
+                .post("/session", this::login)
+                .get("/session", this::logout)
+                .post("/game", this::createGame)
+                .put("/game", this::joinGame)
                 .delete("/db", this::clearApp);
 
         userService = new UserService();
