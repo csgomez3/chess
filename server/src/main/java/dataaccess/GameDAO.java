@@ -1,22 +1,34 @@
 package dataaccess;
 
-import java.util.Collection
+import java.util.ArrayList;
+
+import model.GameData;
+
+import exception.NoGameFoundException;
 
 public class GameDAO {
-    void clearGames() {
 
+    ArrayList<GameData> games = new ArrayList<GameData>();
+
+    void clearGames() {
+        games.clear();
     }
 
     boolean createGame() {
 
     }
 
-    chess.ChessGame getGame() {
-
+    GameData getGame(int GameID) {
+        for (GameData game: games) {
+            if (game.gameID() == GameID) {
+                return game;
+            }
+        }
+        throw new NoGameFoundException("Error: bad request: no game with that ID found");
     }
 
-    Collection<chess.ChessGame> listGames() {
-
+    ArrayList<GameData> listGames() {
+        return this.games;
     }
 
     boolean updateGame() {

@@ -3,6 +3,8 @@ package dataaccess;
 import java.util.ArrayList;
 import java.util.UUID;
 
+import exception.UnauthorizedException;
+
 import model.AuthData;
 
 public class AuthDAO {
@@ -10,7 +12,9 @@ public class AuthDAO {
     ArrayList<AuthData> authList = new ArrayList<AuthData>();
 
     public void clearAuthTokens() {
-
+        for (AuthData auth : authList) {
+            deleteAuth(auth);
+        }
     }
 
     public AuthData createAuth(String username) {
@@ -19,11 +23,16 @@ public class AuthDAO {
         return newAuth;
     }
 
-    public String getAuth() {
-        return new String();
+    public AuthData getAuth(String username) {
+        for (AuthData auth : authList) {
+            if (auth.username().equals(username)) {
+                return auth;
+            }
+        }
+        throw new UnauthorizedException("Error: unauthorized");
     }
 
-    public boolean deleteAuth() {
-        return false;
+    public void deleteAuth(AuthData auth) {
+
     }
 }

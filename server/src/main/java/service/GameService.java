@@ -7,6 +7,7 @@ import service.result.CreationResult;
 import service.result.ColorAssignResult;
 
 public class GameService {
+    /**
     public GameList getGameList(VerifyRequest request) {
 
     }
@@ -18,4 +19,5 @@ public class GameService {
     public ColorAssignResult joinGame(JoinRequest request) {
 
     }
+     */
 }

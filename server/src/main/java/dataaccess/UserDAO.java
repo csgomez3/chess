@@ -1,5 +1,6 @@
 package dataaccess;
 
+import exception.IncorrectPasswordException;
 import model.UserData;
 import java.util.ArrayList;
 import service.request.RegisterRequest;
@@ -9,7 +10,7 @@ public class UserDAO {
     ArrayList<UserData> users = new ArrayList<UserData>();
 
     public void clearUsers() {
-
+        users.clear();
     }
 
     public UserData createUser(RegisterRequest request) {
@@ -28,6 +29,16 @@ public class UserDAO {
     }
 
     public UserData getUser(String username, String password) {
-        return new UserData(new String(), new String(), new String());
+        for (UserData user : users) {
+            if (user.username().equals(username)) {
+                if (user.password().equals(password)) {
+                    return user;
+                }
+                else {
+                    throw new IncorrectPasswordException("Error: Unauthorized: incorrect password");
+                }
+            }
+        }
+        return null;
     }
 }
