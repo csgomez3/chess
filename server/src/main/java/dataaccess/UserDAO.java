@@ -28,6 +28,6 @@ public class UserDAO {
     }
 
     public UserData getUser(String username, String password) {
-
+        return new UserData(new String(), new String(), new String());
     }
 }

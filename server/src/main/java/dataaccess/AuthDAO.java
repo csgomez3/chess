@@ -1,19 +1,29 @@
 package dataaccess;
 
+import java.util.ArrayList;
+import java.util.UUID;
+
+import model.AuthData;
+
 public class AuthDAO {
-    void clearAuthTokens() {
+
+    ArrayList<AuthData> authList = new ArrayList<AuthData>();
+
+    public void clearAuthTokens() {
 
     }
 
-    boolean createAuth() {
-
+    public AuthData createAuth(String username) {
+        AuthData newAuth = new AuthData(UUID.randomUUID().toString(), username);
+        authList.add(newAuth);
+        return newAuth;
     }
 
-    String getAuth() {
-
+    public String getAuth() {
+        return new String();
     }
 
-    boolean deleteAuth() {
-
+    public boolean deleteAuth() {
+        return false;
     }
 }

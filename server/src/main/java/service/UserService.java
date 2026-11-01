@@ -10,20 +10,26 @@ import dataaccess.UserDAO;
 import dataaccess.AuthDAO;
 
 import model.UserData;
+import model.AuthData;
+
+import exception.AlreadyTakenException;
 
 public class UserService {
 
     private final UserDAO userDao = new UserDAO();
+    private final AuthDAO authDao = new AuthDAO();
 
     public RegisterResult register(RegisterRequest request) {
         if (userDao.getUser(request.username()) != null) {
-            //Throw an error
+            throw new AlreadyTakenException("Error 403: username already taken");
         }
-        userDao.createUser(request);
+        UserData newUser = userDao.createUser(request);
+        AuthData newAuth = authDao.createAuth(newUser.username());
+        return new RegisterResult(newUser.username(), newAuth.authToken());
     }
 
     public LoginResult login(LoginRequest request) {
-
+        return new LoginResult();
     }
 
     public void logout(LogoutRequest request) {
