@@ -23,16 +23,21 @@ public class AuthDAO {
         return newAuth;
     }
 
-    public AuthData getAuth(String username) {
+    public AuthData getAuth(String authToken) {
         for (AuthData auth : authList) {
-            if (auth.username().equals(username)) {
+            if (auth.authToken().equals(authToken)) {
                 return auth;
             }
         }
-        throw new UnauthorizedException("Error: unauthorized");
+        return null;
     }
 
     public void deleteAuth(AuthData auth) {
-
+        for (AuthData authEntry: authList) {
+            if (authEntry.equals(auth)) {
+                authList.remove(auth);
+                return;
+            }
+        }
     }
 }

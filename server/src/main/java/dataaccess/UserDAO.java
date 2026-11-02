@@ -19,23 +19,17 @@ public class UserDAO {
         return newUser;
     }
 
-    public UserData getUser(String username) {
-        for (UserData user : users) {
-            if (user.username().equals(username)) {
-                return user;
-            }
-        }
-        return null;
-    }
-
     public UserData getUser(String username, String password) {
         for (UserData user : users) {
             if (user.username().equals(username)) {
                 if (user.password().equals(password)) {
                     return user;
                 }
-                else {
+                else if (password != null) {
                     throw new IncorrectPasswordException("Error: Unauthorized: incorrect password");
+                }
+                else {
+                    return user;
                 }
             }
         }

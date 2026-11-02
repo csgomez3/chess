@@ -20,7 +20,7 @@ public class UserService {
     private final AuthDAO authDao = new AuthDAO();
 
     public RegisterResult register(RegisterRequest request) {
-        if (userDao.getUser(request.username()) != null) {
+        if (userDao.getUser(request.username(), null) != null) {
             throw new AlreadyTakenException("Error 403: username already taken");
         }
         UserData newUser = userDao.createUser(request);

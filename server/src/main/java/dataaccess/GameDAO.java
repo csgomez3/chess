@@ -6,6 +6,8 @@ import model.GameData;
 
 import exception.NoGameFoundException;
 
+import service.request.CreationRequest;
+
 public class GameDAO {
 
     ArrayList<GameData> games = new ArrayList<GameData>();
@@ -14,7 +16,7 @@ public class GameDAO {
         games.clear();
     }
 
-    public GameData createGame() {
+    public GameData createGame(CreationRequest request) {
 
     }
 
