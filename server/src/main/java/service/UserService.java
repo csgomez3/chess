@@ -4,7 +4,6 @@ import service.request.RegisterRequest;
 import service.request.LoginRequest;
 import service.request.LogoutRequest;
 import service.result.RegisterResult;
-import service.result.LoginResult;
 
 import dataaccess.UserDAO;
 import dataaccess.AuthDAO;
@@ -13,6 +12,8 @@ import model.UserData;
 import model.AuthData;
 
 import exception.AlreadyTakenException;
+import exception.NoUserFoundException;
+import exception.UnauthorizedException;
 
 public class UserService {
 
@@ -28,11 +29,20 @@ public class UserService {
         return new RegisterResult(newUser.username(), newAuth.authToken());
     }
 
-    public LoginResult login(LoginRequest request) {
-        return new LoginResult();
+    public RegisterResult login(LoginRequest request) {
+        UserData returningUser = userDao.getUser(request.username(), request.password());
+        if (returningUser == null) {
+            throw new NoUserFoundException("Error 400: Bad Request: no user with that username found");
+        }
+        AuthData newAuth = authDao.createAuth(returningUser.username());
+        return new RegisterResult(returningUser.username(), newAuth.authToken());
     }
 
     public void logout(LogoutRequest request) {
-
+        AuthData loggingOut = authDao.getAuth(request.authToken());
+        if (loggingOut == null) {
+            throw new UnauthorizedException("Error 401: unauthorized");
+        }
+        authDao.deleteAuth(loggingOut);
     }
 }
