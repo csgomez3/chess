@@ -10,15 +10,15 @@ public class GameDAO {
 
     ArrayList<GameData> games = new ArrayList<GameData>();
 
-    void clearGames() {
+    public void clearGames() {
         games.clear();
     }
 
-    boolean createGame() {
+    public GameData createGame() {
 
     }
 
-    GameData getGame(int GameID) {
+    public GameData getGame(int GameID) {
         for (GameData game: games) {
             if (game.gameID() == GameID) {
                 return game;
@@ -27,11 +27,11 @@ public class GameDAO {
         throw new NoGameFoundException("Error: bad request: no game with that ID found");
     }
 
-    ArrayList<GameData> listGames() {
+    public ArrayList<GameData> listGames() {
         return this.games;
     }
 
-    boolean updateGame() {
+    public void updateGame() {
 
     }
 }

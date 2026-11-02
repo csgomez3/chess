@@ -1,4 +1,4 @@
 package service.request;
 
-public record VerifyRequest() {
+public record VerifyRequest(String authToken) {
 }
