@@ -2,11 +2,10 @@ package dataaccess;
 
 import java.util.ArrayList;
 
+import chess.ChessGame;
 import model.GameData;
 
 import exception.NoGameFoundException;
-
-import service.request.CreationRequest;
 
 public class GameDAO {
 
@@ -16,8 +15,13 @@ public class GameDAO {
         games.clear();
     }
 
-    public GameData createGame(CreationRequest request) {
-
+    public GameData createGame(String gameName) {
+        //DO NOT LEAVE BELOW THIS WAY
+        int randomInt = 1;
+        // DO NOT LEAVE ABOVE THIS WAY
+        GameData newGame = new GameData(randomInt, null, null, gameName, new ChessGame());
+        games.add(newGame);
+        return newGame;
     }
 
     public GameData getGame(int GameID) {
@@ -27,6 +31,15 @@ public class GameDAO {
             }
         }
         throw new NoGameFoundException("Error: bad request: no game with that ID found");
+    }
+
+    public GameData getGame(String gameName) {
+        for (GameData game: games) {
+            if (game.gameName().equals(gameName)) {
+                return game;
+            }
+        }
+        return null;
     }
 
     public ArrayList<GameData> listGames() {
