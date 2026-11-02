@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import chess.ChessGame;
 import model.GameData;
 
+import service.request.UpdateRequest;
+
 import exception.NoGameFoundException;
 
 public class GameDAO {
@@ -46,7 +48,7 @@ public class GameDAO {
         return this.games;
     }
 
-    public void updateGame() {
+    public void updateGame(UpdateRequest request) {
 
     }
 }

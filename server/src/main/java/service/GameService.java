@@ -6,9 +6,15 @@ import service.request.JoinRequest;
 import service.result.CreationResult;
 import service.result.ColorAssignResult;
 
+import java.util.ArrayList;
+
+import dataaccess.GameDAO;
+import dataaccess.AuthDAO;
+
+import model.GameData;
+
 public class GameService {
-    /**
-    public GameList getGameList(VerifyRequest request) {
+    public ArrayList<GameData> getGameList(VerifyRequest request) {
 
     }
 
@@ -19,5 +25,4 @@ public class GameService {
     public ColorAssignResult joinGame(JoinRequest request) {
 
     }
-     */
 }
