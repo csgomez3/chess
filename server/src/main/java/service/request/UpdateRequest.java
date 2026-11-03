@@ -1,4 +1,6 @@
 package service.request;
 
-public record UpdateRequest(String username, String team) {
+import chess.ChessGame;
+
+public record UpdateRequest(String username, ChessGame.TeamColor team) {
 }

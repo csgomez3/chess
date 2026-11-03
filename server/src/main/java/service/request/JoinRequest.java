@@ -1,4 +1,6 @@
 package service.request;
 
-public record JoinRequest(String authToken, String playerColor, int gameID) {
+import model.AuthData;
+
+public record JoinRequest(String authToken, String username, String playerColor, int gameID) {
 }
