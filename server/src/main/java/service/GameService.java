@@ -2,7 +2,6 @@ package service;
 
 import exception.*;
 
-import service.request.UpdateRequest;
 import service.request.VerifyRequest;
 import service.request.CreationRequest;
 import service.request.JoinRequest;
@@ -15,8 +14,6 @@ import dataaccess.GameDAO;
 import dataaccess.AuthDAO;
 
 import model.GameData;
-
-import chess.ChessGame;
 
 public class GameService {
 
@@ -45,27 +42,7 @@ public class GameService {
         if (authDao.getAuth(request.authToken()) == null) {
             throw new UnauthorizedException("Error 401: unauthorized");
         }
-        GameData gameToJoin = gameDao.getGame(request.gameID());
-        if (gameToJoin == null) {
-            throw new NoGameFoundException("Error 400: bad request: no game with that ID found");
-        }
-        String desiredColor = request.playerColor().toUpperCase();
-        ChessGame.TeamColor colorChoice;
-        if (desiredColor.equals("WHITE")) {
-            colorChoice = ChessGame.TeamColor.WHITE;
-            if (gameToJoin.whiteUsername() != null) {
-                throw new ColorTakenException("Error 403: white already taken");
-            }
-        }
-        else if (desiredColor.equals("BLACK")) {
-            colorChoice = ChessGame.TeamColor.BLACK;
-            if (gameToJoin.blackUsername() != null) {
-                throw new ColorTakenException("Error 403: black already taken");
-            }
-        }
-        else {
-            throw new InvalidColorException("Error 400: bad request: invalid color. Please choose white or black");
-        }
-        UpdateRequest update = new UpdateRequest(request.username(), colorChoice);
+        gameDao.updateGame(request.gameID(), request.username(), request.color());
+        return new ColorAssignResult(true);
     }
 }

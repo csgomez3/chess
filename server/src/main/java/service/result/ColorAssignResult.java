@@ -1,4 +1,4 @@
 package service.result;
 
-public record ColorAssignResult() {
+public record ColorAssignResult(boolean result) {
 }

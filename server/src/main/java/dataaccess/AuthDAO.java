@@ -3,8 +3,6 @@ package dataaccess;
 import java.util.ArrayList;
 import java.util.UUID;
 
-import exception.UnauthorizedException;
-
 import model.AuthData;
 
 public class AuthDAO {

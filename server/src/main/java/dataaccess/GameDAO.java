@@ -3,11 +3,10 @@ package dataaccess;
 import java.util.ArrayList;
 
 import chess.ChessGame;
+import exception.ColorTakenException;
 import model.GameData;
 
-import service.request.UpdateRequest;
-
-import exception.NoGameFoundException;
+import exception.*;
 
 public class GameDAO {
 
@@ -48,7 +47,25 @@ public class GameDAO {
         return this.games;
     }
 
-    public void updateGame(UpdateRequest request) {
-
+    public void updateGame(int gameID, String username, String team) {
+        GameData gameToJoin = getGame(gameID);
+        if (gameToJoin == null) {
+            throw new NoGameFoundException("Error 400: bad request: no game with that ID found");
+        }
+        String desiredColor = team.toUpperCase();
+        if (desiredColor.equals("WHITE")) {
+            if (gameToJoin.whiteUsername() != null) {
+                throw new ColorTakenException("Error 403: white already taken");
+            }
+            games.add(new GameData(gameID, username, gameToJoin.blackUsername(), gameToJoin.gameName(), gameToJoin.game()));
+            games.remove(gameToJoin);
+        }
+        else if (desiredColor.equals("BLACK")) {
+            if (gameToJoin.blackUsername() != null) {
+                throw new ColorTakenException("Error 403: black already taken");
+            }
+            games.add(new GameData(gameID, gameToJoin.whiteUsername(), username, gameToJoin.gameName(), gameToJoin.game()));
+            games.remove(gameToJoin);
+        }
     }
 }

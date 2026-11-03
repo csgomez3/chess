@@ -1,6 +1,6 @@
 package dataaccess;
 
-import exception.IncorrectPasswordException;
+import exception.*;
 import model.UserData;
 import java.util.ArrayList;
 import service.request.RegisterRequest;

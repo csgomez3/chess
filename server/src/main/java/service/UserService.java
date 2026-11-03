@@ -11,9 +11,7 @@ import dataaccess.AuthDAO;
 import model.UserData;
 import model.AuthData;
 
-import exception.AlreadyTakenException;
-import exception.NoUserFoundException;
-import exception.UnauthorizedException;
+import exception.*;
 
 public class UserService {
 
