@@ -14,8 +14,8 @@ import model.GameData;
 
 public class GameService {
 
-    GameDAO gameDao;
-    AuthDAO authDao;
+    GameDAO gameDao = new GameDAO();
+    AuthDAO authDao = new AuthDAO();
 
     public ArrayList<GameData> getGameList(VerifyRequest request) {
         if (authDao.getAuth(request.authToken()) == null) {
