@@ -2,11 +2,8 @@ package service;
 
 import exception.*;
 
-import service.request.VerifyRequest;
-import service.request.CreationRequest;
-import service.request.JoinRequest;
-import service.result.CreationResult;
-import service.result.ColorAssignResult;
+import service.request.*;
+import service.result.*;
 
 import java.util.ArrayList;
 
@@ -44,5 +41,9 @@ public class GameService {
         }
         gameDao.updateGame(request.gameID(), request.username(), request.color());
         return new ColorAssignResult(true);
+    }
+
+    public void clearGames() {
+        gameDao.clearGames();
     }
 }

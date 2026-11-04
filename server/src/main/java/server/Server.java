@@ -39,26 +39,40 @@ public class Server {
     }
 
     private void register(Context ctx) {
-
+        RegisterRequest request = new Gson().fromJson(ctx.body(), RegisterRequest.class);
+        RegisterResult result = userService.register(request);
+        ctx.json(result.toString());
     }
 
     private void login(Context ctx) {
-
+        LoginRequest request = new Gson().fromJson(ctx.body(), LoginRequest.class);
+        RegisterResult result = userService.login(request);
+        ctx.json(result.toString());
     }
 
     private void logout(Context ctx) {
-
+        LogoutRequest request = new Gson().fromJson(ctx.body(), LogoutRequest.class);
+        userService.logout(request);
+        //Web socket makes noise
     }
 
     private void createGame(Context ctx) {
-
+        CreationRequest request = new Gson().fromJson(ctx.body(), CreationRequest.class);
+        CreationResult result = gameService.createGame(request);
+        ctx.json(result.toString());
     }
 
     private void joinGame(Context ctx) {
-
+        JoinRequest request = new Gson().fromJson(ctx.body(), JoinRequest.class);
+        ColorAssignResult result = gameService.joinGame(request);
+        if (result.result()) {
+            ctx.status(200);
+        }
     }
 
     private void clearApp(Context ctx) {
-
+        gameService.clearGames();
+        userService.clearUserData();
+        ctx.status(200);
     }
 }

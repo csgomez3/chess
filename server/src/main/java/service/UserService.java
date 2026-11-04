@@ -1,9 +1,7 @@
 package service;
 
-import service.request.RegisterRequest;
-import service.request.LoginRequest;
-import service.request.LogoutRequest;
-import service.result.RegisterResult;
+import service.request.*;
+import service.result.*;
 
 import dataaccess.UserDAO;
 import dataaccess.AuthDAO;
@@ -42,5 +40,10 @@ public class UserService {
             throw new UnauthorizedException("Error 401: unauthorized");
         }
         authDao.deleteAuth(loggingOut);
+    }
+
+    public void clearUserData() {
+        authDao.clearAuthTokens();
+        userDao.clearUsers();
     }
 }
