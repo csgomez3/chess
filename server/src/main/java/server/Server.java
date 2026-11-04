@@ -56,6 +56,11 @@ public class Server {
         //Web socket makes noise
     }
 
+    private void listGames(Context ctx) {
+        VerifyRequest request = new Gson().fromJson(ctx.body(), VerifyRequest.class);
+        ctx.json(gameService.getGameList(request).toString());
+    }
+
     private void createGame(Context ctx) {
         CreationRequest request = new Gson().fromJson(ctx.body(), CreationRequest.class);
         CreationResult result = gameService.createGame(request);
