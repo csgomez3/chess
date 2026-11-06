@@ -40,7 +40,7 @@ public class Server {
         javalin.stop();
     }
 
-    private void register(Context ctx) throws DataAccessException {
+    private void register(Context ctx) {
         RegisterRequest request = new Gson().fromJson(ctx.body(), RegisterRequest.class);
         try {
             RegisterResult result = userService.register(request);
@@ -54,7 +54,7 @@ public class Server {
         }
     }
 
-    private void login(Context ctx) throws DataAccessException {
+    private void login(Context ctx) {
         LoginRequest request = new Gson().fromJson(ctx.body(), LoginRequest.class);
         try {
             RegisterResult result = userService.login(request);
@@ -73,7 +73,7 @@ public class Server {
         }
     }
 
-    private void logout(Context ctx) throws DataAccessException {
+    private void logout(Context ctx) {
         LogoutRequest request = new Gson().fromJson(ctx.body(), LogoutRequest.class);
         try {
             userService.logout(request);
@@ -86,7 +86,7 @@ public class Server {
         }
     }
 
-    private void listGames(Context ctx) throws DataAccessException {
+    private void listGames(Context ctx) {
         VerifyRequest request = new Gson().fromJson(ctx.body(), VerifyRequest.class);
         try {
             ctx.json(new Gson().toJson(gameService.getGameList(request)));
@@ -99,7 +99,7 @@ public class Server {
         }
     }
 
-    private void createGame(Context ctx) throws DataAccessException {
+    private void createGame(Context ctx) {
         CreationRequest request = new Gson().fromJson(ctx.body(), CreationRequest.class);
         try {
             CreationResult result = gameService.createGame(request);
@@ -117,7 +117,7 @@ public class Server {
         }
     }
 
-    private void joinGame(Context ctx) throws DataAccessException {
+    private void joinGame(Context ctx) {
         JoinRequest request = new Gson().fromJson(ctx.body(), JoinRequest.class);
         try {
             ColorAssignResult result = gameService.joinGame(request);
@@ -142,7 +142,7 @@ public class Server {
         }
     }
 
-    private void clearApp(Context ctx) throws DataAccessException {
+    private void clearApp(Context ctx) {
         gameService.clearGames();
         userService.clearUserData();
         ctx.status(200);
