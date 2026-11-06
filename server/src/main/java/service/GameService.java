@@ -19,17 +19,17 @@ public class GameService {
 
     public ArrayList<GameData> getGameList(VerifyRequest request) throws UnauthorizedException {
         if (authDao.getAuth(request.authToken()) == null) {
-            throw new UnauthorizedException("Error: unauthorized");
+            throw new UnauthorizedException("unauthorized");
         }
         return gameDao.listGames();
     }
 
     public CreationResult createGame(CreationRequest request) throws UnauthorizedException, ExistingGameException {
         if (authDao.getAuth(request.authToken()) == null) {
-            throw new UnauthorizedException("Error 401: unauthorized");
+            throw new UnauthorizedException("unauthorized");
         }
         if (gameDao.getGame(request.gameName()) != null) {
-            throw new ExistingGameException("Error 400: bad request");
+            throw new ExistingGameException("bad request");
         }
         GameData newGame = gameDao.createGame(request.gameName());
         return new CreationResult(newGame.gameID());
@@ -37,7 +37,7 @@ public class GameService {
 
     public ColorAssignResult joinGame(JoinRequest request) throws UnauthorizedException {
         if (authDao.getAuth(request.authToken()) == null) {
-            throw new UnauthorizedException("Error 401: unauthorized");
+            throw new UnauthorizedException("unauthorized");
         }
         gameDao.updateGame(request.gameID(), request.username(), request.color());
         return new ColorAssignResult(true);

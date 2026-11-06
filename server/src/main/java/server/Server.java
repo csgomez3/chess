@@ -49,7 +49,7 @@ public class Server {
         }
         catch (AlreadyTakenException e) {
             ctx.status(403);
-            ctx.json(e.getMessage());
+            ctx.json(new Gson().toJson(e.getMessage()));
         }
     }
 
@@ -62,11 +62,11 @@ public class Server {
         }
         catch (NoUserFoundException e) {
             ctx.status(400);
-            ctx.json(e.getMessage());
+            ctx.json(new Gson().toJson(e.getMessage()));
         }
         catch (IncorrectPasswordException e) {
             ctx.status(401);
-            ctx.json(e.getMessage());
+            ctx.json(new Gson().toJson(e.getMessage()));
         }
     }
 
@@ -74,11 +74,11 @@ public class Server {
         LogoutRequest request = new Gson().fromJson(ctx.body(), LogoutRequest.class);
         try {
             userService.logout(request);
-            //Web socket makes noise
+            ctx.status(200);
         }
         catch (UnauthorizedException e) {
             ctx.status(401);
-            ctx.json(e.getMessage());
+            ctx.json(new Gson().toJson(e.getMessage()));
         }
     }
 
@@ -86,10 +86,11 @@ public class Server {
         VerifyRequest request = new Gson().fromJson(ctx.body(), VerifyRequest.class);
         try {
             ctx.json(new Gson().toJson(gameService.getGameList(request)));
+            ctx.status(200);
         }
         catch (UnauthorizedException e) {
             ctx.status(401);
-            ctx.json(e.getMessage());
+            ctx.json(new Gson().toJson(e.getMessage()));
         }
     }
 
@@ -101,9 +102,11 @@ public class Server {
         }
         catch (UnauthorizedException e) {
             ctx.status(401);
+            ctx.json(new Gson().toJson(e.getMessage()));
         }
         catch (ExistingGameException e) {
             ctx.status(400);
+            ctx.json(new Gson().toJson(e.getMessage()));
         }
     }
 
@@ -117,12 +120,15 @@ public class Server {
         }
         catch (UnauthorizedException e) {
             ctx.status(401);
+            ctx.json(new Gson().toJson(e.getMessage()));
         }
         catch (NoGameFoundException e) {
             ctx.status(400);
+            ctx.json(new Gson().toJson(e.getMessage()));
         }
         catch (ColorTakenException e) {
             ctx.status(403);
+            ctx.json(new Gson().toJson(e.getMessage()));
         }
     }
 

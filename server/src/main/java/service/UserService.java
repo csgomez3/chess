@@ -18,7 +18,7 @@ public class UserService {
 
     public RegisterResult register(RegisterRequest request) throws AlreadyTakenException {
         if (userDao.getUser(request.username(), null) != null) {
-            throw new AlreadyTakenException("Error 403: username already taken");
+            throw new AlreadyTakenException("username already taken");
         }
         UserData newUser = userDao.createUser(request);
         AuthData newAuth = authDao.createAuth(newUser.username());
@@ -28,7 +28,7 @@ public class UserService {
     public RegisterResult login(LoginRequest request) throws NoUserFoundException {
         UserData returningUser = userDao.getUser(request.username(), request.password());
         if (returningUser == null) {
-            throw new NoUserFoundException("Error 400: Bad Request: no user with that username found");
+            throw new NoUserFoundException("Bad Request: no user with that username found");
         }
         AuthData newAuth = authDao.createAuth(returningUser.username());
         return new RegisterResult(returningUser.username(), newAuth.authToken());
@@ -37,7 +37,7 @@ public class UserService {
     public void logout(LogoutRequest request) throws UnauthorizedException {
         AuthData loggingOut = authDao.getAuth(request.authToken());
         if (loggingOut == null) {
-            throw new UnauthorizedException("Error 401: unauthorized");
+            throw new UnauthorizedException("unauthorized");
         }
         authDao.deleteAuth(loggingOut);
     }
