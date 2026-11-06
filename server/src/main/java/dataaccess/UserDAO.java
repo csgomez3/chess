@@ -7,7 +7,7 @@ import service.request.RegisterRequest;
 
 public class UserDAO {
 
-    ArrayList<UserData> users = new ArrayList<UserData>();
+    ArrayList<UserData> users = new ArrayList<>();
 
     public void clearUsers() {
         users.clear();
@@ -19,15 +19,10 @@ public class UserDAO {
         return newUser;
     }
 
-    public UserData getUser(String username, String password) {
+    public UserData getUser(String username) {
         for (UserData user : users) {
             if (user.username().equals(username)) {
-                if (user.password().equals(password)) {
-                    return user;
-                }
-                else {
-                    return user;
-                }
+                return user;
             }
         }
         return null;
