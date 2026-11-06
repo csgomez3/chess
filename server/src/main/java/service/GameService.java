@@ -17,14 +17,14 @@ public class GameService {
     GameDAO gameDao = new GameDAO();
     AuthDAO authDao = new AuthDAO();
 
-    public ArrayList<GameData> getGameList(VerifyRequest request) {
+    public ArrayList<GameData> getGameList(VerifyRequest request) throws UnauthorizedException {
         if (authDao.getAuth(request.authToken()) == null) {
             throw new UnauthorizedException("Error: unauthorized");
         }
         return gameDao.listGames();
     }
 
-    public CreationResult createGame(CreationRequest request) {
+    public CreationResult createGame(CreationRequest request) throws UnauthorizedException, ExistingGameException {
         if (authDao.getAuth(request.authToken()) == null) {
             throw new UnauthorizedException("Error 401: unauthorized");
         }
@@ -35,7 +35,7 @@ public class GameService {
         return new CreationResult(newGame.gameID());
     }
 
-    public ColorAssignResult joinGame(JoinRequest request) {
+    public ColorAssignResult joinGame(JoinRequest request) throws UnauthorizedException {
         if (authDao.getAuth(request.authToken()) == null) {
             throw new UnauthorizedException("Error 401: unauthorized");
         }
