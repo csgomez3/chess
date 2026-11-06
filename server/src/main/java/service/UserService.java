@@ -18,7 +18,7 @@ public class UserService {
 
     public RegisterResult register(RegisterRequest request) throws AlreadyTakenException {
         if (userDao.getUser(request.username(), null) != null) {
-            throw new AlreadyTakenException("username already taken");
+            throw new AlreadyTakenException("Error: username already taken");
         }
         UserData newUser = userDao.createUser(request);
         AuthData newAuth = authDao.createAuth(newUser.username());
@@ -28,10 +28,10 @@ public class UserService {
     public RegisterResult login(LoginRequest request) throws NoUserFoundException, IncorrectPasswordException {
         UserData returningUser = userDao.getUser(request.username(), request.password());
         if (returningUser == null) {
-            throw new NoUserFoundException("Bad Request: no user with that username found");
+            throw new NoUserFoundException("Error: bad request: no user with that username found");
         }
         if (!returningUser.password().equals(request.password())) {
-            throw new IncorrectPasswordException("Unauthorized: incorrect password");
+            throw new IncorrectPasswordException("Error: unauthorized: incorrect password");
         }
         AuthData newAuth = authDao.createAuth(returningUser.username());
         return new RegisterResult(returningUser.username(), newAuth.authToken());
@@ -40,7 +40,7 @@ public class UserService {
     public void logout(LogoutRequest request) throws UnauthorizedException {
         AuthData loggingOut = authDao.getAuth(request.authToken());
         if (loggingOut == null) {
-            throw new UnauthorizedException("unauthorized");
+            throw new UnauthorizedException("Error: unauthorized");
         }
         authDao.deleteAuth(loggingOut);
     }

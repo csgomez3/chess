@@ -49,7 +49,8 @@ public class Server {
         }
         catch (AlreadyTakenException e) {
             ctx.status(403);
-            ctx.json(new Gson().toJson(e.getMessage()));
+            ErrorFormat error = new ErrorFormat(e.getMessage());
+            ctx.json(new Gson().toJson(error));
         }
     }
 
@@ -62,11 +63,13 @@ public class Server {
         }
         catch (NoUserFoundException e) {
             ctx.status(400);
-            ctx.json(new Gson().toJson(e.getMessage()));
+            ErrorFormat error = new ErrorFormat(e.getMessage());
+            ctx.json(new Gson().toJson(error));
         }
         catch (IncorrectPasswordException e) {
             ctx.status(401);
-            ctx.json(new Gson().toJson(e.getMessage()));
+            ErrorFormat error = new ErrorFormat(e.getMessage());
+            ctx.json(new Gson().toJson(error));
         }
     }
 
@@ -78,7 +81,8 @@ public class Server {
         }
         catch (UnauthorizedException e) {
             ctx.status(401);
-            ctx.json(new Gson().toJson(e.getMessage()));
+            ErrorFormat error = new ErrorFormat(e.getMessage());
+            ctx.json(new Gson().toJson(error));
         }
     }
 
@@ -90,7 +94,8 @@ public class Server {
         }
         catch (UnauthorizedException e) {
             ctx.status(401);
-            ctx.json(new Gson().toJson(e.getMessage()));
+            ErrorFormat error = new ErrorFormat(e.getMessage());
+            ctx.json(new Gson().toJson(error));
         }
     }
 
@@ -102,11 +107,13 @@ public class Server {
         }
         catch (UnauthorizedException e) {
             ctx.status(401);
-            ctx.json(new Gson().toJson(e.getMessage()));
+            ErrorFormat error = new ErrorFormat(e.getMessage());
+            ctx.json(new Gson().toJson(error));
         }
         catch (ExistingGameException e) {
             ctx.status(400);
-            ctx.json(new Gson().toJson(e.getMessage()));
+            ErrorFormat error = new ErrorFormat(e.getMessage());
+            ctx.json(new Gson().toJson(error));
         }
     }
 
@@ -120,15 +127,18 @@ public class Server {
         }
         catch (UnauthorizedException e) {
             ctx.status(401);
-            ctx.json(new Gson().toJson(e.getMessage()));
+            ErrorFormat error = new ErrorFormat(e.getMessage());
+            ctx.json(new Gson().toJson(error));
         }
         catch (NoGameFoundException e) {
             ctx.status(400);
-            ctx.json(new Gson().toJson(e.getMessage()));
+            ErrorFormat error = new ErrorFormat(e.getMessage());
+            ctx.json(new Gson().toJson(error));
         }
         catch (ColorTakenException e) {
             ctx.status(403);
-            ctx.json(new Gson().toJson(e.getMessage()));
+            ErrorFormat error = new ErrorFormat(e.getMessage());
+            ctx.json(new Gson().toJson(error));
         }
     }
 
