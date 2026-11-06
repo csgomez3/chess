@@ -25,9 +25,6 @@ public class UserDAO {
                 if (user.password().equals(password)) {
                     return user;
                 }
-                else if (password != null) {
-                    throw new IncorrectPasswordException("Error: Unauthorized: incorrect password");
-                }
                 else {
                     return user;
                 }

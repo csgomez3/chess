@@ -1,6 +1,6 @@
 package exception;
 
-public class NoUserFoundException extends RuntimeException {
+public class NoUserFoundException extends Exception {
     public NoUserFoundException(String message) {
         super(message);
     }

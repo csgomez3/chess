@@ -25,10 +25,13 @@ public class UserService {
         return new RegisterResult(newUser.username(), newAuth.authToken());
     }
 
-    public RegisterResult login(LoginRequest request) throws NoUserFoundException {
+    public RegisterResult login(LoginRequest request) throws NoUserFoundException, IncorrectPasswordException {
         UserData returningUser = userDao.getUser(request.username(), request.password());
         if (returningUser == null) {
             throw new NoUserFoundException("Bad Request: no user with that username found");
+        }
+        if (!returningUser.password().equals(request.password())) {
+            throw new IncorrectPasswordException("Unauthorized: incorrect password");
         }
         AuthData newAuth = authDao.createAuth(returningUser.username());
         return new RegisterResult(returningUser.username(), newAuth.authToken());

@@ -31,7 +31,7 @@ public class GameDAO {
                 return game;
             }
         }
-        throw new NoGameFoundException("Error: bad request: no game with that ID found");
+        return null;
     }
 
     public GameData getGame(String gameName) {
@@ -47,25 +47,23 @@ public class GameDAO {
         return this.games;
     }
 
-    public void updateGame(int gameID, String username, String team) {
+    public boolean updateGame(int gameID, String username, String team) {
         GameData gameToJoin = getGame(gameID);
-        if (gameToJoin == null) {
-            throw new NoGameFoundException("Error 400: bad request: no game with that ID found");
-        }
         String desiredColor = team.toUpperCase();
         if (desiredColor.equals("WHITE")) {
             if (gameToJoin.whiteUsername() != null) {
-                throw new ColorTakenException("Error 403: white already taken");
+                return false;
             }
             games.add(new GameData(gameID, username, gameToJoin.blackUsername(), gameToJoin.gameName(), gameToJoin.game()));
             games.remove(gameToJoin);
         }
         else if (desiredColor.equals("BLACK")) {
             if (gameToJoin.blackUsername() != null) {
-                throw new ColorTakenException("Error 403: black already taken");
+                return false;
             }
             games.add(new GameData(gameID, gameToJoin.whiteUsername(), username, gameToJoin.gameName(), gameToJoin.game()));
             games.remove(gameToJoin);
         }
+        return true;
     }
 }
