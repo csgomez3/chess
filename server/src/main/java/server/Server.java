@@ -8,6 +8,7 @@ import service.GameService;
 import service.request.*;
 import service.result.*;
 import dataaccess.DataAccessException;
+import exception.*;
 
 public class Server {
 
@@ -41,38 +42,87 @@ public class Server {
 
     private void register(Context ctx) throws DataAccessException {
         RegisterRequest request = new Gson().fromJson(ctx.body(), RegisterRequest.class);
-        RegisterResult result = userService.register(request);
-        ctx.json(result.toString());
+        try {
+            RegisterResult result = userService.register(request);
+            ctx.status(200);
+            ctx.json(new Gson().toJson(result));
+        }
+        catch (AlreadyTakenException e) {
+            ctx.status(403);
+            ctx.json(e.getMessage());
+        }
     }
 
     private void login(Context ctx) throws DataAccessException {
         LoginRequest request = new Gson().fromJson(ctx.body(), LoginRequest.class);
-        RegisterResult result = userService.login(request);
-        ctx.json(result.toString());
+        try {
+            RegisterResult result = userService.login(request);
+            ctx.status(200);
+            ctx.json(new Gson().toJson(result));
+        }
+        catch (NoUserFoundException e) {
+            ctx.status(400);
+            ctx.json(e.getMessage());
+        }
+        catch (IncorrectPasswordException e) {
+            ctx.status(401);
+            ctx.json(e.getMessage());
+        }
     }
 
     private void logout(Context ctx) throws DataAccessException {
         LogoutRequest request = new Gson().fromJson(ctx.body(), LogoutRequest.class);
-        userService.logout(request);
-        //Web socket makes noise
+        try {
+            userService.logout(request);
+            //Web socket makes noise
+        }
+        catch (UnauthorizedException e) {
+            ctx.status(401);
+            ctx.json(e.getMessage());
+        }
     }
 
     private void listGames(Context ctx) throws DataAccessException {
         VerifyRequest request = new Gson().fromJson(ctx.body(), VerifyRequest.class);
-        ctx.json(gameService.getGameList(request).toString());
+        try {
+            ctx.json(new Gson().toJson(gameService.getGameList(request)));
+        }
+        catch (UnauthorizedException e) {
+            ctx.status(401);
+            ctx.json(e.getMessage());
+        }
     }
 
     private void createGame(Context ctx) throws DataAccessException {
         CreationRequest request = new Gson().fromJson(ctx.body(), CreationRequest.class);
-        CreationResult result = gameService.createGame(request);
-        ctx.json(result.toString());
+        try {
+            CreationResult result = gameService.createGame(request);
+            ctx.json(result.toString());
+        }
+        catch (UnauthorizedException e) {
+            ctx.status(401);
+        }
+        catch (ExistingGameException e) {
+            ctx.status(400);
+        }
     }
 
     private void joinGame(Context ctx) throws DataAccessException {
         JoinRequest request = new Gson().fromJson(ctx.body(), JoinRequest.class);
-        ColorAssignResult result = gameService.joinGame(request);
-        if (result.result()) {
-            ctx.status(200);
+        try {
+            ColorAssignResult result = gameService.joinGame(request);
+            if (result.result()) {
+                ctx.status(200);
+            }
+        }
+        catch (UnauthorizedException e) {
+            ctx.status(401);
+        }
+        catch (NoGameFoundException e) {
+            ctx.status(400);
+        }
+        catch (ColorTakenException e) {
+            ctx.status(403);
         }
     }
 
