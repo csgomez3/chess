@@ -2,7 +2,6 @@ package service;
 
 import exception.AlreadyTakenException;
 import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -13,14 +12,16 @@ public class UserRegisterTests {
 
     private static UserService service;
     private static RegisterRequest existingUser;
+    private static RegisterRequest illegalUser;
     private static RegisterRequest newUser;
     private static RegisterRequest anotherNewUser;
     private static RegisterResult result;
 
-    @BeforeEach
-    public void init() throws AlreadyTakenException {
+    @BeforeAll
+    public static void init() throws AlreadyTakenException {
         service = new UserService();
         existingUser = new RegisterRequest("adamTheFirstMan", "adamWuzAProphet", "adam@garden.com");
+        illegalUser = new RegisterRequest("adamTheFirstMan", "notTheFirstLivingMan", "adam@earth.com");
         newUser = new RegisterRequest("eveTheMotherOfAll", "itWasAFruitMaybeNotApple", "eve@garden.com");
         anotherNewUser = new RegisterRequest("noahTheProphet", "timeToStartOver", "noah@ark.com");
         result = service.register(existingUser);
@@ -37,7 +38,7 @@ public class UserRegisterTests {
     public void UsernameTaken() throws AlreadyTakenException {
         assertThrows(
                 AlreadyTakenException.class,
-                () -> service.register(new RegisterRequest("adamTheFirstMan", "notTheFirstLivingMan", "adam@earth.com"))
+                () -> service.register(illegalUser)
         );
         assertEquals("adamTheFirstMan", result.username());
     }
