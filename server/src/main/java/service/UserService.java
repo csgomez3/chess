@@ -17,6 +17,9 @@ public class UserService {
     private final AuthDAO authDao = new AuthDAO();
 
     public RegisterResult register(RegisterRequest request) throws AlreadyTakenException, BadRequestException {
+        if (request.username() == null || request.password() == null || request.email() == null) {
+            throw new BadRequestException("Error: bad request");
+        }
         if (userDao.getUser(request.username()) != null) {
             throw new AlreadyTakenException("Error: username already taken");
         }
@@ -40,7 +43,10 @@ public class UserService {
         return new RegisterResult(returningUser.username(), newAuth.authToken());
     }
 
-    public void logout(LogoutRequest request) throws UnauthorizedException {
+    public void logout(LogoutRequest request) throws UnauthorizedException, BadRequestException {
+        if (request.authToken() == null) {
+            throw new BadRequestException("Error: bad request");
+        }
         AuthData loggingOut = authDao.getAuth(request.authToken());
         if (loggingOut == null) {
             throw new UnauthorizedException("Error: unauthorized");

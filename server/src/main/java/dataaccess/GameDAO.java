@@ -1,25 +1,35 @@
 package dataaccess;
 
 import java.util.ArrayList;
+import java.util.random.RandomGenerator;
 
 import chess.ChessGame;
-import exception.ColorTakenException;
 import model.GameData;
 
 import exception.*;
 
 public class GameDAO {
 
-    ArrayList<GameData> games = new ArrayList<GameData>();
+    ArrayList<GameData> games = new ArrayList<>();
 
     public void clearGames() {
         games.clear();
     }
 
     public GameData createGame(String gameName) {
-        //DO NOT LEAVE BELOW THIS WAY
-        int randomInt = 1;
-        // DO NOT LEAVE ABOVE THIS WAY
+        RandomGenerator gen = RandomGenerator.getDefault();
+        int randomInt = gen.nextInt(1,10000);
+        boolean reset = true;
+        while(reset) {
+            reset = false;
+            for (GameData game : games) {
+                if (game.gameID() == randomInt) {
+                    randomInt = gen.nextInt(1, 10000);
+                    reset = true;
+                    break;
+                }
+            }
+        }
         GameData newGame = new GameData(randomInt, null, null, gameName, new ChessGame());
         games.add(newGame);
         return newGame;
