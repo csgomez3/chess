@@ -1,6 +1,8 @@
 package service;
 
 import exception.AlreadyTakenException;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -8,12 +10,24 @@ import service.request.RegisterRequest;
 import service.result.RegisterResult;
 
 public class UserRegisterTests {
+
+    private static UserService service;
+    private static RegisterRequest existingUser;
+    private static RegisterRequest newUser;
+    private static RegisterRequest anotherNewUser;
+    private static RegisterResult result;
+
+    @BeforeEach
+    public void init() throws AlreadyTakenException {
+        service = new UserService();
+        existingUser = new RegisterRequest("adamTheFirstMan", "adamWuzAProphet", "adam@garden.com");
+        newUser = new RegisterRequest("eveTheMotherOfAll", "itWasAFruitMaybeNotApple", "eve@garden.com");
+        anotherNewUser = new RegisterRequest("noahTheProphet", "timeToStartOver", "noah@ark.com");
+        result = service.register(existingUser);
+    }
+
     @Test
     public void SuccessfulSignUp() throws AlreadyTakenException {
-        UserService service = new UserService();
-
-        RegisterResult result = service.register(new RegisterRequest("adamTheFirstMan", "adamWuzAProphet", "adam@garden.com"));
-
         assertEquals("adamTheFirstMan", result.username());
         assertNotNull(result.authToken());
         assertFalse(result.authToken().isBlank());
@@ -21,9 +35,6 @@ public class UserRegisterTests {
 
     @Test
     public void UsernameTaken() throws AlreadyTakenException {
-        UserService service = new UserService();
-
-        RegisterResult result = service.register(new RegisterRequest("adamTheFirstMan", "adamWuzAProphet", "adam@garden.com"));
         assertThrows(
                 AlreadyTakenException.class,
                 () -> service.register(new RegisterRequest("adamTheFirstMan", "notTheFirstLivingMan", "adam@earth.com"))
@@ -33,11 +44,8 @@ public class UserRegisterTests {
 
     @Test
     public void DifferentUsernamesAllowed() throws AlreadyTakenException {
-        UserService service = new UserService();
-
-        RegisterResult result = service.register(new RegisterRequest("adamTheFirstMan", "adamWuzAProphet", "adam@garden.com"));
-        RegisterResult result2 = service.register(new RegisterRequest("eveTheMotherOfAll", "itWasAFruitMaybeNotApple", "eve@garden.com"));
-        RegisterResult result3 = service.register(new RegisterRequest("noahTheProphet", "timeToStartOver", "noah@ark.com"));
+        RegisterResult result2 = service.register(newUser);
+        RegisterResult result3 = service.register(anotherNewUser);
 
         assertEquals("adamTheFirstMan", result.username());
         assertNotNull(result.authToken());
