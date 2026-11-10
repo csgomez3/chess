@@ -18,7 +18,7 @@ public class UserRegisterTests {
     private static RegisterResult result;
 
     @BeforeAll
-    public static void init() throws AlreadyTakenException {
+    public static void setup() throws AlreadyTakenException {
         service = new UserService();
         existingUser = new RegisterRequest("adamTheFirstMan", "adamWuzAProphet", "adam@garden.com");
         illegalUser = new RegisterRequest("adamTheFirstMan", "notTheFirstLivingMan", "adam@earth.com");
