@@ -66,12 +66,12 @@ public class Server {
             ctx.status(200);
             ctx.json(new Gson().toJson(result));
         }
-        catch (NoUserFoundException | BadRequestException e) {
+        catch (BadRequestException e) {
             ctx.status(400);
             ErrorFormat error = new ErrorFormat(e.getMessage());
             ctx.json(new Gson().toJson(error));
         }
-        catch (IncorrectPasswordException e) {
+        catch (NoUserFoundException | IncorrectPasswordException e) {
             ctx.status(401);
             ErrorFormat error = new ErrorFormat(e.getMessage());
             ctx.json(new Gson().toJson(error));
