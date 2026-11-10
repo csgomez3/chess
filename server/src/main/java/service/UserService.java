@@ -16,7 +16,7 @@ public class UserService {
     private final UserDAO userDao = new UserDAO();
     private final AuthDAO authDao = new AuthDAO();
 
-    public RegisterResult register(RegisterRequest request) throws AlreadyTakenException {
+    public RegisterResult register(RegisterRequest request) throws AlreadyTakenException, BadRequestException {
         if (userDao.getUser(request.username()) != null) {
             throw new AlreadyTakenException("Error: username already taken");
         }
@@ -25,7 +25,10 @@ public class UserService {
         return new RegisterResult(newUser.username(), newAuth.authToken());
     }
 
-    public RegisterResult login(LoginRequest request) throws NoUserFoundException, IncorrectPasswordException {
+    public RegisterResult login(LoginRequest request) throws NoUserFoundException, IncorrectPasswordException, BadRequestException {
+        if (request.username() == null || request.password() == null) {
+            throw new BadRequestException("Error: bad request");
+        }
         UserData returningUser = userDao.getUser(request.username());
         if (returningUser == null) {
             throw new NoUserFoundException("Error: bad request: no user with that username found");

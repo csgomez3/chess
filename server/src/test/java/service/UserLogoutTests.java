@@ -31,4 +31,12 @@ public class UserLogoutTests {
                 () -> service.logout(new LogoutRequest(authToken))
         );
     }
+
+    @Test
+    public void IllegalLogout() {
+        assertThrows(
+                UnauthorizedException.class,
+                () -> service.logout(new LogoutRequest("ThisIsNotAValidAuthToken"))
+        );
+    }
 }

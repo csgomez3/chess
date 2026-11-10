@@ -22,7 +22,7 @@ public class Server {
         // Register your endpoints and exception handlers here.
                 .post("/user", this::register)
                 .post("/session", this::login)
-                .get("/session", this::logout)
+                .delete("/session", this::logout)
                 .post("/game", this::createGame)
                 .put("/game", this::joinGame)
                 .delete("/db", this::clearApp);
@@ -47,6 +47,11 @@ public class Server {
             ctx.status(200);
             ctx.json(new Gson().toJson(result));
         }
+        catch (BadRequestException e) {
+            ctx.status(400);
+            ErrorFormat error = new ErrorFormat(e.getMessage());
+            ctx.json(new Gson().toJson(error));
+        }
         catch (AlreadyTakenException e) {
             ctx.status(403);
             ErrorFormat error = new ErrorFormat(e.getMessage());
@@ -61,7 +66,7 @@ public class Server {
             ctx.status(200);
             ctx.json(new Gson().toJson(result));
         }
-        catch (NoUserFoundException e) {
+        catch (NoUserFoundException | BadRequestException e) {
             ctx.status(400);
             ErrorFormat error = new ErrorFormat(e.getMessage());
             ctx.json(new Gson().toJson(error));
