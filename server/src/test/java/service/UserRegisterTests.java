@@ -1,6 +1,7 @@
 package service;
 
 import exception.AlreadyTakenException;
+import exception.BadRequestException;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
@@ -55,5 +56,37 @@ public class UserRegisterTests {
         assertEquals("noahTheProphet", result3.username());
         assertNotNull(result3.authToken());
         assertFalse(result3.authToken().isBlank());
+    }
+
+    @Test
+    public void NoNullRegister() {
+        assertThrows(
+                BadRequestException.class,
+                () -> service.register(new RegisterRequest(null, null, null))
+        );
+        assertThrows(
+                BadRequestException.class,
+                () -> service.register(new RegisterRequest("username", null, null))
+        );
+        assertThrows(
+                BadRequestException.class,
+                () -> service.register(new RegisterRequest(null, "password", null))
+        );
+        assertThrows(
+                BadRequestException.class,
+                () -> service.register(new RegisterRequest(null, null, "email@web.com"))
+        );
+        assertThrows(
+                BadRequestException.class,
+                () -> service.register(new RegisterRequest("username", "password", null))
+        );
+        assertThrows(
+                BadRequestException.class,
+                () -> service.register(new RegisterRequest("username", null, "email@web.com"))
+        );
+        assertThrows(
+                BadRequestException.class,
+                () -> service.register(new RegisterRequest(null, "password", "email@web.com"))
+        );
     }
 }

@@ -1,9 +1,6 @@
 package service;
 
-import exception.AlreadyTakenException;
-import exception.IncorrectPasswordException;
-import exception.NoUserFoundException;
-import exception.UnauthorizedException;
+import exception.*;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
@@ -55,6 +52,22 @@ public class UserLoginTests {
         assertThrows(
                 IncorrectPasswordException.class,
                 () -> service.login(new LoginRequest("perryThePlatypus", "selfDestructButton"))
+        );
+    }
+
+    @Test
+    public void NoNullLogin() {
+        assertThrows(
+                BadRequestException.class,
+                () -> service.login(new LoginRequest(null, null))
+        );
+        assertThrows(
+                BadRequestException.class,
+                () -> service.login(new LoginRequest("username", null))
+        );
+        assertThrows(
+                BadRequestException.class,
+                () -> service.login(new LoginRequest(null, "password"))
         );
     }
 }
