@@ -11,7 +11,6 @@ import service.result.RegisterResult;
 public class UserRegisterTests {
 
     private static UserService service;
-    private static RegisterRequest existingUser;
     private static RegisterRequest illegalUser;
     private static RegisterRequest newUser;
     private static RegisterRequest anotherNewUser;
@@ -20,7 +19,7 @@ public class UserRegisterTests {
     @BeforeAll
     public static void setup() throws AlreadyTakenException {
         service = new UserService();
-        existingUser = new RegisterRequest("adamTheFirstMan", "adamWuzAProphet", "adam@garden.com");
+        RegisterRequest existingUser = new RegisterRequest("adamTheFirstMan", "adamWuzAProphet", "adam@garden.com");
         illegalUser = new RegisterRequest("adamTheFirstMan", "notTheFirstLivingMan", "adam@earth.com");
         newUser = new RegisterRequest("eveTheMotherOfAll", "itWasAFruitMaybeNotApple", "eve@garden.com");
         anotherNewUser = new RegisterRequest("noahTheProphet", "timeToStartOver", "noah@ark.com");
@@ -28,19 +27,18 @@ public class UserRegisterTests {
     }
 
     @Test
-    public void SuccessfulSignUp() throws AlreadyTakenException {
+    public void SuccessfulSignUp() {
         assertEquals("adamTheFirstMan", result.username());
         assertNotNull(result.authToken());
         assertFalse(result.authToken().isBlank());
     }
 
     @Test
-    public void UsernameTaken() throws AlreadyTakenException {
+    public void UsernameTaken() {
         assertThrows(
                 AlreadyTakenException.class,
                 () -> service.register(illegalUser)
         );
-        assertEquals("adamTheFirstMan", result.username());
     }
 
     @Test
