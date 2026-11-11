@@ -11,6 +11,8 @@ import model.AuthData;
 
 import exception.*;
 
+import java.util.ArrayList;
+
 public class UserService {
 
     private final UserDAO userDao = new UserDAO();
@@ -52,6 +54,14 @@ public class UserService {
             throw new UnauthorizedException("Error: unauthorized");
         }
         authDao.deleteAuth(loggingOut);
+    }
+
+    public ArrayList<UserData> getUserList() {
+        return userDao.getUserList();
+    }
+
+    public ArrayList<AuthData> getAuthList() {
+        return authDao.getAuthList();
     }
 
     public void clearUserData() {

@@ -27,4 +27,8 @@ public class UserDAO {
         }
         return null;
     }
+
+    public ArrayList<UserData> getUserList() {
+        return this.users;
+    }
 }

@@ -7,12 +7,10 @@ import model.AuthData;
 
 public class AuthDAO {
 
-    ArrayList<AuthData> authList = new ArrayList<AuthData>();
+    ArrayList<AuthData> authList = new ArrayList<>();
 
     public void clearAuthTokens() {
-        for (AuthData auth : authList) {
-            deleteAuth(auth);
-        }
+        authList.clear();
     }
 
     public AuthData createAuth(String username) {
@@ -37,5 +35,9 @@ public class AuthDAO {
                 return;
             }
         }
+    }
+
+    public ArrayList<AuthData> getAuthList() {
+        return this.authList;
     }
 }
