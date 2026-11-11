@@ -84,11 +84,6 @@ public class Server {
             userService.logout(authToken);
             ctx.status(200);
         }
-        catch (BadRequestException e) {
-            ctx.status(400);
-            ErrorFormat error = new ErrorFormat(e.getMessage());
-            ctx.json(new Gson().toJson(error));
-        }
         catch (UnauthorizedException e) {
             ctx.status(401);
             ErrorFormat error = new ErrorFormat(e.getMessage());

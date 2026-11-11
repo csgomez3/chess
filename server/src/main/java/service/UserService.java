@@ -45,15 +45,15 @@ public class UserService {
         return new RegisterResult(returningUser.username(), newAuth.authToken());
     }
 
-    public void logout(String authToken) throws UnauthorizedException, BadRequestException {
+    public void logout(String authToken) throws UnauthorizedException {
         if (authToken == null) {
-            throw new BadRequestException("Error: bad request");
-        }
-        AuthData loggingOut = authDao.getAuth(authToken);
-        if (loggingOut == null) {
             throw new UnauthorizedException("Error: unauthorized");
         }
-        authDao.deleteAuth(loggingOut);
+        AuthData userToLogout = authDao.getAuth(authToken);
+        if (userToLogout == null) {
+            throw new UnauthorizedException("Error: unauthorized");
+        }
+        authDao.deleteAuth(userToLogout);
     }
 
     public ArrayList<UserData> getUserList() {

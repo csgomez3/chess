@@ -1,7 +1,6 @@
 package service;
 
 import exception.AlreadyTakenException;
-import exception.BadRequestException;
 import exception.UnauthorizedException;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
@@ -23,7 +22,7 @@ public class UserLogoutTests {
     }
 
     @Test
-    public void LegalLogout() throws UnauthorizedException {
+    public void LegalLogoutAndNoDoubleLogout() throws UnauthorizedException {
         service.logout(authToken);
         assertThrows(
                 UnauthorizedException.class,
@@ -34,7 +33,7 @@ public class UserLogoutTests {
     @Test
     public void NoNullTokenLogout() {
         assertThrows(
-                BadRequestException.class,
+                UnauthorizedException.class,
                 () -> service.logout(null)
         );
     }
@@ -43,7 +42,7 @@ public class UserLogoutTests {
     public void IllegalLogout() {
         assertThrows(
                 UnauthorizedException.class,
-                () -> service.logout("ThisIsNotAValidAuthToken")
+                () -> service.logout("NotAValidToken")
         );
     }
 }
