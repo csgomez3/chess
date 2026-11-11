@@ -10,8 +10,6 @@ import static org.junit.jupiter.api.Assertions.*;
 import service.request.RegisterRequest;
 import service.result.RegisterResult;
 
-import service.request.LogoutRequest;
-
 
 public class UserLogoutTests {
     private static UserService service;
@@ -26,10 +24,10 @@ public class UserLogoutTests {
 
     @Test
     public void LegalLogout() throws UnauthorizedException {
-        service.logout(new LogoutRequest(authToken));
+        service.logout(authToken);
         assertThrows(
                 UnauthorizedException.class,
-                () -> service.logout(new LogoutRequest(authToken))
+                () -> service.logout(authToken)
         );
     }
 
@@ -37,7 +35,7 @@ public class UserLogoutTests {
     public void NoNullTokenLogout() {
         assertThrows(
                 BadRequestException.class,
-                () -> service.logout(new LogoutRequest(null))
+                () -> service.logout(null)
         );
     }
 
@@ -45,7 +43,7 @@ public class UserLogoutTests {
     public void IllegalLogout() {
         assertThrows(
                 UnauthorizedException.class,
-                () -> service.logout(new LogoutRequest("ThisIsNotAValidAuthToken"))
+                () -> service.logout("ThisIsNotAValidAuthToken")
         );
     }
 }

@@ -79,9 +79,9 @@ public class Server {
     }
 
     private void logout(Context ctx) {
-        LogoutRequest request = new Gson().fromJson(ctx.body(), LogoutRequest.class);
+        String authToken = new Gson().fromJson(ctx.body(), String.class);
         try {
-            userService.logout(request);
+            userService.logout(authToken);
             ctx.status(200);
         }
         catch (BadRequestException e) {

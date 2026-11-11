@@ -7,7 +7,6 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import service.request.RegisterRequest;
 import service.request.LoginRequest;
-import service.request.LogoutRequest;
 
 import service.result.RegisterResult;
 
@@ -20,7 +19,7 @@ public class UserLoginTests {
         service = new UserService();
         correctPassword = "doobeedoobeedoobahdoo";
         RegisterResult regResult = service.register(new RegisterRequest("perryThePlatypus", correctPassword, "agentP@owca.org"));
-        service.logout(new LogoutRequest(regResult.authToken()));
+        service.logout(regResult.authToken());
     }
 
     @Test
