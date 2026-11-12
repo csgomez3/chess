@@ -24,6 +24,7 @@ public class Server {
                 .post("/session", this::login)
                 .delete("/session", this::logout)
                 .post("/game", this::createGame)
+                .get("/game", this::listGames)
                 .put("/game", this::joinGame)
                 .delete("/db", this::clearApp);
 
