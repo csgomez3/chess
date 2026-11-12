@@ -17,8 +17,8 @@ public class GameService {
     GameDAO gameDao = new GameDAO();
     AuthDAO authDao = new AuthDAO();
 
-    public ArrayList<GameData> getGameList(VerifyRequest request) throws UnauthorizedException {
-        if (authDao.getAuth(request.authToken()) == null) {
+    public ArrayList<GameData> getGameList(String authToken) throws UnauthorizedException {
+        if (authDao.getAuth(authToken) == null) {
             throw new UnauthorizedException("unauthorized");
         }
         return gameDao.listGames();
@@ -48,5 +48,9 @@ public class GameService {
 
     public void clearGames() {
         gameDao.clearGames();
+    }
+
+    public ArrayList<GameData> getListOfGames() {
+        return gameDao.listGames();
     }
 }

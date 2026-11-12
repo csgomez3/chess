@@ -92,9 +92,9 @@ public class Server {
     }
 
     private void listGames(Context ctx) {
-        VerifyRequest request = new Gson().fromJson(ctx.body(), VerifyRequest.class);
+        String authToken = new Gson().fromJson(ctx.body(), String.class);
         try {
-            ctx.json(new Gson().toJson(gameService.getGameList(request)));
+            ctx.json(new Gson().toJson(gameService.getGameList(authToken)));
             ctx.status(200);
         }
         catch (UnauthorizedException e) {
