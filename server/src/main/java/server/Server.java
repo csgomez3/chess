@@ -116,7 +116,7 @@ public class Server {
             ErrorFormat error = new ErrorFormat(e.getMessage());
             ctx.json(new Gson().toJson(error));
         }
-        catch (ExistingGameException e) {
+        catch (BadRequestException | ExistingGameException e) {
             ctx.status(400);
             ErrorFormat error = new ErrorFormat(e.getMessage());
             ctx.json(new Gson().toJson(error));

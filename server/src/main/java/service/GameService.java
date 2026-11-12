@@ -24,12 +24,12 @@ public class GameService {
         return gameDao.listGames();
     }
 
-    public CreationResult createGame(CreationRequest request) throws UnauthorizedException, ExistingGameException {
+    public CreationResult createGame(CreationRequest request) throws UnauthorizedException, ExistingGameException, BadRequestException {
         if (authDao.getAuth(request.authToken()) == null) {
             throw new UnauthorizedException("Error: unauthorized");
         }
         if (gameDao.getGame(request.gameName()) != null) {
-            throw new ExistingGameException("Error: bad request");
+            throw new BadRequestException("Error: bad request");
         }
         GameData newGame = gameDao.createGame(request.gameName());
         return new CreationResult(newGame.gameID());
