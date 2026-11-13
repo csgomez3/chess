@@ -21,7 +21,10 @@ public class GameService {
         authService = aService;
     }
 
-    public ArrayList<GameData> getGameList(String authToken) throws UnauthorizedException {
+    public ArrayList<GameData> getGameList(String authToken) throws UnauthorizedException, BadRequestException {
+        if (authToken == null) {
+            throw new BadRequestException("Error: bad request");
+        }
         if (!authService.verifyAuth(authToken)) {
             throw new UnauthorizedException("Error: unauthorized");
         }
@@ -29,6 +32,9 @@ public class GameService {
     }
 
     public CreationResult createGame(CreationRequest request) throws UnauthorizedException, ExistingGameException, BadRequestException {
+        if (request.authToken() == null) {
+            throw new BadRequestException("Error: bad request");
+        }
         if (!authService.verifyAuth(request.authToken())) {
             throw new UnauthorizedException("Error: unauthorized");
         }
