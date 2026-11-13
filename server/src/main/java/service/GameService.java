@@ -35,7 +35,11 @@ public class GameService {
         return new CreationResult(newGame.gameID());
     }
 
-    public ColorAssignResult joinGame(JoinRequest request) throws UnauthorizedException, NoGameFoundException, ColorTakenException {
+    public void joinGame(JoinRequest request) throws UnauthorizedException, NoGameFoundException, ColorTakenException, BadRequestException {
+        if (request.authToken() == null || request.gameID() < 1 || request.gameID() > 9999
+                || request.username() == null || request.color() == null) {
+            throw new BadRequestException("Error: bad request");
+        }
         if (authDao.getAuth(request.authToken()) == null) {
             throw new UnauthorizedException("Error: unauthorized");
         }
@@ -43,7 +47,9 @@ public class GameService {
             throw new NoGameFoundException("Error: bad request: no game with that ID found");
         }
         boolean result = gameDao.updateGame(request.gameID(), request.username(), request.color());
-        return new ColorAssignResult(result);
+        if (!result) {
+            throw new ColorTakenException("Error: color already taken");
+        }
     }
 
     public void clearGames() {

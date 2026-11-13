@@ -126,17 +126,15 @@ public class Server {
     private void joinGame(Context ctx) {
         JoinRequest request = new Gson().fromJson(ctx.body(), JoinRequest.class);
         try {
-            ColorAssignResult result = gameService.joinGame(request);
-            if (result.result()) {
-                ctx.status(200);
-            }
+            gameService.joinGame(request);
+            ctx.status(200);
         }
         catch (UnauthorizedException e) {
             ctx.status(401);
             ErrorFormat error = new ErrorFormat(e.getMessage());
             ctx.json(new Gson().toJson(error));
         }
-        catch (NoGameFoundException e) {
+        catch (NoGameFoundException | BadRequestException e) {
             ctx.status(400);
             ErrorFormat error = new ErrorFormat(e.getMessage());
             ctx.json(new Gson().toJson(error));
