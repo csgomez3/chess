@@ -1,8 +1,6 @@
 package service;
 
-import exception.AlreadyTakenException;
-import exception.ExistingGameException;
-import exception.UnauthorizedException;
+import exception.*;
 import model.GameData;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;

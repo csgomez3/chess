@@ -1,7 +1,6 @@
 package service;
 
-import exception.AlreadyTakenException;
-import exception.BadRequestException;
+import exception.*;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
@@ -24,7 +23,7 @@ public class UserClearTests {
     }
 
     @Test
-    public void ClearAllUsersAndTokens() {
+    public void ClearAllUsers() {
         service.clearUserData();
         assertTrue(service.getUserList().isEmpty());
     }
