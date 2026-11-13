@@ -23,7 +23,7 @@ public class GameService {
 
     public ArrayList<GameData> getGameList(String authToken) throws UnauthorizedException {
         if (!authService.verifyAuth(authToken)) {
-            throw new UnauthorizedException("unauthorized");
+            throw new UnauthorizedException("Error: unauthorized");
         }
         return gameDao.listGames();
     }
