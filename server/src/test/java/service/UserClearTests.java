@@ -25,6 +25,5 @@ public class UserClearTests {
     public void ClearAllUsersAndTokens() {
         service.clearUserData();
         assertTrue(service.getUserList().isEmpty());
-        assertTrue(service.getAuthList().isEmpty());
     }
 }

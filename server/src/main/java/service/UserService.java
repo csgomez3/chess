@@ -4,10 +4,10 @@ import service.request.*;
 import service.result.*;
 
 import dataaccess.UserDAO;
-import dataaccess.AuthDAO;
+
+import service.AuthService;
 
 import model.UserData;
-import model.AuthData;
 
 import exception.*;
 
@@ -15,8 +15,13 @@ import java.util.ArrayList;
 
 public class UserService {
 
-    private final UserDAO userDao = new UserDAO();
-    private final AuthDAO authDao = new AuthDAO();
+    private final UserDAO userDao;
+    private final AuthService authService;
+
+    public UserService(AuthService aService) {
+        userDao = new UserDAO();
+        authService = aService;
+    }
 
     public RegisterResult register(RegisterRequest request) throws AlreadyTakenException, BadRequestException {
         if (request.username() == null || request.password() == null || request.email() == null) {
@@ -26,8 +31,8 @@ public class UserService {
             throw new AlreadyTakenException("Error: username already taken");
         }
         UserData newUser = userDao.createUser(request);
-        AuthData newAuth = authDao.createAuth(newUser.username());
-        return new RegisterResult(newUser.username(), newAuth.authToken());
+        String authToken = authService.createAuth(newUser.username());
+        return new RegisterResult(newUser.username(), authToken);
     }
 
     public RegisterResult login(LoginRequest request) throws NoUserFoundException, IncorrectPasswordException, BadRequestException {
@@ -41,31 +46,25 @@ public class UserService {
         if (!returningUser.password().equals(request.password())) {
             throw new IncorrectPasswordException("Error: unauthorized: incorrect password");
         }
-        AuthData newAuth = authDao.createAuth(returningUser.username());
-        return new RegisterResult(returningUser.username(), newAuth.authToken());
+        String authToken = authService.createAuth(returningUser.username());
+        return new RegisterResult(returningUser.username(), authToken);
     }
 
     public void logout(String authToken) throws UnauthorizedException {
         if (authToken == null) {
             throw new UnauthorizedException("Error: unauthorized");
         }
-        AuthData userToLogout = authDao.getAuth(authToken);
-        if (userToLogout == null) {
+        boolean result = authService.deleteAuth(authToken);
+        if (!result) {
             throw new UnauthorizedException("Error: unauthorized");
         }
-        authDao.deleteAuth(userToLogout);
     }
 
     public ArrayList<UserData> getUserList() {
         return userDao.getUserList();
     }
 
-    public ArrayList<AuthData> getAuthList() {
-        return authDao.getAuthList();
-    }
-
     public void clearUserData() {
-        authDao.clearAuthTokens();
         userDao.clearUsers();
     }
 }

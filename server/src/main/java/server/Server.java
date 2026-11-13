@@ -3,6 +3,7 @@ package server;
 import io.javalin.*;
 import io.javalin.http.Context;
 import com.google.gson.*;
+import service.AuthService;
 import service.UserService;
 import service.GameService;
 import service.request.*;
@@ -13,6 +14,7 @@ import exception.*;
 public class Server {
 
     private final Javalin javalin;
+    private final AuthService authService;
     private final UserService userService;
     private final GameService gameService;
 
@@ -28,8 +30,9 @@ public class Server {
                 .put("/game", this::joinGame)
                 .delete("/db", this::clearApp);
 
-        userService = new UserService();
-        gameService = new GameService();
+        authService = new AuthService();
+        userService = new UserService(authService);
+        gameService = new GameService(authService);
     }
 
     public int run(int desiredPort) {
@@ -149,6 +152,7 @@ public class Server {
     private void clearApp(Context ctx) {
         gameService.clearGames();
         userService.clearUserData();
+        authService.clearAuthData();
         ctx.status(200);
     }
 }
