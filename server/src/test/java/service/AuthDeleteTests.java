@@ -12,6 +12,6 @@ public class AuthDeleteTests {
     }
 
     @Test
-    public static void testName() {
+    public void testName() {
     }
 }

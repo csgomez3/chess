@@ -12,6 +12,6 @@ public class AuthVerifyTests {
     }
 
     @Test
-    public static void testName() {
+    public void testName() {
     }
 }

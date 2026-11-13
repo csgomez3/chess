@@ -12,6 +12,6 @@ public class AuthCreateTests {
     }
 
     @Test
-    public static void testName() {
+    public void testName() {
     }
 }

@@ -9,9 +9,17 @@ public class AuthClearTests {
 
     @BeforeAll
     public static void setup() {
+        service = new AuthService();
+        service.createAuth("PerryThePlatypus");
+        service.createAuth("DrDoof");
+        service.createAuth("CaptainAmerica");
+        service.createAuth("Threepio");
+        service.createAuth("Frodo");
     }
 
     @Test
-    public static void testName() {
+    public void ClearAllAuthTokens() {
+        service.clearAuthData();
+        assertTrue(service.getAuthList().isEmpty());
     }
 }
