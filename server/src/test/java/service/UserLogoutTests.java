@@ -12,11 +12,13 @@ import service.result.RegisterResult;
 
 public class UserLogoutTests {
     private static UserService service;
+    private static AuthService aService;
     private static String authToken;
 
     @BeforeAll
     public static void setup() throws AlreadyTakenException {
-        service = new UserService();
+        aService = new AuthService();
+        service = new UserService(aService);
         RegisterResult result = service.register(new RegisterRequest("thanos", "ohSnap", "thanos@titan.com"));
         authToken = result.authToken();
     }

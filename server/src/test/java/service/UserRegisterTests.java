@@ -12,6 +12,7 @@ import service.result.RegisterResult;
 public class UserRegisterTests {
 
     private static UserService service;
+    private static AuthService aService;
     private static RegisterRequest illegalUser;
     private static RegisterRequest newUser;
     private static RegisterRequest anotherNewUser;
@@ -19,7 +20,8 @@ public class UserRegisterTests {
 
     @BeforeAll
     public static void setup() throws AlreadyTakenException {
-        service = new UserService();
+        aService = new AuthService();
+        service = new UserService(aService);
         RegisterRequest existingUser = new RegisterRequest("adamTheFirstMan", "adamWuzAProphet", "adam@garden.com");
         illegalUser = new RegisterRequest("adamTheFirstMan", "notTheFirstLivingMan", "adam@earth.com");
         newUser = new RegisterRequest("eveTheMotherOfAll", "itWasAFruitMaybeNotApple", "eve@garden.com");

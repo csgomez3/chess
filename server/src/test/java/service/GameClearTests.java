@@ -15,11 +15,13 @@ import service.result.RegisterResult;
 public class GameClearTests {
     private static UserService uService;
     private static GameService gService;
+    private static AuthService aService;
 
     @BeforeAll
     public static void setup() throws UnauthorizedException, ExistingGameException, AlreadyTakenException {
-        uService = new UserService();
-        gService = new GameService();
+        aService = new AuthService();
+        uService = new UserService(aService);
+        gService = new GameService(aService);
         RegisterResult result = uService.register(new RegisterRequest("dad", "hiimdad", "dad@eyeroll.com"));
         String authToken = result.authToken();
 

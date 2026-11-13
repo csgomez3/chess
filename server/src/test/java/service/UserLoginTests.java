@@ -12,11 +12,13 @@ import service.result.RegisterResult;
 
 public class UserLoginTests {
     private static UserService service;
+    private static AuthService aService;
     private static String correctPassword;
 
     @BeforeAll
     public static void init() throws AlreadyTakenException, UnauthorizedException {
-        service = new UserService();
+        aService = new AuthService();
+        service = new UserService(aService);
         correctPassword = "doobeedoobeedoobahdoo";
         RegisterResult regResult = service.register(new RegisterRequest("perryThePlatypus", correctPassword, "agentP@owca.org"));
         service.logout(regResult.authToken());

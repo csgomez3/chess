@@ -18,12 +18,14 @@ import java.util.ArrayList;
 public class GameListRetrieveTests {
     private static UserService uService;
     private static GameService gService;
+    private static AuthService aService;
     private static String authToken;
 
     @BeforeAll
     public static void setup() throws AlreadyTakenException, ExistingGameException, UnauthorizedException {
-        uService = new UserService();
-        gService = new GameService();
+        aService = new AuthService();
+        uService = new UserService(aService);
+        gService = new GameService(aService);
         RegisterResult result = uService.register(new RegisterRequest("dad", "hiimdad", "dad@eyeroll.com"));
         authToken = result.authToken();
 

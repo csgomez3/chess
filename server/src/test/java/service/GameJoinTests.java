@@ -14,6 +14,7 @@ import service.result.RegisterResult;
 public class GameJoinTests {
     private static UserService uService;
     private static GameService gService;
+    private static AuthService aService;
     private static String player1AuthToken;
     private static String player2AuthToken;
     private static String player3AuthToken;
@@ -22,8 +23,9 @@ public class GameJoinTests {
 
     @BeforeAll
     public static void setup() throws AlreadyTakenException, ExistingGameException, UnauthorizedException {
-        uService = new UserService();
-        gService = new GameService();
+        aService = new AuthService();
+        uService = new UserService(aService);
+        gService = new GameService(aService);
         RegisterResult regResult = uService.register(new RegisterRequest( "snape", "page394", "snape@hogwarts.edu"));
         player1AuthToken = regResult.authToken();
         RegisterResult regResult2 = uService.register(new RegisterRequest( "dumbledore", "alasearwax", "dumbledore@hogwarts.edu"));

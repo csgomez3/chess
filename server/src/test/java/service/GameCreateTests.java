@@ -15,12 +15,14 @@ import service.result.RegisterResult;
 public class GameCreateTests {
     private static UserService uService;
     private static GameService gService;
+    private static AuthService aService;
     private static String authToken;
 
     @BeforeAll
     public static void setup() throws AlreadyTakenException {
-        uService = new UserService();
-        gService = new GameService();
+        aService = new AuthService();
+        uService = new UserService(aService);
+        gService = new GameService(aService);
         RegisterResult regResult = uService.register(new RegisterRequest("optimusPrime", "autobotsrollout", "optimus@prime.com"));
         authToken = regResult.authToken();
     }

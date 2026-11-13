@@ -5,8 +5,6 @@ import service.result.*;
 
 import dataaccess.UserDAO;
 
-import service.AuthService;
-
 import model.UserData;
 
 import exception.*;

@@ -10,10 +10,12 @@ import service.request.RegisterRequest;
 
 public class UserClearTests {
     private static UserService service;
+    private static AuthService aService;
 
     @BeforeAll
     public static void setup() throws AlreadyTakenException, BadRequestException {
-        service = new UserService();
+        aService = new AuthService();
+        service = new UserService(aService);
         service.register(new RegisterRequest("PerryThePlatypus", "notdoinmuch", "agentp@owca.org"));
         service.register(new RegisterRequest("DrDoof", "selfdestructbutton", "doof@lovemuffin.com"));
         service.register(new RegisterRequest("CaptainAmerica", "takeallthestupidwithyou", "steverogers@avengers.gov"));

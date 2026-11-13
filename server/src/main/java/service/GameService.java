@@ -7,8 +7,6 @@ import service.result.*;
 
 import java.util.ArrayList;
 
-import service.AuthService;
-
 import dataaccess.GameDAO;
 
 import model.GameData;
