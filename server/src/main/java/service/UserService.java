@@ -48,9 +48,9 @@ public class UserService {
         return new RegisterResult(returningUser.username(), authToken);
     }
 
-    public void logout(String authToken) throws UnauthorizedException {
+    public void logout(String authToken) throws BadRequestException, UnauthorizedException {
         if (authToken == null) {
-            throw new UnauthorizedException("Error: unauthorized");
+            throw new BadRequestException("Error: bad request");
         }
         boolean result = authService.deleteAuth(authToken);
         if (!result) {
