@@ -38,8 +38,11 @@ public class GameService {
         if (!authService.verifyAuth(request.authToken())) {
             throw new UnauthorizedException("Error: unauthorized");
         }
-        if (gameDao.getGame(request.gameName()) != null) {
+        if (request.gameName() == null) {
             throw new BadRequestException("Error: bad request");
+        }
+        if (gameDao.getGame(request.gameName()) != null) {
+            throw new ExistingGameException("Error: bad request");
         }
         GameData newGame = gameDao.createGame(request.gameName());
         return new CreationResult(newGame.gameID());

@@ -33,7 +33,7 @@ public class GameCreateTests {
 
     @Test
     public void SuccessfulGameCreationOfMultipleGames() throws UnauthorizedException, ExistingGameException {
-        CreationResult result = gService.createGame(new CreationRequest(authToken, "ValidName"));
+        CreationResult result = gService.createGame(new CreationRequest(authToken, "AnotherValidName"));
         CreationResult result2 = gService.createGame(new CreationRequest(authToken, "UniqueName"));
         CreationResult result3 = gService.createGame(new CreationRequest(authToken, "GameOfChess"));
         CreationResult result4 = gService.createGame(new CreationRequest(authToken, "ChessGame"));
@@ -71,7 +71,7 @@ public class GameCreateTests {
     @Test
     public void NoNullGameCreation() {
         assertThrows(
-                UnauthorizedException.class,
+                BadRequestException.class,
                 () -> gService.createGame(new CreationRequest(null, "ValidName"))
         );
     }
@@ -86,10 +86,10 @@ public class GameCreateTests {
 
     @Test
     public void NoDuplicateGames() throws UnauthorizedException, ExistingGameException {
-        gService.createGame(new CreationRequest(authToken, "ValidName"));
+        gService.createGame(new CreationRequest(authToken, "YetAnotherValidName"));
         assertThrows(
                 ExistingGameException.class,
-                () -> gService.createGame(new CreationRequest(authToken, "ValidName"))
+                () -> gService.createGame(new CreationRequest(authToken, "YetAnotherValidName"))
         );
     }
 }
