@@ -43,7 +43,7 @@ public class GameListRetrieveTests {
     @Test
     public void NoNullRetrieve() {
         assertThrows(
-                UnauthorizedException.class,
+                BadRequestException.class,
                 () -> gService.getGameList(null)
         );
     }
