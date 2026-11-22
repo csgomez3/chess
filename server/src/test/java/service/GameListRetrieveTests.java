@@ -55,4 +55,11 @@ public class GameListRetrieveTests {
                 () -> gService.getGameList("InvalidToken")
         );
     }
+
+    @Test
+    public void EmptyList() throws UnauthorizedException {
+        gService.clearGames();
+        assertNotNull(gService.getGameList(authToken));
+        assertTrue(gService.getGameList(authToken).isEmpty());
+    }
 }
