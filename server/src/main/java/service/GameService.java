@@ -31,11 +31,11 @@ public class GameService {
         return gameDao.listGames();
     }
 
-    public CreationResult createGame(CreationRequest request) throws UnauthorizedException, ExistingGameException, BadRequestException {
-        if (request.authToken() == null) {
+    public CreationResult createGame(String authToken, CreationRequest request) throws UnauthorizedException, ExistingGameException, BadRequestException {
+        if (authToken == null) {
             throw new BadRequestException("Error: bad request");
         }
-        if (!authService.verifyAuth(request.authToken())) {
+        if (!authService.verifyAuth(authToken)) {
             throw new UnauthorizedException("Error: unauthorized");
         }
         if (request.gameName() == null) {

@@ -27,11 +27,11 @@ public class GameListRetrieveTests {
         RegisterResult result = uService.register(new RegisterRequest("dad", "hiimdad", "dad@eyeroll.com"));
         authToken = result.authToken();
 
-        gService.createGame(new CreationRequest(authToken, "AvengersEndgame"));
-        gService.createGame(new CreationRequest(authToken, "KnightlyGame"));
-        gService.createGame(new CreationRequest(authToken, "Default"));
-        gService.createGame(new CreationRequest(authToken, "HammerTime"));
-        gService.createGame(new CreationRequest(authToken, "ICouldDoThisAllDay"));
+        gService.createGame(authToken, new CreationRequest("AvengersEndgame"));
+        gService.createGame(authToken, new CreationRequest("KnightlyGame"));
+        gService.createGame(authToken, new CreationRequest("Default"));
+        gService.createGame(authToken, new CreationRequest("HammerTime"));
+        gService.createGame(authToken, new CreationRequest("ICouldDoThisAllDay"));
     }
 
     @Test

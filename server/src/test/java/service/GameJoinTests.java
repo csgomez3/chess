@@ -36,17 +36,17 @@ public class GameJoinTests {
         player2AuthToken = regResult2.authToken();
         RegisterResult regResult3 = uService.register(new RegisterRequest( "bartycrouch", "polyjuice", "moody@hogwarts.edu"));
         player3AuthToken = regResult3.authToken();
-        CreationResult createResult = gService.createGame(new CreationRequest(player2AuthToken, "lifesize"));
+        CreationResult createResult = gService.createGame(player2AuthToken, new CreationRequest("lifesize"));
         gameID1 = createResult.gameID();
-        CreationResult createResult2 = gService.createGame(new CreationRequest(player3AuthToken, "portkey"));
+        CreationResult createResult2 = gService.createGame(player3AuthToken, new CreationRequest("portkey"));
         gameID2 = createResult2.gameID();
-        CreationResult createResult3 = gService.createGame(new CreationRequest(player1AuthToken, "lily"));
+        CreationResult createResult3 = gService.createGame(player1AuthToken, new CreationRequest("lily"));
         gameID3 = createResult3.gameID();
-        CreationResult createResult4 = gService.createGame(new CreationRequest(player1AuthToken, "ughPotter"));
+        CreationResult createResult4 = gService.createGame(player1AuthToken, new CreationRequest("ughPotter"));
         gameID4 = createResult4.gameID();
-        CreationResult createResult5 = gService.createGame(new CreationRequest(player2AuthToken, "GryffindorWins"));
+        CreationResult createResult5 = gService.createGame(player2AuthToken, new CreationRequest("GryffindorWins"));
         gameID5 = createResult5.gameID();
-        CreationResult createResult6 = gService.createGame(new CreationRequest(player3AuthToken, "StolenIdentity"));
+        CreationResult createResult6 = gService.createGame(player3AuthToken, new CreationRequest("StolenIdentity"));
         gameID6 = createResult6.gameID();
     }
 

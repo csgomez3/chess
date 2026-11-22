@@ -26,18 +26,18 @@ public class GameCreateTests {
 
     @Test
     public void SuccessfulGameCreation() throws UnauthorizedException, ExistingGameException {
-        CreationResult result = gService.createGame(new CreationRequest(authToken, "ValidName"));
+        CreationResult result = gService.createGame(authToken, new CreationRequest("ValidName"));
         assertTrue(result.gameID() >= 1);
         assertTrue(result.gameID() < 10000);
     }
 
     @Test
     public void SuccessfulGameCreationOfMultipleGames() throws UnauthorizedException, ExistingGameException {
-        CreationResult result = gService.createGame(new CreationRequest(authToken, "AnotherValidName"));
-        CreationResult result2 = gService.createGame(new CreationRequest(authToken, "UniqueName"));
-        CreationResult result3 = gService.createGame(new CreationRequest(authToken, "GameOfChess"));
-        CreationResult result4 = gService.createGame(new CreationRequest(authToken, "ChessGame"));
-        CreationResult result5 = gService.createGame(new CreationRequest(authToken, "AvengersEndgame"));
+        CreationResult result = gService.createGame(authToken, new CreationRequest("AnotherValidName"));
+        CreationResult result2 = gService.createGame(authToken, new CreationRequest("UniqueName"));
+        CreationResult result3 = gService.createGame(authToken, new CreationRequest("GameOfChess"));
+        CreationResult result4 = gService.createGame(authToken, new CreationRequest("ChessGame"));
+        CreationResult result5 = gService.createGame(authToken, new CreationRequest("AvengersEndgame"));
         assertTrue(result.gameID() >= 1);
         assertTrue(result.gameID() < 10000);
         assertTrue(result2.gameID() >= 1);
@@ -64,7 +64,7 @@ public class GameCreateTests {
     public void NoUnauthorizedGameCreation() {
         assertThrows(
                 UnauthorizedException.class,
-                () -> gService.createGame(new CreationRequest("InvalidToken", "ValidName"))
+                () -> gService.createGame("InvalidToken", new CreationRequest("ValidName"))
         );
     }
 
@@ -72,7 +72,7 @@ public class GameCreateTests {
     public void NoNullGameCreation() {
         assertThrows(
                 BadRequestException.class,
-                () -> gService.createGame(new CreationRequest(null, "ValidName"))
+                () -> gService.createGame(null, new CreationRequest("ValidName"))
         );
     }
 
@@ -80,16 +80,16 @@ public class GameCreateTests {
     public void NameRequiredForCreation() {
         assertThrows(
                 BadRequestException.class,
-                () -> gService.createGame(new CreationRequest(authToken, null))
+                () -> gService.createGame(authToken, new CreationRequest(null))
         );
     }
 
     @Test
     public void NoDuplicateGames() throws UnauthorizedException, ExistingGameException {
-        gService.createGame(new CreationRequest(authToken, "YetAnotherValidName"));
+        gService.createGame(authToken, new CreationRequest("YetAnotherValidName"));
         assertThrows(
                 ExistingGameException.class,
-                () -> gService.createGame(new CreationRequest(authToken, "YetAnotherValidName"))
+                () -> gService.createGame(authToken, new CreationRequest("YetAnotherValidName"))
         );
     }
 }
