@@ -14,8 +14,16 @@ public class AuthService {
         return newAuth.authToken();
     }
 
+    private AuthData getAuth(String authToken) {
+        return authDao.getAuth(authToken);
+    }
+
+    public String getUsername(String authToken) {
+        return getAuth(authToken).username();
+    }
+
     public boolean verifyAuth(String authToken) {
-        AuthData toVerify = authDao.getAuth(authToken);
+        AuthData toVerify = getAuth(authToken);
         if (toVerify == null) {
             return false;
         }

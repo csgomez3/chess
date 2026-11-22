@@ -82,9 +82,9 @@ public class Server {
         }
     }
 
-    // Issue in here, null authToken collected
+    // fix how auth token is collected
     private void logout(Context ctx) {
-        String authToken = new Gson().fromJson(ctx.body(), String.class);
+        String authToken;
         try {
             userService.logout(authToken);
         }
@@ -95,9 +95,9 @@ public class Server {
         }
     }
 
-    // Issue in here
+    // fix how auth token is collected
     private void listGames(Context ctx) {
-        String authToken = new Gson().fromJson(ctx.body(), String.class);
+        String authToken;
         try {
             ctx.json(new Gson().toJson(gameService.getGameList(authToken)));
             ctx.status(200);
@@ -114,9 +114,11 @@ public class Server {
         }
     }
 
-    // Issue in here
+    // fix how auth token is collected
     private void createGame(Context ctx) {
-        CreationRequest request = new Gson().fromJson(ctx.body(), CreationRequest.class);
+        String authToken;
+        String gameName = new Gson().fromJson(ctx.body(), String.class);
+        CreationRequest request = new CreationRequest(authToken, gameName);
         try {
             CreationResult result = gameService.createGame(request);
             ctx.json(result.toString());
@@ -133,11 +135,12 @@ public class Server {
         }
     }
 
-    // Issue in here
+    // fix how auth token is collected
     private void joinGame(Context ctx) {
+        String authToken;
         JoinRequest request = new Gson().fromJson(ctx.body(), JoinRequest.class);
         try {
-            gameService.joinGame(request);
+            gameService.joinGame(authToken, request);
             ctx.status(200);
         }
         catch (UnauthorizedException e) {
