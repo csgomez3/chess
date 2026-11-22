@@ -84,7 +84,7 @@ public class Server {
 
     // fix how auth token is collected
     private void logout(Context ctx) {
-        String authToken;
+        String authToken = ctx.header("authToken");
         try {
             userService.logout(authToken);
         }
@@ -97,9 +97,9 @@ public class Server {
 
     // fix how auth token is collected
     private void listGames(Context ctx) {
-        String authToken;
+        String authToken = ctx.header("authToken");
         try {
-            ctx.json(new Gson().toJson(gameService.getGameList(authToken)));
+            gameService.getGameList(authToken);
             ctx.status(200);
         }
         catch (BadRequestException e) {
@@ -116,7 +116,7 @@ public class Server {
 
     // fix how auth token is collected
     private void createGame(Context ctx) {
-        String authToken;
+        String authToken = ctx.header("authToken");
         String gameName = new Gson().fromJson(ctx.body(), String.class);
         CreationRequest request = new CreationRequest(authToken, gameName);
         try {
@@ -137,7 +137,7 @@ public class Server {
 
     // fix how auth token is collected
     private void joinGame(Context ctx) {
-        String authToken;
+        String authToken = ctx.header("authToken");
         JoinRequest request = new Gson().fromJson(ctx.body(), JoinRequest.class);
         try {
             gameService.joinGame(authToken, request);
