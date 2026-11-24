@@ -117,7 +117,8 @@ public class Server {
         CreationRequest request = new Gson().fromJson(ctx.body(), CreationRequest.class);
         try {
             CreationResult result = gameService.createGame(authToken, request);
-            ctx.json(result.toString());
+            ctx.json(new Gson().toJson(result));
+            ctx.status(200);
         }
         catch (UnauthorizedException e) {
             ctx.status(401);
@@ -138,13 +139,13 @@ public class Server {
             gameService.joinGame(authToken, request);
             ctx.status(200);
         }
-        catch (UnauthorizedException e) {
-            ctx.status(401);
+        catch (BadRequestException | NoGameFoundException e) {
+            ctx.status(400);
             ErrorFormat error = new ErrorFormat(e.getMessage());
             ctx.json(new Gson().toJson(error));
         }
-        catch (NoGameFoundException | BadRequestException e) {
-            ctx.status(400);
+        catch (UnauthorizedException e) {
+            ctx.status(401);
             ErrorFormat error = new ErrorFormat(e.getMessage());
             ctx.json(new Gson().toJson(error));
         }

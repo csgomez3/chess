@@ -48,7 +48,7 @@ public class GameService {
         return new CreationResult(newGame.gameID());
     }
 
-    public void joinGame(String authToken, JoinRequest request) throws UnauthorizedException, NoGameFoundException, ColorTakenException, BadRequestException {
+    public void joinGame(String authToken, JoinRequest request) throws BadRequestException, UnauthorizedException, NoGameFoundException, ColorTakenException {
         if (authToken == null) {
             throw new BadRequestException("Error: bad request");
         }
@@ -56,13 +56,19 @@ public class GameService {
             throw new UnauthorizedException("Error: unauthorized");
         }
         String username = authService.getUsername(authToken);
-        if (request.gameID() < 1 || request.gameID() > 9999 || request.color() == null) {
+        if (request.gameID() < 1 || request.gameID() > 9999) {
             throw new BadRequestException("Error: bad request");
         }
         if (gameDao.getGame(request.gameID()) == null) {
             throw new NoGameFoundException("Error: bad request: no game with that ID found");
         }
-        boolean result = gameDao.updateGame(request.gameID(), username, request.color());
+        if (request.playerColor() == null) {
+            throw new BadRequestException("Error: bad request");
+        }
+        if (!request.playerColor().equals("WHITE") && !request.playerColor().equals("BLACK")) {
+            throw new BadRequestException("Error: bad request");
+        }
+        boolean result = gameDao.updateGame(request.gameID(), username, request.playerColor());
         if (!result) {
             throw new ColorTakenException("Error: color already taken");
         }
