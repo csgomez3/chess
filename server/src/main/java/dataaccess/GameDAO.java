@@ -5,18 +5,20 @@ import java.util.random.RandomGenerator;
 
 import chess.ChessGame;
 import model.GameData;
+import service.result.GameFormat;
 
 import exception.*;
 
 public class GameDAO {
 
     ArrayList<GameData> games = new ArrayList<>();
+    ArrayList<GameFormat> gamesUserFriendly = new ArrayList<>();
 
     public void clearGames() {
         games.clear();
     }
 
-    public GameData createGame(String gameName) {
+    public GameFormat createGame(String gameName) {
         RandomGenerator gen = RandomGenerator.getDefault();
         int randomInt = gen.nextInt(1,10000);
         boolean reset = true;
@@ -32,7 +34,9 @@ public class GameDAO {
         }
         GameData newGame = new GameData(randomInt, null, null, gameName, new ChessGame());
         games.add(newGame);
-        return newGame;
+        GameFormat newGameUserFriendly = new GameFormat(randomInt, null, null, gameName);
+        gamesUserFriendly.add(newGameUserFriendly);
+        return newGameUserFriendly;
     }
 
     public GameData getGame(int GameID) {
@@ -53,8 +57,8 @@ public class GameDAO {
         return null;
     }
 
-    public ArrayList<GameData> listGames() {
-        return this.games;
+    public ArrayList<GameFormat> listGames() {
+        return this.gamesUserFriendly;
     }
 
     public boolean updateGame(int gameID, String username, String team) {

@@ -9,8 +9,6 @@ import java.util.ArrayList;
 
 import dataaccess.GameDAO;
 
-import model.GameData;
-
 public class GameService {
 
     private final GameDAO gameDao;
@@ -21,7 +19,7 @@ public class GameService {
         authService = aService;
     }
 
-    public ArrayList<GameData> getGameList(String authToken) throws UnauthorizedException, BadRequestException {
+    public ArrayList<GameFormat> getGameList(String authToken) throws UnauthorizedException, BadRequestException {
         if (authToken == null) {
             throw new BadRequestException("Error: bad request");
         }
@@ -44,7 +42,7 @@ public class GameService {
         if (gameDao.getGame(request.gameName()) != null) {
             throw new ExistingGameException("Error: bad request");
         }
-        GameData newGame = gameDao.createGame(request.gameName());
+        GameFormat newGame = gameDao.createGame(request.gameName());
         return new CreationResult(newGame.gameID());
     }
 
@@ -78,7 +76,7 @@ public class GameService {
         gameDao.clearGames();
     }
 
-    public ArrayList<GameData> getListOfGames() {
+    public ArrayList<GameFormat> getListOfGames() {
         return gameDao.listGames();
     }
 }

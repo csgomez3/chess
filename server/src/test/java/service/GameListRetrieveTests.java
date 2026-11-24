@@ -1,7 +1,7 @@
 package service;
 
 import exception.*;
-import model.GameData;
+import service.result.GameFormat;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -36,7 +36,7 @@ public class GameListRetrieveTests {
 
     @Test
     public void SuccessfulRetrieve() throws UnauthorizedException {
-        ArrayList<GameData> gameList = gService.getGameList(authToken);
+        ArrayList<GameFormat> gameList = gService.getGameList(authToken);
         assertFalse(gameList.isEmpty());
     }
 
