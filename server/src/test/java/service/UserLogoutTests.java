@@ -34,7 +34,7 @@ public class UserLogoutTests {
     @Test
     public void NoNullTokenLogout() {
         assertThrows(
-                UnauthorizedException.class,
+                BadRequestException.class,
                 () -> service.logout(null)
         );
     }
