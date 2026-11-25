@@ -16,6 +16,7 @@ public class GameDAO {
 
     public void clearGames() {
         games.clear();
+        gamesUserFriendly.clear();
     }
 
     public GameFormat createGame(String gameName) {
