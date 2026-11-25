@@ -57,12 +57,22 @@ public class GameDAO {
         return null;
     }
 
+    private GameFormat getGameFormat(int GameID) {
+        for (GameFormat game: gamesUserFriendly) {
+            if (game.gameID() == GameID) {
+                return game;
+            }
+        }
+        return null;
+    }
+
     public ArrayList<GameFormat> listGames() {
         return this.gamesUserFriendly;
     }
 
     public boolean updateGame(int gameID, String username, String team) {
         GameData gameToJoin = getGame(gameID);
+        GameFormat formatGameToJoin = getGameFormat(gameID);
         String desiredColor = team.toUpperCase();
         if (desiredColor.equals("WHITE")) {
             if (gameToJoin.whiteUsername() != null) {
@@ -70,6 +80,8 @@ public class GameDAO {
             }
             games.add(new GameData(gameID, username, gameToJoin.blackUsername(), gameToJoin.gameName(), gameToJoin.game()));
             games.remove(gameToJoin);
+            gamesUserFriendly.add(new GameFormat(gameID, username, gameToJoin.blackUsername(), gameToJoin.gameName()));
+            gamesUserFriendly.remove(formatGameToJoin);
         }
         else if (desiredColor.equals("BLACK")) {
             if (gameToJoin.blackUsername() != null) {
@@ -77,6 +89,8 @@ public class GameDAO {
             }
             games.add(new GameData(gameID, gameToJoin.whiteUsername(), username, gameToJoin.gameName(), gameToJoin.game()));
             games.remove(gameToJoin);
+            gamesUserFriendly.add(new GameFormat(gameID, gameToJoin.whiteUsername(), username, gameToJoin.gameName()));
+            gamesUserFriendly.remove(formatGameToJoin);
         }
         return true;
     }
