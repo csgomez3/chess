@@ -74,7 +74,7 @@ public class LegalMoveLibrary {
     /**
      * @return coordinates after L Shaped move by Knight
      */
-    public static ChessPosition LShape(ChessPosition beginPos, int rowDist, LegalMoveLibrary.DiagDir dir) {
+    public static ChessPosition lShape(ChessPosition beginPos, int rowDist, LegalMoveLibrary.DiagDir dir) {
         int endRow;
         int endCol;
 

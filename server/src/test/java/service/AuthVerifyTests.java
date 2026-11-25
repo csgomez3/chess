@@ -2,6 +2,7 @@ package service;
 
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.Order;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class AuthVerifyTests {
@@ -23,7 +24,8 @@ public class AuthVerifyTests {
     }
 
     @Test
-    public void VerifyExistingToken() {
+    @Order(1)
+    public void verifyExistingToken() {
         assertTrue(service.verifyAuth(validToken1));
         assertTrue(service.verifyAuth(validToken2));
         assertTrue(service.verifyAuth(validToken3));
@@ -32,12 +34,14 @@ public class AuthVerifyTests {
     }
 
     @Test
-    public void NullTokenReturnsFalse() {
+    @Order(2)
+    public void nullTokenReturnsFalse() {
         assertFalse(service.verifyAuth(null));
     }
 
     @Test
-    public void InvalidTokenReturnsFalse() {
+    @Order(3)
+    public void invalidTokenReturnsFalse() {
         assertFalse(service.verifyAuth("NotAValidToken"));
     }
 }

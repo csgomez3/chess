@@ -3,6 +3,7 @@ package service;
 import exception.*;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.Order;
 import static org.junit.jupiter.api.Assertions.*;
 
 import service.request.RegisterRequest;
@@ -23,7 +24,8 @@ public class UserLogoutTests {
     }
 
     @Test
-    public void LegalLogoutAndNoDoubleLogout() throws UnauthorizedException {
+    @Order(1)
+    public void legalLogoutAndNoDoubleLogout() throws UnauthorizedException {
         service.logout(authToken);
         assertThrows(
                 UnauthorizedException.class,
@@ -32,7 +34,8 @@ public class UserLogoutTests {
     }
 
     @Test
-    public void NoNullTokenLogout() {
+    @Order(2)
+    public void noNullTokenLogout() {
         assertThrows(
                 BadRequestException.class,
                 () -> service.logout(null)
@@ -40,7 +43,8 @@ public class UserLogoutTests {
     }
 
     @Test
-    public void IllegalLogout() {
+    @Order(3)
+    public void illegalLogout() {
         assertThrows(
                 UnauthorizedException.class,
                 () -> service.logout("NotAValidToken")

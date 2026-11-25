@@ -153,60 +153,60 @@ public class LegalMoveAdder {
         }
     }
 
-    public static void LPathAdder(ChessPosition beginPos, ChessBoard board,
+    public static void lPathAdder(ChessPosition beginPos, ChessBoard board,
                                   ChessPiece piece, List<ChessMove> list) {
         ChessPosition endPos;
         if (beginPos.getRow() <= 8 - 2 && beginPos.getColumn() <= 8 - 1) {
-            endPos = LegalMoveLibrary.LShape(beginPos, 2, LegalMoveLibrary.DiagDir.NE);
+            endPos = LegalMoveLibrary.lShape(beginPos, 2, LegalMoveLibrary.DiagDir.NE);
             if (board.getPiece(endPos) == null ||
                     board.getPiece(endPos).getTeamColor() != piece.getTeamColor()) {
                 list.add(new ChessMove(beginPos, endPos, null));
             }
         }
         if (beginPos.getRow() <= 8 - 1 && beginPos.getColumn() <= 8 - 2) {
-            endPos = LegalMoveLibrary.LShape(beginPos, 1, LegalMoveLibrary.DiagDir.NE);
+            endPos = LegalMoveLibrary.lShape(beginPos, 1, LegalMoveLibrary.DiagDir.NE);
             if (board.getPiece(endPos) == null ||
                     board.getPiece(endPos).getTeamColor() != piece.getTeamColor()) {
                 list.add(new ChessMove(beginPos, endPos, null));
             }
         }
         if (beginPos.getRow() <= 8 - 1 && beginPos.getColumn() > 2) {
-            endPos = LegalMoveLibrary.LShape(beginPos, 1, LegalMoveLibrary.DiagDir.NW);
+            endPos = LegalMoveLibrary.lShape(beginPos, 1, LegalMoveLibrary.DiagDir.NW);
             if (board.getPiece(endPos) == null ||
                     board.getPiece(endPos).getTeamColor() != piece.getTeamColor()) {
                 list.add(new ChessMove(beginPos, endPos, null));
             }
         }
         if (beginPos.getRow() <= 8 - 2 && beginPos.getColumn() > 1) {
-            endPos = LegalMoveLibrary.LShape(beginPos, 2, LegalMoveLibrary.DiagDir.NW);
+            endPos = LegalMoveLibrary.lShape(beginPos, 2, LegalMoveLibrary.DiagDir.NW);
             if (board.getPiece(endPos) == null ||
                     board.getPiece(endPos).getTeamColor() != piece.getTeamColor()) {
                 list.add(new ChessMove(beginPos, endPos, null));
             }
         }
         if (beginPos.getRow() > 2 && beginPos.getColumn() > 1) {
-            endPos = LegalMoveLibrary.LShape(beginPos, 2, LegalMoveLibrary.DiagDir.SW);
+            endPos = LegalMoveLibrary.lShape(beginPos, 2, LegalMoveLibrary.DiagDir.SW);
             if (board.getPiece(endPos) == null ||
                     board.getPiece(endPos).getTeamColor() != piece.getTeamColor()) {
                 list.add(new ChessMove(beginPos, endPos, null));
             }
         }
         if (beginPos.getRow() > 1 && beginPos.getColumn() > 2) {
-            endPos = LegalMoveLibrary.LShape(beginPos, 1, LegalMoveLibrary.DiagDir.SW);
+            endPos = LegalMoveLibrary.lShape(beginPos, 1, LegalMoveLibrary.DiagDir.SW);
             if (board.getPiece(endPos) == null ||
                     board.getPiece(endPos).getTeamColor() != piece.getTeamColor()) {
                 list.add(new ChessMove(beginPos, endPos, null));
             }
         }
         if (beginPos.getRow() > 1 && beginPos.getColumn() <= 8 - 2) {
-            endPos = LegalMoveLibrary.LShape(beginPos, 1, LegalMoveLibrary.DiagDir.SE);
+            endPos = LegalMoveLibrary.lShape(beginPos, 1, LegalMoveLibrary.DiagDir.SE);
             if (board.getPiece(endPos) == null ||
                     board.getPiece(endPos).getTeamColor() != piece.getTeamColor()) {
                 list.add(new ChessMove(beginPos, endPos, null));
             }
         }
         if (beginPos.getRow() > 2 && beginPos.getColumn() <= 8 - 1) {
-            endPos = LegalMoveLibrary.LShape(beginPos, 2, LegalMoveLibrary.DiagDir.SE);
+            endPos = LegalMoveLibrary.lShape(beginPos, 2, LegalMoveLibrary.DiagDir.SE);
             if (board.getPiece(endPos) == null ||
                     board.getPiece(endPos).getTeamColor() != piece.getTeamColor()) {
                 list.add(new ChessMove(beginPos, endPos, null));

@@ -29,7 +29,8 @@ public class GameService {
         return new ListWrapper(gameDao.listGames());
     }
 
-    public CreationResult createGame(String authToken, CreationRequest request) throws UnauthorizedException, ExistingGameException, BadRequestException {
+    public CreationResult createGame(String authToken, CreationRequest request)
+            throws UnauthorizedException, ExistingGameException, BadRequestException {
         if (authToken == null) {
             throw new BadRequestException("Error: bad request");
         }
@@ -46,7 +47,8 @@ public class GameService {
         return new CreationResult(newGame.gameID());
     }
 
-    public void joinGame(String authToken, JoinRequest request) throws BadRequestException, UnauthorizedException, NoGameFoundException, ColorTakenException {
+    public void joinGame(String authToken, JoinRequest request)
+            throws BadRequestException, UnauthorizedException, NoGameFoundException, ColorTakenException {
         if (authToken == null) {
             throw new BadRequestException("Error: bad request");
         }

@@ -2,6 +2,7 @@ package service;
 
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.Order;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class AuthDeleteTests {
@@ -15,18 +16,21 @@ public class AuthDeleteTests {
     }
 
     @Test
-    public void DeleteExistingEntryAndNoDoubleDelete() {
+    @Order(1)
+    public void deleteExistingEntryAndNoDoubleDelete() {
         assertTrue(service.deleteAuth(validAuthToken));
         assertFalse(service.deleteAuth(validAuthToken));
     }
 
     @Test
-    public void NullTokenReturnsFalse() {
+    @Order(2)
+    public void nullTokenReturnsFalse() {
         assertFalse(service.deleteAuth(null));
     }
 
     @Test
-    public void InvalidTokenReturnsFalse() {
+    @Order(3)
+    public void invalidTokenReturnsFalse() {
         assertFalse(service.deleteAuth("NotAValidToken"));
     }
 }

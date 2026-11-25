@@ -3,6 +3,7 @@ package service;
 import exception.*;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.Order;
 import static org.junit.jupiter.api.Assertions.*;
 
 import service.request.RegisterRequest;
@@ -25,7 +26,8 @@ public class UserLoginTests {
     }
 
     @Test
-    public void LoginExistingUser() throws NoUserFoundException, IncorrectPasswordException {
+    @Order(1)
+    public void loginExistingUser() throws NoUserFoundException, IncorrectPasswordException {
         RegisterResult result = service.login(new LoginRequest("perryThePlatypus", correctPassword));
         assertEquals("perryThePlatypus", result.username());
         assertNotNull(result.authToken());
@@ -33,7 +35,8 @@ public class UserLoginTests {
     }
 
     @Test
-    public void NoLoginForUnregisteredUser() {
+    @Order(2)
+    public void noLoginForUnregisteredUser() {
         assertThrows(
                 NoUserFoundException.class,
                 () -> service.login(new LoginRequest("DrDoof", "selfDestructButton"))
@@ -41,7 +44,8 @@ public class UserLoginTests {
     }
 
     @Test
-    public void NoLoginForUnregisteredUserWithExistingPassword() {
+    @Order(3)
+    public void noLoginForUnregisteredUserWithExistingPassword() {
         assertThrows(
                 NoUserFoundException.class,
                 () -> service.login(new LoginRequest("DrDoof", correctPassword))
@@ -49,7 +53,8 @@ public class UserLoginTests {
     }
 
     @Test
-    public void NoLoginForRegisteredUserWithWrongPassword() {
+    @Order(4)
+    public void noLoginForRegisteredUserWithWrongPassword() {
         assertThrows(
                 IncorrectPasswordException.class,
                 () -> service.login(new LoginRequest("perryThePlatypus", "selfDestructButton"))
@@ -57,7 +62,8 @@ public class UserLoginTests {
     }
 
     @Test
-    public void NoNullLogin() {
+    @Order(5)
+    public void noNullLogin() {
         assertThrows(
                 BadRequestException.class,
                 () -> service.login(new LoginRequest(null, null))

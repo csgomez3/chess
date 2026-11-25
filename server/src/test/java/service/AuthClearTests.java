@@ -18,7 +18,7 @@ public class AuthClearTests {
     }
 
     @Test
-    public void ClearAllAuthTokens() {
+    public void clearAllAuthTokens() {
         service.clearAuthData();
         assertTrue(service.getAuthList().isEmpty());
     }

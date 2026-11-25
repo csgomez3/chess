@@ -40,9 +40,9 @@ public class GameDAO {
         return newGameUserFriendly;
     }
 
-    public GameData getGame(int GameID) {
+    public GameData getGame(int gameID) {
         for (GameData game: games) {
-            if (game.gameID() == GameID) {
+            if (game.gameID() == gameID) {
                 return game;
             }
         }
@@ -58,9 +58,9 @@ public class GameDAO {
         return null;
     }
 
-    private GameFormat getGameFormat(int GameID) {
+    private GameFormat getGameFormat(int gameID) {
         for (GameFormat game: gamesUserFriendly) {
-            if (game.gameID() == GameID) {
+            if (game.gameID() == gameID) {
                 return game;
             }
         }

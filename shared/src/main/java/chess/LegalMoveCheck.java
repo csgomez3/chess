@@ -39,7 +39,7 @@ public class LegalMoveCheck {
                 LegalMoveAdder.diagPathAdder(position, 8, board, piece, legalMoveList);
                 break;
             case KNIGHT:
-                LegalMoveAdder.LPathAdder(position, board, piece, legalMoveList);
+                LegalMoveAdder.lPathAdder(position, board, piece, legalMoveList);
                 break;
             case ROOK:
                 LegalMoveAdder.northPathAdder(position, 8, board, piece, legalMoveList);

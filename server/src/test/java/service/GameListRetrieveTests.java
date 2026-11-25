@@ -3,6 +3,7 @@ package service;
 import exception.*;
 import service.result.GameFormat;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.Order;
 import static org.junit.jupiter.api.Assertions.*;
 
 import org.junit.jupiter.api.BeforeAll;
@@ -35,13 +36,21 @@ public class GameListRetrieveTests {
     }
 
     @Test
-    public void SuccessfulRetrieve() throws UnauthorizedException {
+    @Order(1)
+    public void successfulRetrieve() throws UnauthorizedException, ExistingGameException {
+        gService.clearGames();
+        gService.createGame(authToken, new CreationRequest("AvengersEndgame"));
+        gService.createGame(authToken, new CreationRequest("KnightlyGame"));
+        gService.createGame(authToken, new CreationRequest("Default"));
+        gService.createGame(authToken, new CreationRequest("HammerTime"));
+        gService.createGame(authToken, new CreationRequest("ICouldDoThisAllDay"));
         ArrayList<GameFormat> gameList = gService.getGameList(authToken).games();
         assertFalse(gameList.isEmpty());
     }
 
     @Test
-    public void NoNullRetrieve() {
+    @Order(2)
+    public void noNullRetrieve() {
         assertThrows(
                 BadRequestException.class,
                 () -> gService.getGameList(null)
@@ -49,7 +58,8 @@ public class GameListRetrieveTests {
     }
 
     @Test
-    public void UnauthorizedRetrieve() {
+    @Order(3)
+    public void unauthorizedRetrieve() {
         assertThrows(
                 UnauthorizedException.class,
                 () -> gService.getGameList("InvalidToken")
@@ -57,7 +67,8 @@ public class GameListRetrieveTests {
     }
 
     @Test
-    public void EmptyList() throws UnauthorizedException {
+    @Order(4)
+    public void emptyList() throws UnauthorizedException {
         gService.clearGames();
         assertNotNull(gService.getGameList(authToken).games());
         assertTrue(gService.getGameList(authToken).games().isEmpty());

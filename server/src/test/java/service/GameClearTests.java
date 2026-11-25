@@ -31,7 +31,7 @@ public class GameClearTests {
     }
 
     @Test
-    public void ClearAllGames() {
+    public void clearAllGames() {
         gService.clearGames();
         assertTrue(gService.getListOfGames().isEmpty());
     }

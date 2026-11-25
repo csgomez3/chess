@@ -1,6 +1,7 @@
 package service;
 
 import exception.*;
+import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -51,13 +52,15 @@ public class GameJoinTests {
     }
 
     @Test
-    public void JoinEmptyGame() throws UnauthorizedException, NoGameFoundException, ColorTakenException {
+    @Order(1)
+    public void joinEmptyGame() throws UnauthorizedException, NoGameFoundException, ColorTakenException {
         JoinRequest request = new JoinRequest("BLACK", gameID3);
         gService.joinGame(player1AuthToken, request);
     }
 
     @Test
-    public void JoinGameWithOnePlayer() throws UnauthorizedException, NoGameFoundException, ColorTakenException {
+    @Order(2)
+    public void joinGameWithOnePlayer() throws UnauthorizedException, NoGameFoundException, ColorTakenException {
         JoinRequest r = new JoinRequest("BLACK", gameID5);
         gService.joinGame(player1AuthToken, r);
         JoinRequest request = new JoinRequest("WHITE", gameID5);
@@ -65,7 +68,8 @@ public class GameJoinTests {
     }
 
     @Test
-    public void NoUnauthorizedJoin() {
+    @Order(3)
+    public void noUnauthorizedJoin() {
         assertThrows(
                 UnauthorizedException.class,
                 () -> gService.joinGame("NotValidAuthToken", new JoinRequest("WHITE", gameID2))
@@ -73,7 +77,8 @@ public class GameJoinTests {
     }
 
     @Test
-    public void NoNullJoin() {
+    @Order(4)
+    public void noNullJoin() {
         assertThrows(
                 BadRequestException.class,
                 () -> gService.joinGame(null, new JoinRequest("WHITE", gameID2))
@@ -93,7 +98,8 @@ public class GameJoinTests {
     }
 
     @Test
-    public void NoJoiningGameThatDoesntExist() {
+    @Order(5)
+    public void noJoiningGameThatDoesntExist() {
         assertThrows(
                 NoGameFoundException.class,
                 () -> gService.joinGame(player3AuthToken, new JoinRequest("WHITE", 392))
@@ -101,7 +107,8 @@ public class GameJoinTests {
     }
 
     @Test
-    public void NoStealingWhite() throws UnauthorizedException, ColorTakenException, NoGameFoundException {
+    @Order(6)
+    public void noStealingWhite() throws UnauthorizedException, ColorTakenException, NoGameFoundException {
         JoinRequest request = new JoinRequest("WHITE", gameID1);
         gService.joinGame(player2AuthToken, request);
         assertThrows(
@@ -111,7 +118,8 @@ public class GameJoinTests {
     }
 
     @Test
-    public void NoStealingBlack() throws UnauthorizedException, ColorTakenException, NoGameFoundException {
+    @Order(7)
+    public void noStealingBlack() throws UnauthorizedException, ColorTakenException, NoGameFoundException {
         JoinRequest request = new JoinRequest("BLACK", gameID4);
         gService.joinGame(player1AuthToken, request);
         assertThrows(
@@ -121,7 +129,8 @@ public class GameJoinTests {
     }
 
     @Test
-    public void NoJoiningTwoPlayerGame() throws UnauthorizedException, NoGameFoundException, ColorTakenException {
+    @Order(8)
+    public void noJoiningTwoPlayerGame() throws UnauthorizedException, NoGameFoundException, ColorTakenException {
         JoinRequest r1 = new JoinRequest("BLACK", gameID6);
         gService.joinGame(player1AuthToken, r1);
         JoinRequest r2 = new JoinRequest("WHITE", gameID6);

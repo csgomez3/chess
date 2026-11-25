@@ -3,6 +3,7 @@ package service;
 import exception.*;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.Order;
 import static org.junit.jupiter.api.Assertions.*;
 
 import service.request.RegisterRequest;
@@ -29,14 +30,16 @@ public class UserRegisterTests {
     }
 
     @Test
-    public void SuccessfulSignUp() {
+    @Order(1)
+    public void successfulSignUp() {
         assertEquals("adamTheFirstMan", result.username());
         assertNotNull(result.authToken());
         assertFalse(result.authToken().isBlank());
     }
 
     @Test
-    public void UsernameTaken() {
+    @Order(2)
+    public void usernameTaken() {
         assertThrows(
                 AlreadyTakenException.class,
                 () -> service.register(illegalUser)
@@ -44,7 +47,8 @@ public class UserRegisterTests {
     }
 
     @Test
-    public void DifferentUsernamesAllowed() throws AlreadyTakenException {
+    @Order(3)
+    public void differentUsernamesAllowed() throws AlreadyTakenException {
         RegisterResult result2 = service.register(newUser);
         RegisterResult result3 = service.register(anotherNewUser);
 
@@ -60,7 +64,8 @@ public class UserRegisterTests {
     }
 
     @Test
-    public void NoNullRegister() {
+    @Order(4)
+    public void noNullRegister() {
         assertThrows(
                 BadRequestException.class,
                 () -> service.register(new RegisterRequest(null, null, null))

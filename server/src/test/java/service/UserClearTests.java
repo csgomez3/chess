@@ -23,7 +23,7 @@ public class UserClearTests {
     }
 
     @Test
-    public void ClearAllUsers() {
+    public void clearAllUsers() {
         service.clearUserData();
         assertTrue(service.getUserList().isEmpty());
     }

@@ -4,6 +4,7 @@ import exception.*;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Order;
 import service.request.CreationRequest;
 import service.request.RegisterRequest;
 import service.result.CreationResult;
@@ -25,14 +26,16 @@ public class GameCreateTests {
     }
 
     @Test
-    public void SuccessfulGameCreation() throws UnauthorizedException, ExistingGameException {
+    @Order(1)
+    public void successfulGameCreation() throws UnauthorizedException, ExistingGameException {
         CreationResult result = gService.createGame(authToken, new CreationRequest("ValidName"));
         assertTrue(result.gameID() >= 1);
         assertTrue(result.gameID() < 10000);
     }
 
     @Test
-    public void SuccessfulGameCreationOfMultipleGames() throws UnauthorizedException, ExistingGameException {
+    @Order(2)
+    public void successfulGameCreationOfMultipleGames() throws UnauthorizedException, ExistingGameException {
         CreationResult result = gService.createGame(authToken, new CreationRequest("AnotherValidName"));
         CreationResult result2 = gService.createGame(authToken, new CreationRequest("UniqueName"));
         CreationResult result3 = gService.createGame(authToken, new CreationRequest("GameOfChess"));
@@ -61,7 +64,8 @@ public class GameCreateTests {
     }
 
     @Test
-    public void NoUnauthorizedGameCreation() {
+    @Order(3)
+    public void noUnauthorizedGameCreation() {
         assertThrows(
                 UnauthorizedException.class,
                 () -> gService.createGame("InvalidToken", new CreationRequest("ValidName"))
@@ -69,7 +73,8 @@ public class GameCreateTests {
     }
 
     @Test
-    public void NoNullGameCreation() {
+    @Order(4)
+    public void noNullGameCreation() {
         assertThrows(
                 BadRequestException.class,
                 () -> gService.createGame(null, new CreationRequest("ValidName"))
@@ -77,7 +82,8 @@ public class GameCreateTests {
     }
 
     @Test
-    public void NameRequiredForCreation() {
+    @Order(5)
+    public void nameRequiredForCreation() {
         assertThrows(
                 BadRequestException.class,
                 () -> gService.createGame(authToken, new CreationRequest(null))
@@ -85,7 +91,8 @@ public class GameCreateTests {
     }
 
     @Test
-    public void NoDuplicateGames() throws UnauthorizedException, ExistingGameException {
+    @Order(6)
+    public void noDuplicateGames() throws UnauthorizedException, ExistingGameException {
         gService.createGame(authToken, new CreationRequest("YetAnotherValidName"));
         assertThrows(
                 ExistingGameException.class,
