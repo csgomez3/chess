@@ -52,15 +52,15 @@ public class GameJoinTests {
 
     @Test
     public void JoinEmptyGame() throws UnauthorizedException, NoGameFoundException, ColorTakenException {
-        JoinRequest request = new JoinRequest("black", gameID3);
+        JoinRequest request = new JoinRequest("BLACK", gameID3);
         gService.joinGame(player1AuthToken, request);
     }
 
     @Test
     public void JoinGameWithOnePlayer() throws UnauthorizedException, NoGameFoundException, ColorTakenException {
-        JoinRequest r = new JoinRequest("black", gameID5);
+        JoinRequest r = new JoinRequest("BLACK", gameID5);
         gService.joinGame(player1AuthToken, r);
-        JoinRequest request = new JoinRequest("white", gameID5);
+        JoinRequest request = new JoinRequest("WHITE", gameID5);
         gService.joinGame(player2AuthToken, request);
     }
 
@@ -68,7 +68,7 @@ public class GameJoinTests {
     public void NoUnauthorizedJoin() {
         assertThrows(
                 UnauthorizedException.class,
-                () -> gService.joinGame("NotValidAuthToken", new JoinRequest("white", gameID2))
+                () -> gService.joinGame("NotValidAuthToken", new JoinRequest("WHITE", gameID2))
         );
     }
 
@@ -76,7 +76,7 @@ public class GameJoinTests {
     public void NoNullJoin() {
         assertThrows(
                 BadRequestException.class,
-                () -> gService.joinGame(null, new JoinRequest("white", gameID2))
+                () -> gService.joinGame(null, new JoinRequest("WHITE", gameID2))
         );
         assertThrows(
                 BadRequestException.class,
@@ -84,11 +84,11 @@ public class GameJoinTests {
         );
         assertThrows(
                 BadRequestException.class,
-                () -> gService.joinGame(player3AuthToken, new JoinRequest("white", 0))
+                () -> gService.joinGame(player3AuthToken, new JoinRequest("WHITE", 0))
         );
         assertThrows(
                 BadRequestException.class,
-                () -> gService.joinGame(player3AuthToken, new JoinRequest("white", 10000))
+                () -> gService.joinGame(player3AuthToken, new JoinRequest("WHITE", 10000))
         );
     }
 
@@ -96,39 +96,39 @@ public class GameJoinTests {
     public void NoJoiningGameThatDoesntExist() {
         assertThrows(
                 NoGameFoundException.class,
-                () -> gService.joinGame(player3AuthToken, new JoinRequest("white", 392))
+                () -> gService.joinGame(player3AuthToken, new JoinRequest("WHITE", 392))
         );
     }
 
     @Test
     public void NoStealingWhite() throws UnauthorizedException, ColorTakenException, NoGameFoundException {
-        JoinRequest request = new JoinRequest("white", gameID1);
+        JoinRequest request = new JoinRequest("WHITE", gameID1);
         gService.joinGame(player2AuthToken, request);
         assertThrows(
                 ColorTakenException.class,
-                () -> gService.joinGame(player3AuthToken, new JoinRequest("white", gameID1))
+                () -> gService.joinGame(player3AuthToken, new JoinRequest("WHITE", gameID1))
         );
     }
 
     @Test
     public void NoStealingBlack() throws UnauthorizedException, ColorTakenException, NoGameFoundException {
-        JoinRequest request = new JoinRequest("black", gameID4);
+        JoinRequest request = new JoinRequest("BLACK", gameID4);
         gService.joinGame(player1AuthToken, request);
         assertThrows(
                 ColorTakenException.class,
-                () -> gService.joinGame(player3AuthToken, new JoinRequest("black", gameID4))
+                () -> gService.joinGame(player3AuthToken, new JoinRequest("BLACK", gameID4))
         );
     }
 
     @Test
     public void NoJoiningTwoPlayerGame() throws UnauthorizedException, NoGameFoundException, ColorTakenException {
-        JoinRequest r1 = new JoinRequest("black", gameID6);
+        JoinRequest r1 = new JoinRequest("BLACK", gameID6);
         gService.joinGame(player1AuthToken, r1);
-        JoinRequest r2 = new JoinRequest("white", gameID6);
+        JoinRequest r2 = new JoinRequest("WHITE", gameID6);
         gService.joinGame(player2AuthToken, r2);
         assertThrows(
                 ColorTakenException.class,
-                () -> gService.joinGame(player3AuthToken, new JoinRequest("white", gameID6))
+                () -> gService.joinGame(player3AuthToken, new JoinRequest("WHITE", gameID6))
         );
     }
 }
