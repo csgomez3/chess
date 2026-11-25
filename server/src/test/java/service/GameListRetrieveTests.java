@@ -36,7 +36,7 @@ public class GameListRetrieveTests {
 
     @Test
     public void SuccessfulRetrieve() throws UnauthorizedException {
-        ArrayList<GameFormat> gameList = gService.getGameList(authToken);
+        ArrayList<GameFormat> gameList = gService.getGameList(authToken).games();
         assertFalse(gameList.isEmpty());
     }
 
@@ -59,7 +59,7 @@ public class GameListRetrieveTests {
     @Test
     public void EmptyList() throws UnauthorizedException {
         gService.clearGames();
-        assertNotNull(gService.getGameList(authToken));
-        assertTrue(gService.getGameList(authToken).isEmpty());
+        assertNotNull(gService.getGameList(authToken).games());
+        assertTrue(gService.getGameList(authToken).games().isEmpty());
     }
 }

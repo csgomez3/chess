@@ -19,14 +19,14 @@ public class GameService {
         authService = aService;
     }
 
-    public ArrayList<GameFormat> getGameList(String authToken) throws UnauthorizedException, BadRequestException {
+    public ListWrapper getGameList(String authToken) throws UnauthorizedException, BadRequestException {
         if (authToken == null) {
             throw new BadRequestException("Error: bad request");
         }
         if (!authService.verifyAuth(authToken)) {
             throw new UnauthorizedException("Error: unauthorized");
         }
-        return gameDao.listGames();
+        return new ListWrapper(gameDao.listGames());
     }
 
     public CreationResult createGame(String authToken, CreationRequest request) throws UnauthorizedException, ExistingGameException, BadRequestException {
